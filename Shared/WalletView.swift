@@ -15,7 +15,7 @@ struct MasterView: View {
         if UIDevice.current.userInterfaceIdiom == .pad {
             WalletList(wallet: $wallet)
         } else {
-            WalletView(wallet: $wallet)
+            WalletView(wallet: $wallet, selection: wallet.assets.first?.ticker ?? "")
         }
         #else
             WalletList(wallet: $wallet)
@@ -23,23 +23,52 @@ struct MasterView: View {
     }
 }
 
+struct SendReceiveView: View {
+    var body: some View {
+        HStack {
+            Spacer()
+            
+            Button(action: {}) {
+                Label("Receive", systemImage: "tray.and.arrow.down.fill")
+                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                    .foregroundColor(.white)
+            }
+            .background(Color.accentColor)
+            .cornerRadius(24)
+            
+            Spacer()
+            
+            Button(action: {}) {
+                Label("Send", systemImage: "tray.and.arrow.up.fill")
+                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                    .foregroundColor(.white)
+            }
+            .background(Color.accentColor)
+            .cornerRadius(24)
+
+            Spacer()
+        }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+    }
+}
+
 struct WalletView: View {
     @Binding var wallet: AccountDisplayInfo
-    @State private var selection: String = ""
-    
-    func filter() {
-        
-    }
+    @State var selection: String
     
     var body: some View {
-        VStack {
+        List {
             BalancePager(wallet: $wallet, selection: $selection)
                 .frame(height: 200.0)
-            TransactionView(wallet: wallet, ticker: selection == "" ? nil : selection)
+            Section(header: SendReceiveView()) {
+                ForEach(wallet.transactions.filter { selection == "" || $0.asset.ticker == selection }) { transaction in
+                    TransactionCell(transaction: transaction)
+                }
+            }
         }
         .navigationTitle(wallet.name)
         .toolbar(content: {
-            Button(action: filter) {
+            Button(action: { }) {
                 Image(systemName: "calendar")
             }
         })
@@ -50,7 +79,7 @@ struct WalletView_Previews: PreviewProvider {
     @State static var dumb = DumbData()
 
     static var previews: some View {
-        WalletView(wallet: $dumb.wallet)
+        WalletView(wallet: $dumb.wallet, selection: dumb.wallet.assets.first?.ticker ?? "")
             .preferredColorScheme(.dark)
             .previewDevice("iPhone 12 Pro")
     }

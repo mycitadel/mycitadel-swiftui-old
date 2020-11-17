@@ -17,6 +17,7 @@ struct ContentView: View {
             
             MasterView(wallet: $data.wallets[0])
             TransactionView(wallet: data.wallets[0])
+                .navigationTitle("History")
         }
     }
 }

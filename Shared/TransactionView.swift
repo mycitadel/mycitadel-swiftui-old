@@ -33,7 +33,6 @@ struct TransactionCell: View {
                 Text(transaction.asset.ticker).foregroundColor(.secondary)
             }
         }
-        .navigationTitle("History")
     }
 }
 
@@ -44,6 +43,18 @@ struct TransactionView: View {
     var body: some View {
         List(wallet.transactions.filter { ticker == nil || $0.asset.ticker == ticker }) { transaction in
             TransactionCell(transaction: transaction)
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .automatic) {
+                Button("Receive") { }
+                    .background(Color.accentColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(13)
+                Button("Send") { }
+                    .background(Color.accentColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(13)
+            }
         }
     }
 }
