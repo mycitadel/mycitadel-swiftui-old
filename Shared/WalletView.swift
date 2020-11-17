@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+struct MasterView: View {
+    @Binding var wallet: WalletDisplayInfo
+
+    var body: some View {
+        #if os(iOS)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            WalletList(wallet: $wallet)
+        } else {
+            WalletView(wallet: $wallet)
+        }
+        #else
+            WalletList(wallet: $wallet)
+        #endif
+    }
+}
+
 struct WalletView: View {
     @Binding var wallet: WalletDisplayInfo
     

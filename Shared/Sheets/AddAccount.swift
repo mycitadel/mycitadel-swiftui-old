@@ -14,11 +14,13 @@ struct AddAccountSheet: View {
         NavigationView {
             Text("Content")
                 .navigationTitle("New account")
-                .navigationBarItems(trailing: Button(action: {
-                    self.showSheet = false
-                }) {
-                    Text("Create").bold()
-                })
+                .toolbar(content: {
+                    Button(action: {
+                        self.showSheet = false
+                    }) {
+                        Text("Create").bold()
+                    }}
+                )
         }
     }
 }

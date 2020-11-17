@@ -10,6 +10,14 @@ import SwiftUI
 struct BalancePager: View {
     @Binding var wallet: WalletDisplayInfo
 
+    #if os(iOS)
+        private var tabBarStyle = PageTabViewStyle()
+    #elseif os(watchOS)
+        private var tabBarStyle = CarouselTabViewStyle()
+    #else
+        private var tabBarStyle = DefaultTabViewStyle()
+    #endif
+
     init(withWallet wallet: Binding<WalletDisplayInfo>) {
         self._wallet = wallet
     }
@@ -21,7 +29,7 @@ struct BalancePager: View {
             }
             .padding()
         }
-        .tabViewStyle(PageTabViewStyle())
+        .tabViewStyle(tabBarStyle)
     }
 }
 

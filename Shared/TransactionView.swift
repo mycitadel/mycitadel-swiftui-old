@@ -30,6 +30,7 @@ struct TransactionCell: View {
             Spacer()
             Text("\(transaction.amount) sat")
         }
+        .navigationTitle("History")
     }
 }
 

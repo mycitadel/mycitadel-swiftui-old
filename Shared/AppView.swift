@@ -15,120 +15,131 @@ struct AppView: View {
         case Settings
     }
     
+    #if !os(macOS)
+    @Environment(\.editMode) private var editMode
+    #endif
     @State private var showingCreateAccount = false
-    @State private var isKeysExpanded = true
-    @State private var isAssetsExpanded = true
     @State private var selection: Selection? = nil
     @Binding var data: AppDisplayInfo
     
-    func createWallet() {}
+    private var isEditing: Bool {
+        #if !os(macOS)
+        return editMode?.wrappedValue == .active
+        #else
+        return false
+        #endif
+    }
     
+    func createWallet() {}
+    func createKeyring() {}
+
     var body: some View {
-        List(selection: $selection) {
-            HStack {
-                Label("Accounts", systemImage: "creditcard.fill")
-                    .onTapGesture { }
-                Spacer()
-                Button(action: { showingCreateAccount = true }) {
-                    Image(systemName: "plus.circle")
+        List(selection: isEditing ? nil : $selection) {
+            Section(header: Text("Accounts")) {
+                ForEach(data.wallets.indices) { idx in
+                    NavigationLink(destination: MasterView(wallet: $data.wallets[idx])) {
+                        Label(data.wallets[idx].name,  systemImage: "creditcard.fill")
+                    }
+                    .tag(Selection.Account(data.wallets[idx].id))
                 }
-                .foregroundColor(.accentColor)
-                .sheet(isPresented: $showingCreateAccount, content: {
-                    AddAccountSheet(showSheet: $showingCreateAccount)
+                .onMove(perform: { indices, newOffset in
+                    data.wallets.move(fromOffsets: indices, toOffset: newOffset)
                 })
+                .onDelete(perform: { indexSet in
+                    data.wallets.remove(atOffsets: indexSet)
+                })
+                
+                if isEditing {
+                    Label { Text("Add") } icon: {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundColor(.green)
+                    }
+                }
             }
-            .font(.title2)
-            ForEach(data.wallets.indices) { idx in
-                NavigationLink(destination: WalletView(wallet: $data.wallets[idx])) {
-                    HStack {
-                        Text(data.wallets[idx].name)
-                        Spacer()
-                        Text("\(data.wallets[idx].assets.count) assets")
-                            .font(.footnote)
-                            .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
-                            .background(Color.accentColor)
-                            .foregroundColor(.white)
-                            .cornerRadius(13)
 
+            Section(header: Text("Signing keys")) {
+                ForEach(data.keyrings) { keyring in
+                    Label(keyring.name,  systemImage: "signature")
+                        .tag(Selection.Keyring(keyring.id))
+                }
+
+                .onMove(perform: { indices, newOffset in
+                    data.wallets.move(fromOffsets: indices, toOffset: newOffset)
+                })
+                .onDelete(perform: { indexSet in
+                    data.wallets.remove(atOffsets: indexSet)
+                })
+                
+                if isEditing {
+                    Label { Text("Add") } icon: {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundColor(.green)
                     }
                 }
-                .tag(Selection.Account(data.wallets[idx].id))
-                .padding(.leading)
             }
-            //Divider()
 
-            DisclosureGroup(
-                isExpanded: $isKeysExpanded,
-                content: {
-                    ForEach(data.keyrings) { keyring in
-                        Text(keyring.name)
-                            .tag(Selection.Keyring(keyring.id))
-                    }
-                },
-                label: {
+            Section(header: Text("Assets")) {
+                ForEach(data.assets, id: \.ticker) { asset in
                     HStack {
-                        Label("Signing keys", systemImage: "signature")
-                            .onTapGesture {
-                                withAnimation {
-                                    isKeysExpanded.toggle()
-                                }
-                            }
+                        Label(asset.name, systemImage: asset.symbol)
                         Spacer()
-                        Button(action: { showingCreateAccount = true }) {
-                            Image(systemName: "plus.circle")
-                        }
-                        .padding(.trailing, 13)
-                        .foregroundColor(.accentColor)
-                        .sheet(isPresented: $showingCreateAccount, content: {
-                            AddAccountSheet(showSheet: $showingCreateAccount)
-                        })
+                        Text(asset.ticker)
                     }
-                    .font(.title2)
+                    .tag(Selection.Asset(asset.ticker))
                 }
-            )
-            //Divider()
 
-            DisclosureGroup(
-                isExpanded: $isAssetsExpanded,
-                content: {
-                    ForEach(data.assets, id: \.ticker) { asset in
-                        HStack {
-                            Image(systemName: asset.symbol)
-                            Text(asset.name)
-                            Spacer()
-                            Text(asset.ticker)
-                        }
-                        .tag(Selection.Asset(asset.ticker))
+                if isEditing {
+                    Label { Text("Synchronize") } icon: {
+                        Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                            .foregroundColor(.blue)
                     }
-                },
-                label: {
-                    HStack {
-                        Label("Assets", systemImage: "scroll")
-                            .onTapGesture {
-                                withAnimation {
-                                    isAssetsExpanded.toggle()
-                                }
-                            }
-                        Spacer()
-                        Button(action: { showingCreateAccount = true }) {
-                            Image(systemName: "line.horizontal.3.decrease.circle")
-                        }
-                        .padding(.trailing, 13)
-                        .foregroundColor(.accentColor)
-                        .sheet(isPresented: $showingCreateAccount, content: {
-                            AddAccountSheet(showSheet: $showingCreateAccount)
-                        })
-                    }
-                    .font(.title2)
                 }
-            )
-            //Divider()
-
-            Label("Settings", systemImage: "gear")
-                .font(.title2)
+            }
         }
-        .navigationTitle("My Citadel")
         .listStyle(SidebarListStyle())
+        .navigationTitle("My Citadel")
+        .frame(minWidth: 150, idealWidth: 250, maxWidth: 400)
+        .toolbar(content: {
+            #if os(macOS)
+            ToolbarItem(placement: .automatic) {
+                Button(action: {
+                    NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+                }) {
+                    Image(systemName: "sidebar.left")
+                }
+            }
+            #else
+            ToolbarItem(placement: .primaryAction) {
+                EditButton()
+            }
+            #endif
+
+
+            ToolbarItem(placement: .cancellationAction) {
+                Menu {
+                    Section {
+                        Button("Add account", action: createWallet)
+                        Button("Import account", action: createKeyring)
+                        Button("Export account", action: createKeyring)
+                    }
+
+                    Section {
+                        Button("New signing key", action: createKeyring)
+                        Button("Import keys", action: createKeyring)
+                        Button("Export keys", action: createKeyring)
+
+                    }
+                    
+                    Section {
+                        Button("Sync assets", action: createKeyring)
+                        Button("Import assets", action: createKeyring)
+                        Button("Export assets", action: createKeyring)
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+            }
+        })
     }
 }
 
