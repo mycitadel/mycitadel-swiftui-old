@@ -31,6 +31,10 @@
 		30A6CEB12563453E002F30B0 /* WalletList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEAF2563453E002F30B0 /* WalletList.swift */; };
 		30A6CEB725634F4A002F30B0 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEB425634F17002F30B0 /* AppView.swift */; };
 		30A6CEBA256351A1002F30B0 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEB425634F17002F30B0 /* AppView.swift */; };
+		30A6CEC225636EC9002F30B0 /* AddKeyring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEC125636EC9002F30B0 /* AddKeyring.swift */; };
+		30A6CEC325636EC9002F30B0 /* AddKeyring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEC125636EC9002F30B0 /* AddKeyring.swift */; };
+		30A6CEC725636ECC002F30B0 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEC625636ECC002F30B0 /* Assets.swift */; };
+		30A6CEC825636ECC002F30B0 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEC625636ECC002F30B0 /* Assets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +57,8 @@
 		30A6CEA325632E0D002F30B0 /* My Citadel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "My Citadel.entitlements"; sourceTree = "<group>"; };
 		30A6CEAF2563453E002F30B0 /* WalletList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletList.swift; sourceTree = "<group>"; };
 		30A6CEB425634F17002F30B0 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		30A6CEC125636EC9002F30B0 /* AddKeyring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyring.swift; sourceTree = "<group>"; };
+		30A6CEC625636ECC002F30B0 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +147,8 @@
 		308BD03225631E74009E4DEE /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
+				30A6CEC625636ECC002F30B0 /* Assets.swift */,
+				30A6CEC125636EC9002F30B0 /* AddKeyring.swift */,
 				308BD03325631E8A009E4DEE /* AddAccount.swift */,
 			);
 			path = Sheets;
@@ -250,8 +258,10 @@
 				308BCFF625627CDB009E4DEE /* CitadelApp.swift in Sources */,
 				308BD0132562810B009E4DEE /* BalancePager.swift in Sources */,
 				308BD0242562A258009E4DEE /* WalletView.swift in Sources */,
+				30A6CEC825636ECC002F30B0 /* Assets.swift in Sources */,
 				30A6CEBA256351A1002F30B0 /* AppView.swift in Sources */,
 				308BD01F256282B3009E4DEE /* DumbData.swift in Sources */,
+				30A6CEC325636EC9002F30B0 /* AddKeyring.swift in Sources */,
 				308BD01825628135009E4DEE /* BalanceCard.swift in Sources */,
 				308BD00C25627E21009E4DEE /* DisplayInfo.swift in Sources */,
 			);
@@ -268,8 +278,10 @@
 				30A6CEB725634F4A002F30B0 /* AppView.swift in Sources */,
 				308BCFF725627CDB009E4DEE /* CitadelApp.swift in Sources */,
 				308BD0142562810B009E4DEE /* BalancePager.swift in Sources */,
+				30A6CEC725636ECC002F30B0 /* Assets.swift in Sources */,
 				308BD0252562A258009E4DEE /* WalletView.swift in Sources */,
 				308BD020256282B3009E4DEE /* DumbData.swift in Sources */,
+				30A6CEC225636EC9002F30B0 /* AddKeyring.swift in Sources */,
 				308BD01925628135009E4DEE /* BalanceCard.swift in Sources */,
 				308BD00D25627E21009E4DEE /* DisplayInfo.swift in Sources */,
 			);

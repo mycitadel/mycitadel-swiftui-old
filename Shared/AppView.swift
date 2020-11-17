@@ -15,10 +15,17 @@ struct AppView: View {
         case Settings
     }
     
+    enum Sheet {
+        case AddAccount
+        case AddKeyring
+        case AssetsConfig
+    }
+    
     #if !os(macOS)
     @Environment(\.editMode) private var editMode
     #endif
-    @State private var showingCreateAccount = false
+    @State private var showingSheet = false
+    @State private var activeSheet = Sheet.AddAccount
     @State private var selection: Selection? = nil
     @Binding var data: AppDisplayInfo
     
@@ -30,8 +37,18 @@ struct AppView: View {
         #endif
     }
     
-    func createWallet() {}
-    func createKeyring() {}
+    func createWallet() {
+        activeSheet = .AddAccount
+        showingSheet = true
+    }
+    func createKeyring() {
+        activeSheet = .AddKeyring
+        showingSheet = true
+    }
+    func assetsConfig() {
+        activeSheet = .AssetsConfig
+        showingSheet = true
+    }
 
     var body: some View {
         List(selection: isEditing ? nil : $selection) {
@@ -50,10 +67,10 @@ struct AppView: View {
                 })
                 
                 if isEditing {
-                    Label { Text("Add") } icon: {
+                    Label { Text("Create account") } icon: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.green)
-                    }
+                    }.onTapGesture { createWallet() }
                 }
             }
 
@@ -71,10 +88,10 @@ struct AppView: View {
                 })
                 
                 if isEditing {
-                    Label { Text("Add") } icon: {
+                    Label { Text("Create signing key") } icon: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.green)
-                    }
+                    }.onTapGesture { createKeyring() }
                 }
             }
 
@@ -92,7 +109,7 @@ struct AppView: View {
                     Label { Text("Synchronize") } icon: {
                         Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
                             .foregroundColor(.blue)
-                    }
+                    }.onTapGesture { assetsConfig() }
                 }
             }
         }
@@ -119,36 +136,56 @@ struct AppView: View {
                 Menu {
                     Section {
                         Button("Add account", action: createWallet)
-                        Button("Import account", action: createKeyring)
-                        Button("Export account", action: createKeyring)
+                        Button("Import account", action: {})
+                        Button("Export account", action: {})
                     }
 
                     Section {
                         Button("New signing key", action: createKeyring)
-                        Button("Import keys", action: createKeyring)
-                        Button("Export keys", action: createKeyring)
+                        Button("Import keys", action: {})
+                        Button("Export keys", action: {})
 
                     }
                     
                     Section {
-                        Button("Sync assets", action: createKeyring)
-                        Button("Import assets", action: createKeyring)
-                        Button("Export assets", action: createKeyring)
+                        Button("Sync assets", action: assetsConfig)
+                        Button("Import assets", action: {})
+                        Button("Export assets", action: {})
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
             }
         })
+        .sheet(isPresented: $showingSheet, content: sheetContent)
+    }
+    
+    @ViewBuilder
+    private func sheetContent() -> some View {
+        if activeSheet == .AddAccount {
+            AddAccountSheet()
+        } else if activeSheet == .AddKeyring {
+            AddKeyringSheet()
+        } else if activeSheet == .AssetsConfig {
+            AssetsSheet()
+        } else {
+            EmptyView()
+        }
     }
 }
 
 struct AppView_Previews: PreviewProvider {
     @State static var dumb_data = DumbData().data
+    @State static var editMode = EditMode.active
     
     static var previews: some View {
-        AppView(data: $dumb_data)
-            //.preferredColorScheme(.dark)
-            .previewDevice("iPhone 12 Pro")
+        Group {
+            AppView(data: $dumb_data)
+                .previewDevice("iPhone 12 Pro")
+            AppView(data: $dumb_data)
+                .preferredColorScheme(.dark)
+                .environment(\.editMode, $editMode)
+                .previewDevice("iPhone 12 Pro")
+        }
     }
 }

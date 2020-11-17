@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct AddAccountSheet: View {
+struct AddKeyringSheet: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationView {
             Text("Content")
-                .navigationTitle("New account")
+                .navigationTitle("New keyring")
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button(action: {
@@ -35,8 +35,8 @@ struct AddAccountSheet: View {
     }
 }
 
-struct AddAccountSheet_Previews: PreviewProvider {
+struct AddKeyringSheet_Previews: PreviewProvider {
     static var previews: some View {
-        AddAccountSheet()
+        AddKeyringSheet()
     }
 }

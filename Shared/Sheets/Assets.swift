@@ -7,27 +7,19 @@
 
 import SwiftUI
 
-struct AddAccountSheet: View {
+struct AssetsSheet: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationView {
             Text("Content")
-                .navigationTitle("New account")
+                .navigationTitle("Assets")
                 .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button(action: {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }) {
-                            Text("Create").bold()
-                        }
-                    }
-
                     ToolbarItem(placement: .cancellationAction) {
                         Button(action: {
                             self.presentationMode.wrappedValue.dismiss()
                         }) {
-                            Text("Cancel")
+                            Text("Close")
                         }
                     }
                 }
@@ -35,8 +27,8 @@ struct AddAccountSheet: View {
     }
 }
 
-struct AddAccountSheet_Previews: PreviewProvider {
+struct AssetsSheet_Previews: PreviewProvider {
     static var previews: some View {
-        AddAccountSheet()
+        AssetsSheet()
     }
 }
