@@ -8,11 +8,11 @@
 import SwiftUI
 
 public class AppDisplayInfo: ObservableObject {
-    @Published public var wallets: [WalletDisplayInfo]
+    @Published public var wallets: [AccountDisplayInfo]
     @Published public var keyrings: [KeyringDisplayInfo]
     @Published public var assets: [AssetDisplayInfo]
 
-    public init(wallets: [WalletDisplayInfo], keyrings: [KeyringDisplayInfo], assets: [AssetDisplayInfo]) {
+    public init(wallets: [AccountDisplayInfo], keyrings: [KeyringDisplayInfo], assets: [AssetDisplayInfo]) {
         self.wallets = wallets
         self.keyrings = keyrings
         self.assets = assets
@@ -22,24 +22,105 @@ public class AppDisplayInfo: ObservableObject {
 public class KeyringDisplayInfo: ObservableObject, Identifiable {
     public let id: UUID = UUID()
     @Published public var name: String
+    @Published public var actingAs: String
     @Published public var details: String?
     public var fingerprint: String = ""
     public var identifier: String = ""
     public var derivationPath: String = "m"
     
-    public init(named name: String) {
+    public init(named name: String, actingAs: String) {
         self.name = name
+        self.actingAs = actingAs
     }
 }
 
-public class WalletDisplayInfo: ObservableObject, Identifiable {
+public enum AccountContract {
+    case current(CurrentContract)
+    case saving(SavingContract)
+    case lightning(LightningContract)
+    case storm(StormContract)
+    case prometheus(PrometheusContract)
+    case trading(TradingContract)
+    case rgb(RgbContract)
+}
+
+public enum SpendingDescriptors {
+    case bare
+    case legacy
+    case legacySegWit
+    case segWit
+    case taproot
+}
+
+public enum SpendigLock: Hashable {
+    case pubkey(id: String)
+    case multisig(threshold: UInt8, ids: [String])
+    case miniscript(script: String)
+    case musig
+    case tapscript(script: String)
+}
+
+public enum WalletScripting: Hashable {
+    case publicKey
+    case multisig
+    case miniscript
+}
+
+public struct CurrentContract {
+    public let lock: SpendigLock
+    public let descriptors: [SpendingDescriptors]
+    
+    public init(lock: SpendigLock = .pubkey(id: ""), descriptors: [SpendingDescriptors] = [.segWit]) {
+        self.lock = lock
+        self.descriptors = descriptors
+    }
+}
+
+public enum SavingContract {
+    case multisig(threshold: UInt8)
+    case miniscript(script: String)
+    case musig
+    case tapscript(script: String)
+    case covenant
+}
+
+public enum LightningContract {
+    case channel(peer: String)
+    case factory(peers: [String])
+}
+
+public struct StormContract {
+    public let peer: String
+}
+
+public enum PrometheusContract {
+    case worker
+    case verifier
+    case arbiter
+}
+
+public enum TradingContract {
+    case dlcFuture
+    case lightningDEX
+    case liquidityProvider
+    case lightspeed
+}
+
+public enum RgbContract {
+    case loan
+}
+
+public class AccountDisplayInfo: ObservableObject, Identifiable {
     public let id: UUID = UUID()
+    public let contract: AccountContract
     @Published var name: String
     @Published var assets: [BalanceDisplayInfo]
     @Published var transactions: [TransactionDisplayInfo]
     
-    public init(named name: String, havingAssets assets: [BalanceDisplayInfo], transactions: [TransactionDisplayInfo]) {
+    public init(named name: String, havingAssets assets: [BalanceDisplayInfo] = [],
+                transactions: [TransactionDisplayInfo] = [], contract: AccountContract = .current(CurrentContract())) {
         self.name = name
+        self.contract = contract
         self.assets = assets
         self.transactions = transactions
     }
@@ -71,32 +152,54 @@ public enum AssetCategory {
 }
 
 public class AssetDisplayInfo: ObservableObject, Identifiable {
+    // These are parts of the genesis
     public let ticker: String
     public let name: String
+    public let details: String? = nil
+    public let precision: UInt8
+    public let category: AssetCategory // Derived from schema id
+
+    // These are not parts of the genesis and purely UI related
     public let symbol: String
-    public let category: AssetCategory
+    @Published public var btcRate: Float
+    @Published public var fiatRate: Float
 
     public var gradient: Gradient {
         Gradient(colors: [self.category.primaryColor(), self.category.secondaryColor()])
     }
     
-    public init(withTicker ticker: String, name: String, symbol: String, category: AssetCategory = .security) {
+    public init(withTicker ticker: String, name: String, symbol: String, category: AssetCategory = .security,
+                precision: UInt8 = 8, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1) {
         self.ticker = ticker
         self.name = name
         self.symbol = symbol
         self.category = category
+        self.precision = precision
+        self.btcRate = btcRate
+        self.fiatRate = fiatRate
+    }
+    
+    public func transmutate(atomic: UInt64) -> Float {
+        Float(atomic) / pow(Float(10), Float(precision))
+    }
+
+    public func transmutate(accounting: Float) -> UInt64 {
+        UInt64(accounting * pow(Float(10), Float(precision)))
     }
 }
 
-public class BalanceDisplayInfo: ObservableObject {
-    public let ticker: String
-    public let name: String
-    public let symbol: String
-    public let category: AssetCategory
-    @Published public var balance: Float
-    @Published public var btcRate: Float
-    @Published public var fiatRate: Float
+public class BalanceDisplayInfo: AssetDisplayInfo {
+    @Published public var atomicBalance: UInt64
 
+    public var balance: Float {
+        get {
+            Float(atomicBalance) / pow(Float(10), Float(precision))
+        }
+        set {
+            atomicBalance = UInt64(newValue * pow(Float(10), Float(precision)))
+        }
+    }
+    
     public var btcBalance: Float {
         self.balance * self.btcRate
     }
@@ -104,29 +207,13 @@ public class BalanceDisplayInfo: ObservableObject {
     public var fiatBalance: Float {
         self.balance * self.fiatRate
     }
-    
-    public var gradient: Gradient {
-        Gradient(colors: [self.category.primaryColor(), self.category.secondaryColor()])
-    }
-    
-    public init(withAsset asset: AssetDisplayInfo, balance: Float = 0, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1, category: AssetCategory = .security) {
-        self.ticker = asset.ticker
-        self.name = asset.name
-        self.symbol = asset.symbol
-        self.category = asset.category
-        self.balance = balance
-        self.btcRate = btcRate
-        self.fiatRate = fiatRate
-    }
-    
-    public init(withTicker ticker: String, name: String, symbol: String, balance: Float = 0, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1, category: AssetCategory = .security) {
-        self.ticker = ticker
-        self.name = name
-        self.symbol = symbol
-        self.category = category
-        self.balance = balance
-        self.btcRate = btcRate
-        self.fiatRate = fiatRate
+        
+    public init(withAsset asset: AssetDisplayInfo, balance: Float = 0) {
+        atomicBalance = asset.transmutate(accounting: balance)
+        super.init(
+            withTicker: asset.ticker, name: asset.name, symbol: asset.symbol, category: asset.category,
+            precision: asset.precision, btcRate: asset.btcRate, fiatRate: asset.fiatRate
+        )
     }
 }
 
@@ -138,19 +225,42 @@ public enum TransactionDirection {
 public class TransactionDisplayInfo: ObservableObject, Identifiable {
     public let id: UUID = UUID()
     public let direction: TransactionDirection
-    public let date: Date = Date()
-    public let amount: UInt64
+    public let asset: AssetDisplayInfo
+
+    public var date: Date = Date()
+    public var atomicAmount: UInt64
+    @Published public var contact: ContactDisplayInfo?
     @Published public var comment: String
+
+    public var balance: Float {
+        get {
+            asset.transmutate(atomic: atomicAmount)
+        }
+        set {
+            atomicAmount = asset.transmutate(accounting: newValue)
+        }
+    }
     
-    public init(withAmount amount: UInt64, directed direction: TransactionDirection, note comment: String) {
+    public init(withAmount amount: Float, ofAsset asset: AssetDisplayInfo, directed direction: TransactionDirection,
+                note comment: String, contactOrMerchant contact: ContactDisplayInfo? = nil) {
+        self.asset = asset
         self.direction = direction
-        self.amount = amount
+        self.atomicAmount = asset.transmutate(accounting: amount)
         self.comment = comment
+        self.contact = contact
     }
 }
 
-public enum WalletScripting: Hashable {
-    case publicKey
-    case multisig
-    case miniscript
+public class ContactDisplayInfo: ObservableObject, Identifiable {
+    @Published public var name: String
+    @Published public var notes: String? = nil
+    @Published public var avatar: Image?
+    @Published public var nodes: [String] = []
+    @Published public var bitcoinKeys: [String] = []
+    @Published public var identityKeys: [String] = []
+    
+    public init(named name: String, withAvatar avatar: Image? = nil) {
+        self.name = name
+        self.avatar = avatar
+    }
 }

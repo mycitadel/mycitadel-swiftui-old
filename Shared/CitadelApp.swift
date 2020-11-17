@@ -24,6 +24,7 @@ struct CitadelApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(data: $data)        }
+            ContentView(data: $data)
+        }
     }
 }

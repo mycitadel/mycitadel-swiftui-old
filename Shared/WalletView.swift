@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MasterView: View {
-    @Binding var wallet: WalletDisplayInfo
+    @Binding var wallet: AccountDisplayInfo
 
     var body: some View {
         #if os(iOS)
@@ -24,7 +24,7 @@ struct MasterView: View {
 }
 
 struct WalletView: View {
-    @Binding var wallet: WalletDisplayInfo
+    @Binding var wallet: AccountDisplayInfo
     
     func filter() {
         

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BalancePager: View {
-    @Binding var wallet: WalletDisplayInfo
+    @Binding var wallet: AccountDisplayInfo
 
     #if os(iOS)
         private var tabBarStyle = PageTabViewStyle()
@@ -18,7 +18,7 @@ struct BalancePager: View {
         private var tabBarStyle = DefaultTabViewStyle()
     #endif
 
-    init(withWallet wallet: Binding<WalletDisplayInfo>) {
+    init(withWallet wallet: Binding<AccountDisplayInfo>) {
         self._wallet = wallet
     }
     

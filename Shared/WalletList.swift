@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WalletList: View {
-    @Binding var wallet: WalletDisplayInfo
+    @Binding var wallet: AccountDisplayInfo
 
     var body: some View {
         List {

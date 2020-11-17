@@ -120,7 +120,7 @@ struct AddAccountSheet: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(action: {
-                        data.wallets.append(WalletDisplayInfo(named: name, havingAssets: [], transactions: []))
+                        data.wallets.append(AccountDisplayInfo(named: name, havingAssets: [], transactions: []))
                         self.presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("Create").bold()

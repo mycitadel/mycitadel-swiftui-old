@@ -1,7 +1,44 @@
 {
   "colors" : [
     {
-      "idiom" : "universal"
+      "color" : {
+        "platform" : "ios",
+        "reference" : "systemPurpleColor"
+      },
+      "idiom" : "iphone"
+    },
+    {
+      "color" : {
+        "platform" : "ios",
+        "reference" : "systemPurpleColor"
+      },
+      "idiom" : "ipad"
+    },
+    {
+      "color" : {
+        "color-space" : "extended-srgb",
+        "components" : {
+          "alpha" : "1.000",
+          "blue" : "0.871",
+          "green" : "0.322",
+          "red" : "0.686"
+        }
+      },
+      "idiom" : "watch"
+    },
+    {
+      "color" : {
+        "platform" : "tvos",
+        "reference" : "systemPurpleColor"
+      },
+      "idiom" : "tv"
+    },
+    {
+      "color" : {
+        "platform" : "osx",
+        "reference" : "systemPurpleColor"
+      },
+      "idiom" : "mac"
     }
   ],
   "info" : {

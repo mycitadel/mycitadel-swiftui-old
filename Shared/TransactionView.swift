@@ -28,14 +28,14 @@ struct TransactionCell: View {
                 Text("\(transaction.date, formatter: Self.dateFormatter)").foregroundColor(.secondary).font(.footnote)
             }
             Spacer()
-            Text("\(transaction.amount) sat")
+            Text("\(transaction.atomicAmount) sat")
         }
         .navigationTitle("History")
     }
 }
 
 struct TransactionView: View {
-    @ObservedObject var wallet: WalletDisplayInfo
+    @ObservedObject var wallet: AccountDisplayInfo
     
     var body: some View {
         List(wallet.transactions) { transaction in
