@@ -17,7 +17,7 @@ struct WalletList: View {
                     BalanceCard(asset: asset)
                         .frame(width: nil, height: 125, alignment: .center)
                         .padding(4)
-                    NavigationLink(destination: TransactionView(wallet: wallet)) {
+                    NavigationLink(destination: TransactionView(wallet: wallet, ticker: asset.ticker)) {
                         EmptyView()
                     }.buttonStyle(PlainButtonStyle())
                 }
@@ -28,9 +28,9 @@ struct WalletList: View {
 }
 
 struct WalletList_Previews: PreviewProvider {
-    @State static var dumb_data = DumbData().wallet
+    @State static var dumb = DumbData()
 
     static var previews: some View {
-        WalletList(wallet: $dumb_data)
+        WalletList(wallet: $dumb.wallet)
     }
 }

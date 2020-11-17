@@ -117,6 +117,18 @@ public class AccountDisplayInfo: ObservableObject, Identifiable {
     @Published var assets: [BalanceDisplayInfo]
     @Published var transactions: [TransactionDisplayInfo]
     
+    public var imageName: String {
+        switch contract {
+        case .current(_): return "banknote"
+        case .saving(_): return "building.columns.fill"
+        case .lightning(_): return "bolt.fill"
+        case .storm(_): return "cloud.bolt.rain.fill"
+        case .prometheus(_): return "cpu"
+        case .trading(_): return "arrow.left.arrow.right.circle.fill"
+        case .rgb(_): return "sparkles"
+        }
+    }
+    
     public init(named name: String, havingAssets assets: [BalanceDisplayInfo] = [],
                 transactions: [TransactionDisplayInfo] = [], contract: AccountContract = .current(CurrentContract())) {
         self.name = name
@@ -227,12 +239,12 @@ public class TransactionDisplayInfo: ObservableObject, Identifiable {
     public let direction: TransactionDirection
     public let asset: AssetDisplayInfo
 
-    public var date: Date = Date()
+    public var date: Date
     public var atomicAmount: UInt64
     @Published public var contact: ContactDisplayInfo?
     @Published public var comment: String
 
-    public var balance: Float {
+    public var amount: Float {
         get {
             asset.transmutate(atomic: atomicAmount)
         }
@@ -242,12 +254,13 @@ public class TransactionDisplayInfo: ObservableObject, Identifiable {
     }
     
     public init(withAmount amount: Float, ofAsset asset: AssetDisplayInfo, directed direction: TransactionDirection,
-                note comment: String, contactOrMerchant contact: ContactDisplayInfo? = nil) {
+                note comment: String, contactOrMerchant contact: ContactDisplayInfo? = nil, date: Date = Date()) {
         self.asset = asset
         self.direction = direction
         self.atomicAmount = asset.transmutate(accounting: amount)
         self.comment = comment
         self.contact = contact
+        self.date = date
     }
 }
 

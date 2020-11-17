@@ -9,23 +9,21 @@ import SwiftUI
 
 struct BalancePager: View {
     @Binding var wallet: AccountDisplayInfo
+    @Binding var selection: String
 
     #if os(iOS)
-        private var tabBarStyle = PageTabViewStyle()
+        var tabBarStyle = PageTabViewStyle()
     #elseif os(watchOS)
-        private var tabBarStyle = CarouselTabViewStyle()
+        var tabBarStyle = CarouselTabViewStyle()
     #else
-        private var tabBarStyle = DefaultTabViewStyle()
+        var tabBarStyle = DefaultTabViewStyle()
     #endif
-
-    init(withWallet wallet: Binding<AccountDisplayInfo>) {
-        self._wallet = wallet
-    }
     
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             ForEach(wallet.assets, id: \.ticker) { asset in
                 BalanceCard(asset: asset)
+                    .tag(asset.ticker)
             }
             .padding()
         }
@@ -35,10 +33,11 @@ struct BalancePager: View {
 
 
 struct BalancePager_Previews: PreviewProvider {
-    @State static var dumb_data = DumbData().wallet
+    @State static var dumb = DumbData()
+    @State static var selection: String = ""
     
     static var previews: some View {
-        BalancePager(withWallet: $dumb_data)
+        BalancePager(wallet: $dumb.wallet, selection: $selection)
             .previewDevice("iPhone 12 Pro")
             .frame(height: 100.0/*@END_MENU_TOKEN@*/)
             .environment(\.fiatUoA, "USD")

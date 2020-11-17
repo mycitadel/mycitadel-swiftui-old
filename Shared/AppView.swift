@@ -55,7 +55,7 @@ struct AppView: View {
             Section(header: Text("Accounts")) {
                 ForEach(data.wallets.indices) { idx in
                     NavigationLink(destination: MasterView(wallet: $data.wallets[idx])) {
-                        Label(data.wallets[idx].name,  systemImage: "creditcard.fill")
+                        Label(data.wallets[idx].name,  systemImage: data.wallets[idx].imageName)
                     }
                     .tag(Selection.Account(data.wallets[idx].id))
                 }

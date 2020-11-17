@@ -16,7 +16,6 @@
 		308BD00C25627E21009E4DEE /* DisplayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD00B25627E21009E4DEE /* DisplayInfo.swift */; };
 		308BD00D25627E21009E4DEE /* DisplayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD00B25627E21009E4DEE /* DisplayInfo.swift */; };
 		308BD0132562810B009E4DEE /* BalancePager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD0122562810B009E4DEE /* BalancePager.swift */; };
-		308BD0142562810B009E4DEE /* BalancePager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD0122562810B009E4DEE /* BalancePager.swift */; };
 		308BD01825628135009E4DEE /* BalanceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01725628135009E4DEE /* BalanceCard.swift */; };
 		308BD01925628135009E4DEE /* BalanceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01725628135009E4DEE /* BalanceCard.swift */; };
 		308BD01F256282B3009E4DEE /* DumbData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01E256282B3009E4DEE /* DumbData.swift */; };
@@ -277,7 +276,6 @@
 				30A6CEB12563453E002F30B0 /* WalletList.swift in Sources */,
 				30A6CEB725634F4A002F30B0 /* AppView.swift in Sources */,
 				308BCFF725627CDB009E4DEE /* CitadelApp.swift in Sources */,
-				308BD0142562810B009E4DEE /* BalancePager.swift in Sources */,
 				30A6CEC725636ECC002F30B0 /* Assets.swift in Sources */,
 				308BD0252562A258009E4DEE /* WalletView.swift in Sources */,
 				308BD020256282B3009E4DEE /* DumbData.swift in Sources */,

@@ -25,6 +25,7 @@ struct MasterView: View {
 
 struct WalletView: View {
     @Binding var wallet: AccountDisplayInfo
+    @State private var selection: String = ""
     
     func filter() {
         
@@ -32,9 +33,9 @@ struct WalletView: View {
     
     var body: some View {
         VStack {
-            BalancePager(withWallet: $wallet)
+            BalancePager(wallet: $wallet, selection: $selection)
                 .frame(height: 200.0)
-            TransactionView(wallet: wallet)
+            TransactionView(wallet: wallet, ticker: selection == "" ? nil : selection)
         }
         .navigationTitle(wallet.name)
         .toolbar(content: {
@@ -46,10 +47,10 @@ struct WalletView: View {
 }
 
 struct WalletView_Previews: PreviewProvider {
-    @State static var dumb_data = DumbData().wallet
+    @State static var dumb = DumbData()
 
     static var previews: some View {
-        WalletView(wallet: $dumb_data)
+        WalletView(wallet: $dumb.wallet)
             .preferredColorScheme(.dark)
             .previewDevice("iPhone 12 Pro")
     }

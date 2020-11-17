@@ -22,14 +22,15 @@ extension TransactionDisplayInfo {
         "Car rental",
         "House clearing",
         "Petrol",
-        "Traint ticket to Zug"
+        "Train ticket to Zug"
     ]
 
     public convenience init(randomWithAsset asset: AssetDisplayInfo) {
         let amount = Float.random(in: 0.95...166.6) / asset.fiatRate
         let direction = Bool.random() ? TransactionDirection.In : TransactionDirection.Out
         let note = Self.DUMB_NOTES.randomElement()!
-        self.init(withAmount: amount, ofAsset: asset, directed: direction, note: note)
+        let date = Date(timeIntervalSinceNow: TimeInterval.random(in: 0...(60*60*24*30)))
+        self.init(withAmount: amount, ofAsset: asset, directed: direction, note: note, date: date)
     }
 }
 
@@ -46,7 +47,7 @@ extension AccountDisplayInfo {
         let balances = assets.map { asset in
             BalanceDisplayInfo(randomWithAsset: asset, useSmallBalance: isSmall)
         }
-        let transactions = (0...Int.random(in: 4...13)).map { _ in
+        let transactions = (0...Int.random(in: 20...40)).map { _ in
             TransactionDisplayInfo(randomWithAsset: assets.randomElement()!)
         }
         self.init(named: name, havingAssets: balances, transactions: transactions, contract: contract)
@@ -128,13 +129,20 @@ struct DumbData {
             contract: .current(CurrentContract())
         )
         
-        let lightning = AccountDisplayInfo(
+        let lightning1 = AccountDisplayInfo(
             randomWithAssets: [btc, btcn, usdt],
-            named: "Lightning",
+            named: "MyCitadel",
             contract: .lightning(.channel(peer: "")),
             useSmallBalance: true
         )
-        
+
+        let lightning2 = AccountDisplayInfo(
+            randomWithAssets: [btc, btcn, usdt],
+            named: "Bitrefill",
+            contract: .lightning(.channel(peer: "")),
+            useSmallBalance: true
+        )
+
         let keyrings = [
             KeyringDisplayInfo(named: "Private 1 of 7 multisig", actingAs: "Private individual"),
             KeyringDisplayInfo(named: "Corporate director", actingAs: "CEO of the company"),
@@ -143,7 +151,7 @@ struct DumbData {
         ]
 
         self.data = AppDisplayInfo(
-            wallets: [savings, self.wallet, company, family, lightning],
+            wallets: [savings, self.wallet, company, family, lightning1, lightning2],
             keyrings: keyrings,
             assets: [btc, btcn, shares, usdt, lnpbp]
         )

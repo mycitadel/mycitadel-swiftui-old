@@ -28,7 +28,10 @@ struct TransactionCell: View {
                 Text("\(transaction.date, formatter: Self.dateFormatter)").foregroundColor(.secondary).font(.footnote)
             }
             Spacer()
-            Text("\(transaction.atomicAmount) sat")
+            HStack {
+                Text("\(transaction.amount)")
+                Text(transaction.asset.ticker).foregroundColor(.secondary)
+            }
         }
         .navigationTitle("History")
     }
@@ -36,19 +39,21 @@ struct TransactionCell: View {
 
 struct TransactionView: View {
     @ObservedObject var wallet: AccountDisplayInfo
-    
+    var ticker: String? = nil
+
     var body: some View {
-        List(wallet.transactions) { transaction in
+        List(wallet.transactions.filter { ticker == nil || $0.asset.ticker == ticker }) { transaction in
             TransactionCell(transaction: transaction)
         }
     }
 }
 
 struct TransactionView_Previews: PreviewProvider {
-    @State static var dumb_data = DumbData().wallet
+    @State static var dumb = DumbData()
+    @State static var ticker: String = ""
 
     static var previews: some View {
-        TransactionView(wallet: dumb_data)
+        TransactionView(wallet: dumb.wallet)
             .preferredColorScheme(.dark)
             .previewDevice("iPhone 12 Pro")
     }
