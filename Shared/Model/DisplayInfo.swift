@@ -45,17 +45,46 @@ public class WalletDisplayInfo: ObservableObject, Identifiable {
     }
 }
 
+public enum AssetCategory {
+    case bitcoin
+    case stablecoin
+    case security
+    case collectible
+    
+    func primaryColor() -> Color {
+        switch self {
+        case .bitcoin: return Color.orange
+        case .stablecoin: return Color.green
+        case .security: return Color.red
+        case .collectible: return Color.blue
+        }
+    }
+    
+    func secondaryColor() -> Color {
+        switch self {
+        case .bitcoin: return Color.yellow
+        case .stablecoin: return Color(.sRGB, red: 0.333, green: 1, blue: 0.333, opacity: 1)
+        case .security: return Color.purple
+        case .collectible: return Color(.sRGB, red: 0.333, green: 0.333, blue: 1, opacity: 1)
+        }
+    }
+}
+
 public class AssetDisplayInfo: ObservableObject, Identifiable {
     public let ticker: String
     public let name: String
     public let symbol: String
-    public let color: Gradient
+    public let category: AssetCategory
+
+    public var gradient: Gradient {
+        Gradient(colors: [self.category.primaryColor(), self.category.secondaryColor()])
+    }
     
-    public init(withTicker ticker: String, name: String, symbol: String) {
+    public init(withTicker ticker: String, name: String, symbol: String, category: AssetCategory = .security) {
         self.ticker = ticker
         self.name = name
         self.symbol = symbol
-        self.color = Gradient(colors: [.orange, .yellow])
+        self.category = category
     }
 }
 
@@ -63,7 +92,7 @@ public class BalanceDisplayInfo: ObservableObject {
     public let ticker: String
     public let name: String
     public let symbol: String
-    public let color: Gradient
+    public let category: AssetCategory
     @Published public var balance: Float
     @Published public var btcRate: Float
     @Published public var fiatRate: Float
@@ -76,21 +105,25 @@ public class BalanceDisplayInfo: ObservableObject {
         self.balance * self.fiatRate
     }
     
-    public init(withAsset asset: AssetDisplayInfo, balance: Float = 0, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1) {
+    public var gradient: Gradient {
+        Gradient(colors: [self.category.primaryColor(), self.category.secondaryColor()])
+    }
+    
+    public init(withAsset asset: AssetDisplayInfo, balance: Float = 0, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1, category: AssetCategory = .security) {
         self.ticker = asset.ticker
         self.name = asset.name
         self.symbol = asset.symbol
-        self.color = asset.color
+        self.category = asset.category
         self.balance = balance
         self.btcRate = btcRate
         self.fiatRate = fiatRate
     }
     
-    public init(withTicker ticker: String, name: String, symbol: String, balance: Float = 0, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1) {
+    public init(withTicker ticker: String, name: String, symbol: String, balance: Float = 0, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1, category: AssetCategory = .security) {
         self.ticker = ticker
         self.name = name
         self.symbol = symbol
-        self.color = Gradient(colors: [.orange, .yellow])
+        self.category = category
         self.balance = balance
         self.btcRate = btcRate
         self.fiatRate = fiatRate

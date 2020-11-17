@@ -15,31 +15,36 @@ struct DumbData {
         let btc = AssetDisplayInfo(
             withTicker: "BTC",
             name: "Bitcoin (onchain)",
-            symbol: "bitcoinsign.circle.fill"
+            symbol: "bitcoinsign.circle.fill",
+            category: .bitcoin
         )
 
         let shares = AssetDisplayInfo(
             withTicker: "PAN",
             name: "Pandora Core",
-            symbol: "arrowtriangle.down.circle.fill"
+            symbol: "arrowtriangle.down.circle.fill",
+            category: .security
         )
 
         let usdt = AssetDisplayInfo(
             withTicker: "USDT",
             name: "US Dollar Tether",
-            symbol: "dollarsign.circle.fill"
+            symbol: "dollarsign.circle.fill",
+            category: .stablecoin
         )
 
         let btcn = AssetDisplayInfo(
             withTicker: "BTC*",
             name: "Bitcoin (RGB)",
-            symbol: "bitcoinsign.circle.fill"
+            symbol: "bitcoinsign.circle.fill",
+            category: .bitcoin
         )
 
         let lnpbp = AssetDisplayInfo(
             withTicker: "LNP/BP",
             name: "LNP/BP Sponsor",
-            symbol: "arrowtriangle.down"
+            symbol: "arrowtriangle.down",
+            category: .collectible
         )
 
         self.wallet = WalletDisplayInfo(

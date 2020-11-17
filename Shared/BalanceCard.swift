@@ -29,12 +29,11 @@ struct BalanceCard: View {
                     Spacer()
                     Text("\(asset.btcBalance, specifier:"%0.6f") BTC")
                 }.font(.footnote)
-                Spacer()
             }
             .foregroundColor(.black)
         }
         .padding()
-        .background(RadialGradient(gradient: asset.color, center: .topLeading, startRadius: 66.6, endRadius: 313))
+        .background(RadialGradient(gradient: asset.gradient, center: .topLeading, startRadius: 66.6, endRadius: 313))
         .cornerRadius(13)
         .shadow(radius: 6.66)
     }
