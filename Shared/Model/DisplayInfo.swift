@@ -115,3 +115,9 @@ public class TransactionDisplayInfo: ObservableObject, Identifiable {
         self.comment = comment
     }
 }
+
+public enum WalletScripting: Hashable {
+    case publicKey
+    case multisig
+    case miniscript
+}

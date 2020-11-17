@@ -163,7 +163,7 @@ struct AppView: View {
     @ViewBuilder
     private func sheetContent() -> some View {
         if activeSheet == .AddAccount {
-            AddAccountSheet()
+            AddAccountSheet(data: $data)
         } else if activeSheet == .AddKeyring {
             AddKeyringSheet()
         } else if activeSheet == .AssetsConfig {
@@ -176,16 +176,20 @@ struct AppView: View {
 
 struct AppView_Previews: PreviewProvider {
     @State static var dumb_data = DumbData().data
+    #if !os(macOS)
     @State static var editMode = EditMode.active
+    #endif
     
     static var previews: some View {
         Group {
             AppView(data: $dumb_data)
                 .previewDevice("iPhone 12 Pro")
+            #if !os(macOS)
             AppView(data: $dumb_data)
                 .preferredColorScheme(.dark)
                 .environment(\.editMode, $editMode)
                 .previewDevice("iPhone 12 Pro")
+            #endif
         }
     }
 }

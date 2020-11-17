@@ -20,11 +20,10 @@ extension EnvironmentValues {
 
 @main
 struct CitadelApp: App {
-    @State var dumb_data = DumbData().data
+    @State var data = DumbData().data
 
     var body: some Scene {
         WindowGroup {
-            ContentView(data: $dumb_data)
-        }
+            ContentView(data: $data)        }
     }
 }

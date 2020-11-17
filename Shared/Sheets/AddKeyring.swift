@@ -13,7 +13,7 @@ struct AddKeyringSheet: View {
     var body: some View {
         NavigationView {
             Text("Content")
-                .navigationTitle("New keyring")
+                .navigationTitle("New signing key")
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button(action: {
