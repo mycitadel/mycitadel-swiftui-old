@@ -37,7 +37,7 @@ struct SendReceiveView: View {
             .cornerRadius(24)
             
             Spacer()
-            
+
             Button(action: {}) {
                 Label("Send", systemImage: "tray.and.arrow.up.fill")
                     .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
