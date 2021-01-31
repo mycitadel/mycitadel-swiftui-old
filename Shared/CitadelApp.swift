@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import RGBKit
 
 private struct CitadelEnvironmentKey: EnvironmentKey {
     static let defaultValue: String = "USD"
@@ -21,13 +20,8 @@ extension EnvironmentValues {
 
 @main
 struct CitadelApp: App {
-    var rgbController: RGB20Controller? = {
-        do {
-            return try RGB20Controller()
-        } catch {
-            print("Failed to start RGB: \(error.localizedDescription)")
-            return nil
-        }
+    var myCitadel: MyCitadelClient? = {
+        MyCitadelClient()
     }()
 
     @State var data = DumbData().data

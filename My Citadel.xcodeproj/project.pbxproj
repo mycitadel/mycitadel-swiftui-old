@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		304DE91725C718F9008FE0A4 /* MyCitadelKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE91625C718F9008FE0A4 /* MyCitadelKit.swift */; };
+		304DE91825C718F9008FE0A4 /* MyCitadelKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE91625C718F9008FE0A4 /* MyCitadelKit.swift */; };
+		304DE91B25C71A97008FE0A4 /* libmycitadel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE91A25C71A97008FE0A4 /* libmycitadel.a */; };
+		304DE92325C72059008FE0A4 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE92225C72059008FE0A4 /* libc++.tbd */; };
 		308BCFF625627CDB009E4DEE /* CitadelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE325627CD8009E4DEE /* CitadelApp.swift */; };
 		308BCFF725627CDB009E4DEE /* CitadelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE325627CD8009E4DEE /* CitadelApp.swift */; };
 		308BCFF825627CDB009E4DEE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE425627CD8009E4DEE /* ContentView.swift */; };
@@ -26,10 +30,6 @@
 		308BD02A2562A3D9009E4DEE /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD0282562A3D9009E4DEE /* TransactionView.swift */; };
 		308BD03425631E8A009E4DEE /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD03325631E8A009E4DEE /* AddAccount.swift */; };
 		308BD03525631E8A009E4DEE /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD03325631E8A009E4DEE /* AddAccount.swift */; };
-		3093BB73258EA41400C5E8E8 /* RGBKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3093BB72258EA41400C5E8E8 /* RGBKit.framework */; };
-		3093BB74258EA41400C5E8E8 /* RGBKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3093BB72258EA41400C5E8E8 /* RGBKit.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		3093BB76258EA42700C5E8E8 /* RGBKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3093BB75258EA42700C5E8E8 /* RGBKit.framework */; };
-		3093BB77258EA42700C5E8E8 /* RGBKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3093BB75258EA42700C5E8E8 /* RGBKit.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		30A6CEB02563453E002F30B0 /* WalletList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEAF2563453E002F30B0 /* WalletList.swift */; };
 		30A6CEB12563453E002F30B0 /* WalletList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEAF2563453E002F30B0 /* WalletList.swift */; };
 		30A6CEB725634F4A002F30B0 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEB425634F17002F30B0 /* AppView.swift */; };
@@ -48,7 +48,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3093BB74258EA41400C5E8E8 /* RGBKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +58,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3093BB77258EA42700C5E8E8 /* RGBKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,6 +65,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		304DE91625C718F9008FE0A4 /* MyCitadelKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCitadelKit.swift; sourceTree = "<group>"; };
+		304DE91925C7195F008FE0A4 /* libmycitadel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libmycitadel.h; sourceTree = "<group>"; };
+		304DE91A25C71A97008FE0A4 /* libmycitadel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmycitadel.a; sourceTree = "<group>"; };
+		304DE91C25C71ACA008FE0A4 /* My Citadel (iOS)-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "My Citadel (iOS)-Bridging-Header.h"; sourceTree = "<group>"; };
+		304DE91D25C71ACA008FE0A4 /* My Citadel (macOS)-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "My Citadel (macOS)-Bridging-Header.h"; sourceTree = "<group>"; };
+		304DE92225C72059008FE0A4 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		308BCFE325627CD8009E4DEE /* CitadelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitadelApp.swift; sourceTree = "<group>"; };
 		308BCFE425627CD8009E4DEE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		308BCFE525627CDB009E4DEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -83,8 +87,6 @@
 		308BD0282562A3D9009E4DEE /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		308BD02D2562C808009E4DEE /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		308BD03325631E8A009E4DEE /* AddAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccount.swift; sourceTree = "<group>"; };
-		3093BB72258EA41400C5E8E8 /* RGBKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RGBKit.framework; path = "../../lnpbp/rgb-sdk/artifacts/ios/RGBKit.framework"; sourceTree = "<group>"; };
-		3093BB75258EA42700C5E8E8 /* RGBKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RGBKit.framework; path = "../../lnpbp/rgb-sdk/artifacts/macos/RGBKit.framework"; sourceTree = "<group>"; };
 		30A6CEA325632E0D002F30B0 /* My Citadel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "My Citadel.entitlements"; sourceTree = "<group>"; };
 		30A6CEAF2563453E002F30B0 /* WalletList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletList.swift; sourceTree = "<group>"; };
 		30A6CEB425634F17002F30B0 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -97,7 +99,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3093BB73258EA41400C5E8E8 /* RGBKit.framework in Frameworks */,
+				304DE92325C72059008FE0A4 /* libc++.tbd in Frameworks */,
+				304DE91B25C71A97008FE0A4 /* libmycitadel.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,18 +108,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3093BB76258EA42700C5E8E8 /* RGBKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		304DE91525C718C8008FE0A4 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				304DE91A25C71A97008FE0A4 /* libmycitadel.a */,
+				304DE91925C7195F008FE0A4 /* libmycitadel.h */,
+				304DE91625C718F9008FE0A4 /* MyCitadelKit.swift */,
+				304DE91C25C71ACA008FE0A4 /* My Citadel (iOS)-Bridging-Header.h */,
+				304DE91D25C71ACA008FE0A4 /* My Citadel (macOS)-Bridging-Header.h */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
 		306DD97A258E8F0E00E8C148 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3093BB75258EA42700C5E8E8 /* RGBKit.framework */,
-				3093BB72258EA41400C5E8E8 /* RGBKit.framework */,
+				304DE92225C72059008FE0A4 /* libc++.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -125,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				30A6CEA325632E0D002F30B0 /* My Citadel.entitlements */,
+				304DE91525C718C8008FE0A4 /* Client */,
 				308BCFE225627CD8009E4DEE /* Shared */,
 				308BCFEC25627CDB009E4DEE /* iOS */,
 				308BCFF325627CDB009E4DEE /* macOS */,
@@ -247,9 +261,11 @@
 				TargetAttributes = {
 					308BCFE925627CDB009E4DEE = {
 						CreatedOnToolsVersion = 12.2;
+						LastSwiftMigration = 1240;
 					};
 					308BCFF125627CDB009E4DEE = {
 						CreatedOnToolsVersion = 12.2;
+						LastSwiftMigration = 1240;
 					};
 				};
 			};
@@ -305,6 +321,7 @@
 				308BD0242562A258009E4DEE /* WalletView.swift in Sources */,
 				30A6CEC825636ECC002F30B0 /* Assets.swift in Sources */,
 				30A6CEBA256351A1002F30B0 /* AppView.swift in Sources */,
+				304DE91725C718F9008FE0A4 /* MyCitadelKit.swift in Sources */,
 				308BD01F256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC325636EC9002F30B0 /* AddKeyring.swift in Sources */,
 				308BD01825628135009E4DEE /* BalanceCard.swift in Sources */,
@@ -325,6 +342,7 @@
 				30A6CED325648935002F30B0 /* BalancePager.swift in Sources */,
 				30A6CEC725636ECC002F30B0 /* Assets.swift in Sources */,
 				308BD0252562A258009E4DEE /* WalletView.swift in Sources */,
+				304DE91825C718F9008FE0A4 /* MyCitadelKit.swift in Sources */,
 				308BD020256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC225636EC9002F30B0 /* AddKeyring.swift in Sources */,
 				308BD01925628135009E4DEE /* BalanceCard.swift in Sources */,
@@ -338,7 +356,6 @@
 		308BCFFC25627CDB009E4DEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -397,7 +414,6 @@
 		308BCFFD25627CDB009E4DEE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -451,23 +467,25 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "My Citadel.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BLS4N8A6L6;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/ios/";
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/ios/";
+				LIBRARY_SEARCH_PATHS = "$(SOURCE_ROOT)/Client";
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.ios;
 				PRODUCT_NAME = "My Citadel";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Client/My Citadel (iOS)-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -478,23 +496,24 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "My Citadel.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BLS4N8A6L6;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/ios/";
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/ios/";
+				LIBRARY_SEARCH_PATHS = "$(SOURCE_ROOT)/Client";
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.ios;
 				PRODUCT_NAME = "My Citadel";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Client/My Citadel (iOS)-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -506,6 +525,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -525,6 +545,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.macos;
 				PRODUCT_NAME = "My Citadel";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Client/My Citadel (macOS)-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -534,6 +556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -553,6 +576,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.macos;
 				PRODUCT_NAME = "My Citadel";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Client/My Citadel (macOS)-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
