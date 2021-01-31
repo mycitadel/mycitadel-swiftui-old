@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		304DE94025C727DB008FE0A4 /* MyCitadelKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE93F25C727DB008FE0A4 /* MyCitadelKit.framework */; };
+		304DE94125C727DB008FE0A4 /* MyCitadelKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE93F25C727DB008FE0A4 /* MyCitadelKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		308BCFF625627CDB009E4DEE /* CitadelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE325627CD8009E4DEE /* CitadelApp.swift */; };
 		308BCFF725627CDB009E4DEE /* CitadelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE325627CD8009E4DEE /* CitadelApp.swift */; };
 		308BCFF825627CDB009E4DEE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE425627CD8009E4DEE /* ContentView.swift */; };
@@ -26,10 +28,6 @@
 		308BD02A2562A3D9009E4DEE /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD0282562A3D9009E4DEE /* TransactionView.swift */; };
 		308BD03425631E8A009E4DEE /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD03325631E8A009E4DEE /* AddAccount.swift */; };
 		308BD03525631E8A009E4DEE /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD03325631E8A009E4DEE /* AddAccount.swift */; };
-		3093BB73258EA41400C5E8E8 /* RGBKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3093BB72258EA41400C5E8E8 /* RGBKit.framework */; };
-		3093BB74258EA41400C5E8E8 /* RGBKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3093BB72258EA41400C5E8E8 /* RGBKit.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		3093BB76258EA42700C5E8E8 /* RGBKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3093BB75258EA42700C5E8E8 /* RGBKit.framework */; };
-		3093BB77258EA42700C5E8E8 /* RGBKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3093BB75258EA42700C5E8E8 /* RGBKit.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		30A6CEB02563453E002F30B0 /* WalletList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEAF2563453E002F30B0 /* WalletList.swift */; };
 		30A6CEB12563453E002F30B0 /* WalletList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEAF2563453E002F30B0 /* WalletList.swift */; };
 		30A6CEB725634F4A002F30B0 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEB425634F17002F30B0 /* AppView.swift */; };
@@ -48,7 +46,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3093BB74258EA41400C5E8E8 /* RGBKit.framework in Embed Frameworks */,
+				304DE94125C727DB008FE0A4 /* MyCitadelKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +57,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3093BB77258EA42700C5E8E8 /* RGBKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		304DE93F25C727DB008FE0A4 /* MyCitadelKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MyCitadelKit.framework; path = "../mycitadel-node/artifacts/ios-arm64/MyCitadelKit.framework"; sourceTree = "<group>"; };
 		308BCFE325627CD8009E4DEE /* CitadelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitadelApp.swift; sourceTree = "<group>"; };
 		308BCFE425627CD8009E4DEE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		308BCFE525627CDB009E4DEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -83,8 +81,6 @@
 		308BD0282562A3D9009E4DEE /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		308BD02D2562C808009E4DEE /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		308BD03325631E8A009E4DEE /* AddAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccount.swift; sourceTree = "<group>"; };
-		3093BB72258EA41400C5E8E8 /* RGBKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RGBKit.framework; path = "../../lnpbp/rgb-sdk/artifacts/ios/RGBKit.framework"; sourceTree = "<group>"; };
-		3093BB75258EA42700C5E8E8 /* RGBKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RGBKit.framework; path = "../../lnpbp/rgb-sdk/artifacts/macos/RGBKit.framework"; sourceTree = "<group>"; };
 		30A6CEA325632E0D002F30B0 /* My Citadel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "My Citadel.entitlements"; sourceTree = "<group>"; };
 		30A6CEAF2563453E002F30B0 /* WalletList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletList.swift; sourceTree = "<group>"; };
 		30A6CEB425634F17002F30B0 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -97,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3093BB73258EA41400C5E8E8 /* RGBKit.framework in Frameworks */,
+				304DE94025C727DB008FE0A4 /* MyCitadelKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +101,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3093BB76258EA42700C5E8E8 /* RGBKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,8 +110,7 @@
 		306DD97A258E8F0E00E8C148 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3093BB75258EA42700C5E8E8 /* RGBKit.framework */,
-				3093BB72258EA41400C5E8E8 /* RGBKit.framework */,
+				304DE93F25C727DB008FE0A4 /* MyCitadelKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -455,14 +449,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BLS4N8A6L6;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/ios/";
+				FRAMEWORK_SEARCH_PATHS = "../mycitadel-node/artifacts/**";
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/ios/";
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.ios;
 				PRODUCT_NAME = "My Citadel";
@@ -482,14 +475,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BLS4N8A6L6;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/ios/";
+				FRAMEWORK_SEARCH_PATHS = "../mycitadel-node/artifacts/**";
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/ios/";
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.ios;
 				PRODUCT_NAME = "My Citadel";
