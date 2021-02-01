@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BalanceCard: View {
     @ObservedObject var asset: BalanceDisplayInfo
-    @Environment(\.fiatUoA) var fiatUoA: String
+    @Environment(\.currencyUoA) var fiatUoA: String
     
     var body: some View {
         ZStack(alignment: .topLeading) {

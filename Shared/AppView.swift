@@ -6,15 +6,16 @@
 //
 
 import SwiftUI
+import MyCitadelKit
+
+enum Tags: Hashable {
+    case Account(UUID)
+    case Keyring(UUID)
+    case Asset(String)
+    case Settings
+}
 
 struct AppView: View {
-    enum Selection: Hashable {
-        case Account(UUID)
-        case Keyring(UUID)
-        case Asset(String)
-        case Settings
-    }
-    
     enum Sheet {
         case AddAccount
         case AddKeyring
@@ -24,11 +25,6 @@ struct AppView: View {
     #if !os(macOS)
     @Environment(\.editMode) private var editMode
     #endif
-    @State private var showingSheet = false
-    @State private var activeSheet = Sheet.AddAccount
-    @State private var selection: Selection? = nil
-    @Binding var data: AppDisplayInfo
-    
     private var isEditing: Bool {
         #if !os(macOS)
         return editMode?.wrappedValue == .active
@@ -36,6 +32,12 @@ struct AppView: View {
         return false
         #endif
     }
+
+    @State private var showingSheet = false
+    @State private var activeSheet = Sheet.AddAccount
+    @State private var selection: Tags? = nil
+    @Binding var data: AppDisplayInfo
+    @State private var assets: [AssetDisplayInfo] = []
     
     func createWallet() {
         activeSheet = .AddAccount
@@ -57,7 +59,7 @@ struct AppView: View {
                     NavigationLink(destination: MasterView(wallet: $data.wallets[idx])) {
                         Label(data.wallets[idx].name,  systemImage: data.wallets[idx].imageName)
                     }
-                    .tag(Selection.Account(data.wallets[idx].id))
+                    .tag(Tags.Account(data.wallets[idx].id))
                 }
                 .onMove(perform: { indices, newOffset in
                     data.wallets.move(fromOffsets: indices, toOffset: newOffset)
@@ -77,9 +79,8 @@ struct AppView: View {
             Section(header: Text("Signing keys")) {
                 ForEach(data.keyrings) { keyring in
                     Label(keyring.name,  systemImage: "signature")
-                        .tag(Selection.Keyring(keyring.id))
+                        .tag(Tags.Keyring(keyring.id))
                 }
-
                 .onMove(perform: { indices, newOffset in
                     data.wallets.move(fromOffsets: indices, toOffset: newOffset)
                 })
@@ -95,14 +96,14 @@ struct AppView: View {
                 }
             }
 
-            Section(header: Text("Assets")) {
+            Section(header: Text("Assets with balance")) {
                 ForEach(data.assets, id: \.ticker) { asset in
                     HStack {
                         Label(asset.name, systemImage: asset.symbol)
                         Spacer()
                         Text(asset.ticker)
                     }
-                    .tag(Selection.Asset(asset.ticker))
+                    .tag(Tags.Asset(asset.ticker))
                 }
 
                 if isEditing {
@@ -111,6 +112,11 @@ struct AppView: View {
                             .foregroundColor(.blue)
                     }.onTapGesture { assetsConfig() }
                 }
+            }
+
+            NavigationLink(destination: AssetsView(assets: $data.assets)) {
+                Text("All known assets")
+                    .font(.headline)
             }
         }
         .listStyle(SidebarListStyle())
@@ -158,6 +164,7 @@ struct AppView: View {
             }
         })
         .sheet(isPresented: $showingSheet, content: sheetContent)
+        .onAppear(perform: load)
     }
     
     @ViewBuilder
@@ -172,20 +179,27 @@ struct AppView: View {
             EmptyView()
         }
     }
+    
+    private func load() {
+        let a = try? MyCitadelClient.shared?.refreshAssets().map { asset in
+            AssetDisplayInfo(withTicker: asset.ticker, name: asset.name, symbol: "bitcoinsign.circle.fill")
+        }
+        self.assets = a ?? []
+    }
 }
 
 struct AppView_Previews: PreviewProvider {
-    @State static var dumb_data = DumbData().data
+    @State static var dumbData = DumbData().data
     #if !os(macOS)
     @State static var editMode = EditMode.active
     #endif
     
     static var previews: some View {
         Group {
-            AppView(data: $dumb_data)
+            AppView(data: $dumbData)
                 .previewDevice("iPhone 12 Pro")
             #if !os(macOS)
-            AppView(data: $dumb_data)
+            AppView(data: $dumbData)
                 .preferredColorScheme(.dark)
                 .environment(\.editMode, $editMode)
                 .previewDevice("iPhone 12 Pro")

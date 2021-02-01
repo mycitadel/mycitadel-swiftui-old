@@ -3,12 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		304DE94025C727DB008FE0A4 /* MyCitadelKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE93F25C727DB008FE0A4 /* MyCitadelKit.framework */; };
-		304DE94125C727DB008FE0A4 /* MyCitadelKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE93F25C727DB008FE0A4 /* MyCitadelKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		304DE95625C741F2008FE0A4 /* MyCitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; };
+		304DE95725C741F2008FE0A4 /* MyCitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96825C83D3E008FE0A4 /* AssetsView.swift */; };
+		304DE96A25C83D3E008FE0A4 /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96825C83D3E008FE0A4 /* AssetsView.swift */; };
+		304DE96C25C87021008FE0A4 /* AssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96B25C87021008FE0A4 /* AssetView.swift */; };
+		304DE96D25C87021008FE0A4 /* AssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96B25C87021008FE0A4 /* AssetView.swift */; };
 		308BCFF625627CDB009E4DEE /* CitadelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE325627CD8009E4DEE /* CitadelApp.swift */; };
 		308BCFF725627CDB009E4DEE /* CitadelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE325627CD8009E4DEE /* CitadelApp.swift */; };
 		308BCFF825627CDB009E4DEE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BCFE425627CD8009E4DEE /* ContentView.swift */; };
@@ -40,13 +44,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		306DD97E258E8F0E00E8C148 /* Embed Frameworks */ = {
+		304DE95825C741F2008FE0A4 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				304DE94125C727DB008FE0A4 /* MyCitadelKit.framework in Embed Frameworks */,
+				304DE95725C741F2008FE0A4 /* MyCitadelKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,7 +68,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		304DE93F25C727DB008FE0A4 /* MyCitadelKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MyCitadelKit.framework; path = "../mycitadel-node/artifacts/ios-arm64/MyCitadelKit.framework"; sourceTree = "<group>"; };
+		304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MyCitadelKit.xcframework; path = "../mycitadel-node/artifacts/MyCitadelKit.xcframework"; sourceTree = "<group>"; };
+		304DE96825C83D3E008FE0A4 /* AssetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsView.swift; sourceTree = "<group>"; };
+		304DE96B25C87021008FE0A4 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
 		308BCFE325627CD8009E4DEE /* CitadelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitadelApp.swift; sourceTree = "<group>"; };
 		308BCFE425627CD8009E4DEE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		308BCFE525627CDB009E4DEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -93,7 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304DE94025C727DB008FE0A4 /* MyCitadelKit.framework in Frameworks */,
+				304DE95625C741F2008FE0A4 /* MyCitadelKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +116,7 @@
 		306DD97A258E8F0E00E8C148 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				304DE93F25C727DB008FE0A4 /* MyCitadelKit.framework */,
+				304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -133,6 +139,7 @@
 				308BD03225631E74009E4DEE /* Sheets */,
 				308BD00A25627DD4009E4DEE /* Model */,
 				308BCFE325627CD8009E4DEE /* CitadelApp.swift */,
+				304DE96825C83D3E008FE0A4 /* AssetsView.swift */,
 				30A6CEB425634F17002F30B0 /* AppView.swift */,
 				308BCFE425627CD8009E4DEE /* ContentView.swift */,
 				308BD0122562810B009E4DEE /* BalancePager.swift */,
@@ -142,6 +149,7 @@
 				308BD0282562A3D9009E4DEE /* TransactionView.swift */,
 				308BCFE525627CDB009E4DEE /* Assets.xcassets */,
 				30A6CEAF2563453E002F30B0 /* WalletList.swift */,
+				304DE96B25C87021008FE0A4 /* AssetView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -201,7 +209,7 @@
 				308BCFE625627CDB009E4DEE /* Sources */,
 				308BCFE725627CDB009E4DEE /* Frameworks */,
 				308BCFE825627CDB009E4DEE /* Resources */,
-				306DD97E258E8F0E00E8C148 /* Embed Frameworks */,
+				304DE95825C741F2008FE0A4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -302,7 +310,9 @@
 				308BD01F256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC325636EC9002F30B0 /* AddKeyring.swift in Sources */,
 				308BD01825628135009E4DEE /* BalanceCard.swift in Sources */,
+				304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				308BD00C25627E21009E4DEE /* DisplayInfo.swift in Sources */,
+				304DE96C25C87021008FE0A4 /* AssetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,7 +332,9 @@
 				308BD020256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC225636EC9002F30B0 /* AddKeyring.swift in Sources */,
 				308BD01925628135009E4DEE /* BalanceCard.swift in Sources */,
+				304DE96A25C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				308BD00D25627E21009E4DEE /* DisplayInfo.swift in Sources */,
+				304DE96D25C87021008FE0A4 /* AssetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

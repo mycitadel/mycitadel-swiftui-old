@@ -40,7 +40,7 @@ struct BalancePager_Previews: PreviewProvider {
         BalancePager(wallet: $dumb.wallet, selection: $selection)
             .previewDevice("iPhone 12 Pro")
             .frame(height: 100.0/*@END_MENU_TOKEN@*/)
-            .environment(\.fiatUoA, "USD")
+            .environment(\.currencyUoA, "USD")
             .preferredColorScheme(.dark)
             
     }
