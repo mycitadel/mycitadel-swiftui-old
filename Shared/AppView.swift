@@ -19,7 +19,7 @@ struct AppView: View {
     enum Sheet {
         case AddAccount
         case AddKeyring
-        case AssetsConfig
+        case ImportAsset
     }
     
     #if !os(macOS)
@@ -39,19 +39,6 @@ struct AppView: View {
     @Binding var data: AppDisplayInfo
     @State private var assets: [AssetDisplayInfo] = []
     
-    func createWallet() {
-        activeSheet = .AddAccount
-        showingSheet = true
-    }
-    func createKeyring() {
-        activeSheet = .AddKeyring
-        showingSheet = true
-    }
-    func assetsConfig() {
-        activeSheet = .AssetsConfig
-        showingSheet = true
-    }
-
     var body: some View {
         List(selection: isEditing ? nil : $selection) {
             Section(header: Text("Accounts")) {
@@ -108,9 +95,9 @@ struct AppView: View {
 
                 if isEditing {
                     Label { Text("Synchronize") } icon: {
-                        Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                        Image(systemName: "arrow.clockwise.circle.fill")
                             .foregroundColor(.blue)
-                    }.onTapGesture { assetsConfig() }
+                    }.onTapGesture { importAsset() }
                 }
             }
 
@@ -143,20 +130,17 @@ struct AppView: View {
                     Section {
                         Button("Add account", action: createWallet)
                         Button("Import account", action: {})
-                        Button("Export account", action: {})
                     }
 
                     Section {
                         Button("New signing key", action: createKeyring)
                         Button("Import keys", action: {})
-                        Button("Export keys", action: {})
 
                     }
                     
                     Section {
-                        Button("Sync assets", action: assetsConfig)
-                        Button("Import assets", action: {})
-                        Button("Export assets", action: {})
+                        Button("Sync assets", action: {})
+                        Button("Import asset", action: importAsset)
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")
@@ -173,8 +157,8 @@ struct AppView: View {
             AddAccountSheet(data: $data)
         } else if activeSheet == .AddKeyring {
             AddKeyringSheet()
-        } else if activeSheet == .AssetsConfig {
-            AssetsSheet()
+        } else if activeSheet == .ImportAsset {
+            Import(importName: "asset", category: .all)
         } else {
             EmptyView()
         }
@@ -185,6 +169,21 @@ struct AppView: View {
             AssetDisplayInfo(withTicker: asset.ticker, name: asset.name, symbol: "bitcoinsign.circle.fill")
         }
         self.assets = a ?? []
+    }
+
+    func createWallet() {
+        activeSheet = .AddAccount
+        showingSheet = true
+    }
+
+    func createKeyring() {
+        activeSheet = .AddKeyring
+        showingSheet = true
+    }
+
+    func importAsset() {
+        activeSheet = .ImportAsset
+        showingSheet = true
     }
 }
 
