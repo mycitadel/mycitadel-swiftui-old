@@ -29,7 +29,7 @@ struct SendReceiveView: View {
             Spacer()
             
             Button(action: {}) {
-                Label("Receive", systemImage: "tray.and.arrow.down.fill")
+                Label("Invoice", systemImage: "scroll")
                     .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                     .foregroundColor(.white)
             }
@@ -39,7 +39,7 @@ struct SendReceiveView: View {
             Spacer()
 
             Button(action: {}) {
-                Label("Send", systemImage: "tray.and.arrow.up.fill")
+                Label("Pay", systemImage: "arrow.up.doc.on.clipboard")
                     .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                     .foregroundColor(.white)
             }

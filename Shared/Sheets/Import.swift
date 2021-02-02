@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CodeScanner
+import MyCitadelKit
 
 struct Import: View {
     public enum Category: String {
@@ -23,24 +24,28 @@ struct Import: View {
     var importName: String
     var category: Category
 
-    @State private var bechString: String = "genesis1fvaldknfv"
+    @State private var bechString: String = ""
+    @State private var recognizedAs: String = "<no data>"
+    @State private var recognitionMessages: [(String, String)] = []
+    @State private var recognitionDetails: [String] = []
+    @State private var recognitionErrors: [String] = []
 
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
                 Label("Enter bech32 \(importName) string:", systemImage: "pencil")
                     .font(.headline)
-                    
 
                 Spacer()
 
                 TextEditor(text: $bechString)
                     .font(.title2)
-                    .lineSpacing(8)
+                    .lineSpacing(6)
                     .autocapitalization(.none)
                     .textContentType(.none)
+                    .disableAutocorrection(true)
                     .padding(0)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
                     .onChange(of: bechString, perform: parseBech32)
                 
                 Text("NB: string must start with \"\(category.rawValue)\"")
@@ -50,15 +55,39 @@ struct Import: View {
 
                 Label("Or scan a QR code:", systemImage: "qrcode.viewfinder")
                     .font(.headline)
-                CodeScannerView(codeTypes: [.qr], simulatedData: "genesis1", completion: parseBechQr)
-                
-                Divider()
-                
-                HStack {
-                    Label("Recognized as:", systemImage: "perspective")
-                        .font(.headline)
-                    Spacer()
-                    Text("RGB genesis")
+                CodeScannerView(codeTypes: [.qr], simulatedData: "genesis1qyfe883hey6jrgj2xvk5g3dfmfqfzm7a4wez4pd2krf7ltsxffd6u6nrvjvvnc8vt9llmp7663pgututl9heuwaudet72ay9j6thc6cetuvhxvsqqya5xjt2w9y4u6sfkuszwwctnrpug5yjxnthmr3mydg05rdrpspcxysnqvvqpfvag2w8jxzzsz9pf8pjfwf0xvln5z7w93yjln3gcnyxsa04jsf2p8vu4sxgppfv0j9qer9wpmqlum5uyzrzwven3euhvknz398yv7n7vvfnxzp26eryuz0vxgueqrftgqxgv90dp3sgxxqkzggryve5s8l0nt94xne7pv6ksln9wj3ekel753vcwhvksuud2037k5lmj2k5cmut4clzfzucds5h4aqt4cx6pyqtqgsqq0e4wu", completion: parseBechQr)
+                    .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
+
+               
+                Group {
+                    HStack {
+                        Label(recognitionErrors.count > 0 ? "Recognition" : "Recognized as", systemImage: "perspective")
+                            .font(.headline)
+                        Spacer()
+                        Text(recognizedAs)
+                            .font(.body)
+                    }
+                    ForEach(recognitionDetails, id: \.self) { detail in
+                        Text(detail)
+                            .font(.subheadline)
+                            .padding(.leading, 32)
+                    }
+                    ForEach(recognitionMessages, id: \.1) { (label, message) in
+                        HStack {
+                            Text(label)
+                                .font(.headline)
+                            Spacer()
+                            Text(message)
+                                .font(.body)
+                        }
+                        .padding(.vertical, 3)
+                        .padding(.leading, 32)
+                    }
+                    ForEach(recognitionErrors, id: \.self) { error in
+                        Text(error)
+                            .font(.subheadline)
+                            .padding(.leading, 32)
+                    }
                 }
             }
             .padding(.all)
@@ -81,12 +110,38 @@ struct Import: View {
         }
     }
     
-    private func parseBech32(value: String) {
-        
+    private func parseBech32(_ bech32: String) {
+        let info = Bech32Info(bech32)
+
+        recognizedAs = info.details.name()
+        switch info.details {
+        case .unknown:
+            recognizedAs = "incorrect data"
+            recognitionMessages = []
+            recognitionDetails = []
+            recognitionErrors = [info.parseReport]
+        case .rgb20Asset(let asset):
+            recognitionDetails = [asset.id]
+            recognitionMessages = [
+                ("Ticker", asset.ticker),
+                ("Name", asset.name),
+                ("Known supply", String(asset.knownCirculatingAssets))
+            ]
+        default: break
+        }
     }
     
     private func parseBechQr(result: Result<String, CodeScannerView.ScanError>) {
-        
+        switch result {
+        case .success(let bech32):
+            parseBech32(bech32)
+            bechString = bech32
+        case .failure(let error):
+            recognizedAs = "incorrect data"
+            recognitionMessages = []
+            recognitionDetails = []
+            recognitionErrors = ["QR error: \(error.localizedDescription)"]
+        }
     }
     
     private func importBech32() {

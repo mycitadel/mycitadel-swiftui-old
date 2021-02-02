@@ -17,9 +17,10 @@ enum Tags: Hashable {
 
 struct AppView: View {
     enum Sheet {
-        case AddAccount
-        case AddKeyring
-        case ImportAsset
+        case addAccount
+        case addKeyring
+        case importAsset
+        case importAnything
     }
     
     #if !os(macOS)
@@ -34,7 +35,7 @@ struct AppView: View {
     }
 
     @State private var showingSheet = false
-    @State private var activeSheet = Sheet.AddAccount
+    @State private var activeSheet = Sheet.addAccount
     @State private var selection: Tags? = nil
     @Binding var data: AppDisplayInfo
     @State private var assets: [AssetDisplayInfo] = []
@@ -125,7 +126,7 @@ struct AppView: View {
             #endif
 
 
-            ToolbarItem(placement: .cancellationAction) {
+            ToolbarItemGroup(placement: .navigationBarLeading) {
                 Menu {
                     Section {
                         Button("Add account", action: createWallet)
@@ -145,6 +146,10 @@ struct AppView: View {
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
+                
+                Button(action: importAnything) {
+                    Image(systemName: "qrcode.viewfinder")
+                }
             }
         })
         .sheet(isPresented: $showingSheet, content: sheetContent)
@@ -153,14 +158,11 @@ struct AppView: View {
     
     @ViewBuilder
     private func sheetContent() -> some View {
-        if activeSheet == .AddAccount {
-            AddAccountSheet(data: $data)
-        } else if activeSheet == .AddKeyring {
-            AddKeyringSheet()
-        } else if activeSheet == .ImportAsset {
-            Import(importName: "asset", category: .all)
-        } else {
-            EmptyView()
+        switch activeSheet {
+        case .addAccount: AddAccountSheet(data: $data)
+        case .addKeyring: AddKeyringSheet()
+        case .importAsset: Import(importName: "asset", category: .genesis)
+        case .importAnything: Import(importName: "anything", category: .all)
         }
     }
     
@@ -172,17 +174,22 @@ struct AppView: View {
     }
 
     func createWallet() {
-        activeSheet = .AddAccount
+        activeSheet = .addAccount
         showingSheet = true
     }
 
     func createKeyring() {
-        activeSheet = .AddKeyring
+        activeSheet = .addKeyring
         showingSheet = true
     }
 
     func importAsset() {
-        activeSheet = .ImportAsset
+        activeSheet = .importAsset
+        showingSheet = true
+    }
+    
+    func importAnything() {
+        activeSheet = .importAnything
         showingSheet = true
     }
 }
