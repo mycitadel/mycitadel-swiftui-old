@@ -161,7 +161,7 @@ struct Import: View {
         do {
             switch info.details {
             case .rgb20Asset(_):
-                let asset = try MyCitadelClient.shared!.importAsset(bech32: bechString)
+                let _ = try MyCitadelClient.shared!.importAsset(bech32: bechString)
             default:
                 break
             }

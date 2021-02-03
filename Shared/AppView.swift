@@ -15,14 +15,14 @@ enum Tags: Hashable {
     case Settings
 }
 
+enum Sheet {
+    case addAccount
+    case addKeyring
+    case importAsset
+    case importAnything
+}
+
 struct AppView: View {
-    enum Sheet {
-        case addAccount
-        case addKeyring
-        case importAsset
-        case importAnything
-    }
-    
     #if !os(macOS)
     @Environment(\.editMode) private var editMode
     #endif
@@ -36,11 +36,12 @@ struct AppView: View {
 
     @Binding var data: AppDisplayInfo
 
+    @State private var assets: [AssetDisplayInfo] = []
+    @State private var selection: Tags? = nil
     @State private var showingSheet = false
     @State private var activeSheet = Sheet.addAccount
-    @State private var selection: Tags? = nil
-    @State private var assets: [AssetDisplayInfo] = []
-    
+    @State private var errorSheet = ErrorSheetConfig()
+
     var body: some View {
         List(selection: isEditing ? nil : $selection) {
             Section(header: Text("Accounts")) {
@@ -61,7 +62,7 @@ struct AppView: View {
                     Label { Text("Create account") } icon: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.green)
-                    }.onTapGesture { createWallet() }
+                    }.onTapGesture(perform: createWallet)
                 }
             }
 
@@ -81,25 +82,26 @@ struct AppView: View {
                     Label { Text("Create signing key") } icon: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.green)
-                    }.onTapGesture { createKeyring() }
+                    }.onTapGesture(perform: createKeyring)
                 }
             }
 
-            Section(header: Text("Assets")) {
-                ForEach(assets, id: \.ticker) { asset in
-                    HStack {
-                        Label(asset.name, systemImage: asset.symbol)
-                        Spacer()
-                        Text(asset.ticker)
-                    }
-                    .tag(Tags.Asset(asset.ticker))
+            Section(header: Text("Main assets")) {
+                ForEach(assets) { asset in
+                    AssetRow(asset: asset)
                 }
+                .onDelete(perform: deleteAsset)
 
                 if isEditing {
                     Label { Text("Synchronize") } icon: {
                         Image(systemName: "arrow.clockwise.circle.fill")
                             .foregroundColor(.blue)
-                    }.onTapGesture { importAsset() }
+                    }.onTapGesture(perform: reloadAssets)
+
+                    Label { Text("Import") } icon: {
+                        Image(systemName: "square.and.arrow.down.fill")
+                            .foregroundColor(.blue)
+                    }.onTapGesture(perform: importAsset)
                 }
             }
 
@@ -153,8 +155,9 @@ struct AppView: View {
                 }
             }
         })
-        .sheet(isPresented: $showingSheet, content: sheetContent)
-        .onAppear(perform: load)
+        .sheet(isPresented: $showingSheet, onDismiss: reloadData, content: sheetContent)
+        .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
+        .onAppear(perform: reloadData)
     }
     
     @ViewBuilder
@@ -167,29 +170,40 @@ struct AppView: View {
         }
     }
     
-    private func load() {
-        let a = try? MyCitadelClient.shared?.refreshAssets().map(AssetDisplayInfo.init)
-        self.assets = a ?? []
+    private func reloadData() {
+        reloadAssets()
+    }
+    
+    private func reloadAssets() {
+        do {
+            assets = try MyCitadelClient.shared.refreshAssets().map(AssetDisplayInfo.init)
+        } catch {
+            errorSheet.present(error)
+        }
     }
 
-    func createWallet() {
+    private func createWallet() {
         activeSheet = .addAccount
         showingSheet = true
     }
 
-    func createKeyring() {
+    private func createKeyring() {
         activeSheet = .addKeyring
         showingSheet = true
     }
 
-    func importAsset() {
+    private func importAsset() {
         activeSheet = .importAsset
         showingSheet = true
     }
     
-    func importAnything() {
+    private func importAnything() {
         activeSheet = .importAnything
         showingSheet = true
+    }
+    
+    private func deleteAsset(indexSet: IndexSet) {
+        reloadAssets()
     }
 }
 

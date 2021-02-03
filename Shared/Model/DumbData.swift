@@ -60,7 +60,8 @@ struct DumbData {
 
     init() {
         let btc = AssetDisplayInfo(
-            withTicker: "BTC",
+            withId: "BTC",
+            ticker: "BTC",
             name: "Bitcoin (onchain)",
             symbol: "bitcoinsign.circle.fill",
             category: .bitcoin,
@@ -69,7 +70,8 @@ struct DumbData {
         )
 
         let shares = AssetDisplayInfo(
-            withTicker: "PAN",
+            withId: "PAN",
+            ticker: "PAN",
             name: "Pandora Core",
             symbol: "arrowtriangle.down.circle.fill",
             category: .security,
@@ -78,7 +80,8 @@ struct DumbData {
         )
 
         let usdt = AssetDisplayInfo(
-            withTicker: "USDT",
+            withId: "USDT",
+            ticker: "USDT",
             name: "US Dollar Tether",
             symbol: "dollarsign.circle.fill",
             category: .stablecoin,
@@ -87,7 +90,8 @@ struct DumbData {
         )
 
         let btcn = AssetDisplayInfo(
-            withTicker: "BTC*",
+            withId: "BTC*",
+            ticker: "BTC*",
             name: "Bitcoin (RGB)",
             symbol: "bitcoinsign.circle.fill",
             category: .bitcoin,
@@ -96,7 +100,8 @@ struct DumbData {
         )
 
         let lnpbp = AssetDisplayInfo(
-            withTicker: "LNP/BP",
+            withId: "LNP/BP",
+            ticker: "LNP/BP",
             name: "LNP/BP Sponsor",
             symbol: "arrowtriangle.down",
             category: .collectible,

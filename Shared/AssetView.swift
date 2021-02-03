@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AssetView: View {
-    @Binding var asset: AssetDisplayInfo
+    let assetId: String
 
     var body: some View {
         Text("Hello, World!")
@@ -16,9 +16,7 @@ struct AssetView: View {
 }
 
 struct AssetView_Previews: PreviewProvider {
-    @State static var dumbData = DumbData().data.assets.first!
-
     static var previews: some View {
-        AssetView(asset: $dumbData)
+        AssetView(assetId: "BTC")
     }
 }

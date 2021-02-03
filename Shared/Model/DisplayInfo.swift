@@ -8,6 +8,8 @@
 import SwiftUI
 import MyCitadelKit
 
+// TODO: Move this to MyCitadelKit
+
 public class AppDisplayInfo: ObservableObject {
     @Published public var wallets: [AccountDisplayInfo]
     @Published public var keyrings: [KeyringDisplayInfo]
@@ -165,7 +167,9 @@ public enum AssetCategory {
 }
 
 public class AssetDisplayInfo: ObservableObject, Identifiable {
+
     // These are parts of the genesis
+    public let id: String
     public let ticker: String
     public let name: String
     public let details: String? = nil
@@ -182,11 +186,12 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
     }
     
     public convenience init(withAsset asset: RGB20Asset) {
-        self.init(withTicker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.fractionalBits)
+        self.init(withId: asset.id, ticker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.fractionalBits)
     }
 
-    public init(withTicker ticker: String, name: String, symbol: String, category: AssetCategory = .security,
+    public init(withId id: String, ticker: String, name: String, symbol: String, category: AssetCategory = .security,
                 precision: UInt8 = 8, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1) {
+        self.id = id
         self.ticker = ticker
         self.name = name
         self.symbol = symbol
@@ -228,7 +233,7 @@ public class BalanceDisplayInfo: AssetDisplayInfo {
     public init(withAsset asset: AssetDisplayInfo, balance: Float = 0) {
         atomicBalance = asset.transmutate(accounting: balance)
         super.init(
-            withTicker: asset.ticker, name: asset.name, symbol: asset.symbol, category: asset.category,
+            withId: asset.id, ticker: asset.ticker, name: asset.name, symbol: asset.symbol, category: asset.category,
             precision: asset.precision, btcRate: asset.btcRate, fiatRate: asset.fiatRate
         )
     }

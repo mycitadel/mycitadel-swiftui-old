@@ -42,6 +42,8 @@
 		30A6CEC725636ECC002F30B0 /* Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEC625636ECC002F30B0 /* Import.swift */; };
 		30A6CEC825636ECC002F30B0 /* Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A6CEC625636ECC002F30B0 /* Import.swift */; };
 		30A6CED325648935002F30B0 /* BalancePager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD0122562810B009E4DEE /* BalancePager.swift */; };
+		30A82FAF25CB32E2002EFA31 /* SheetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */; };
+		30A82FB025CB32E2002EFA31 /* SheetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,6 +95,7 @@
 		30A6CEB425634F17002F30B0 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		30A6CEC125636EC9002F30B0 /* AddKeyring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyring.swift; sourceTree = "<group>"; };
 		30A6CEC625636ECC002F30B0 /* Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Import.swift; sourceTree = "<group>"; };
+		30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +148,6 @@
 				308BCFE425627CD8009E4DEE /* ContentView.swift */,
 				308BD0122562810B009E4DEE /* BalancePager.swift */,
 				308BD01725628135009E4DEE /* BalanceCard.swift */,
-				308BD01E256282B3009E4DEE /* DumbData.swift */,
 				308BD0232562A258009E4DEE /* WalletView.swift */,
 				308BD0282562A3D9009E4DEE /* TransactionView.swift */,
 				308BCFE525627CDB009E4DEE /* Assets.xcassets */,
@@ -186,6 +188,7 @@
 		308BD00A25627DD4009E4DEE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				308BD01E256282B3009E4DEE /* DumbData.swift */,
 				308BD00B25627E21009E4DEE /* DisplayInfo.swift */,
 			);
 			path = Model;
@@ -197,6 +200,7 @@
 				30A6CEC625636ECC002F30B0 /* Import.swift */,
 				30A6CEC125636EC9002F30B0 /* AddKeyring.swift */,
 				308BD03325631E8A009E4DEE /* AddAccount.swift */,
+				30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */,
 			);
 			path = Sheets;
 			sourceTree = "<group>";
@@ -317,6 +321,7 @@
 				30A6CEBA256351A1002F30B0 /* AppView.swift in Sources */,
 				308BD01F256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC325636EC9002F30B0 /* AddKeyring.swift in Sources */,
+				30A82FAF25CB32E2002EFA31 /* SheetConfig.swift in Sources */,
 				308BD01825628135009E4DEE /* BalanceCard.swift in Sources */,
 				304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				308BD00C25627E21009E4DEE /* DisplayInfo.swift in Sources */,
@@ -339,6 +344,7 @@
 				308BD0252562A258009E4DEE /* WalletView.swift in Sources */,
 				308BD020256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC225636EC9002F30B0 /* AddKeyring.swift in Sources */,
+				30A82FB025CB32E2002EFA31 /* SheetConfig.swift in Sources */,
 				308BD01925628135009E4DEE /* BalanceCard.swift in Sources */,
 				304DE96A25C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				308BD00D25627E21009E4DEE /* DisplayInfo.swift in Sources */,
