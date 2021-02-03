@@ -29,6 +29,9 @@ struct Import: View {
     @State private var recognitionMessages: [(String, String)] = []
     @State private var recognitionDetails: [String] = []
     @State private var recognitionErrors: [String] = []
+    @State private var canImport: Bool = false
+    @State private var errorSheet: Bool = false
+    @State private var errorMessage: String = ""
 
     var body: some View {
         NavigationView {
@@ -105,20 +108,26 @@ struct Import: View {
                     Button(action: importBech32) {
                         Text("Import")
                     }
+                    .disabled(!canImport)
                 }
             }
+            .alert(isPresented: $errorSheet, content: {
+                Alert(title: Text("Error during import"), message: Text(errorMessage), dismissButton: .cancel())
+            })
         }
     }
     
     private func parseBech32(_ bech32: String) {
         let info = Bech32Info(bech32)
 
+        canImport = false
         recognizedAs = info.details.name()
+        recognitionMessages = []
+        recognitionDetails = []
+
         switch info.details {
         case .unknown:
             recognizedAs = "incorrect data"
-            recognitionMessages = []
-            recognitionDetails = []
             recognitionErrors = [info.parseReport]
         case .rgb20Asset(let asset):
             recognitionDetails = [asset.id]
@@ -127,6 +136,7 @@ struct Import: View {
                 ("Name", asset.name),
                 ("Known supply", String(asset.knownCirculatingAssets))
             ]
+            canImport = true
         default: break
         }
     }
@@ -134,10 +144,12 @@ struct Import: View {
     private func parseBechQr(result: Result<String, CodeScannerView.ScanError>) {
         switch result {
         case .success(let bech32):
-            parseBech32(bech32)
             bechString = bech32
+            parseBech32(bech32)
+            canImport = true
         case .failure(let error):
             recognizedAs = "incorrect data"
+            canImport = false
             recognitionMessages = []
             recognitionDetails = []
             recognitionErrors = ["QR error: \(error.localizedDescription)"]
@@ -145,7 +157,19 @@ struct Import: View {
     }
     
     private func importBech32() {
-        
+        let info = Bech32Info(bechString)
+        do {
+            switch info.details {
+            case .rgb20Asset(_):
+                let asset = try MyCitadelClient.shared!.importAsset(bech32: bechString)
+            default:
+                break
+            }
+            self.presentationMode.wrappedValue.dismiss()
+        } catch {
+            errorSheet = true
+            errorMessage = error.localizedDescription
+        }
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
 struct AssetsView: View {
     #if !os(macOS)
@@ -19,16 +20,30 @@ struct AssetsView: View {
         #endif
     }
 
-    @Binding var assets: [AssetDisplayInfo]
-
+    @State private var assets: [AssetDisplayInfo] = []
     @State private var filterClass: Int = 0
     @State private var filterBalance: Int = 0
     @State private var sortField: Int = 0
     @State private var sortOrder: Int = 0
+    @State private var showingSheet: Bool = false
+    @State private var errorSheet: Bool = false
+    @State private var errorMessage: String = ""
 
     var body: some View {
         List {
-            AssetsList(assets: $assets)
+            ForEach(assets.indices) { idx in
+                NavigationLink(destination: AssetView(asset: $assets[idx])) {
+                    HStack {
+                        Label(assets[idx].name, systemImage: assets[idx].symbol)
+                        Spacer()
+                        Text(assets[idx].ticker)
+                    }
+                }
+                .tag(Tags.Asset(assets[idx].ticker))
+            }
+            .onDelete(perform: { indexSet in
+                assets.remove(atOffsets: indexSet)
+            })
 
             if isEditing {
                 Label { Text("Synchronize") } icon: {
@@ -101,46 +116,35 @@ struct AssetsView: View {
                 EditButton()
             }
         }
+        .sheet(isPresented: $showingSheet) {
+            Import(importName: "asset", category: .genesis).onDisappear(perform: assetsSync)
+        }
+        .alert(isPresented: $errorSheet, content: {
+            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .cancel())
+        })
         .onAppear(perform: onAppear)
     }
     
     private func onAppear() {
-        
+        assetsSync()
     }
     
     private func importAsset() {
-        
+        self.showingSheet = true
     }
     
     private func assetsSync() {
-        
-    }
-}
-
-struct AssetsList: View {
-    @Binding var assets: [AssetDisplayInfo]
-
-    var body: some View {
-        ForEach(assets.indices) { idx in
-            NavigationLink(destination: AssetView(asset: $assets[idx])) {
-                HStack {
-                    Label(assets[idx].name, systemImage: assets[idx].symbol)
-                    Spacer()
-                    Text(assets[idx].ticker)
-                }
-            }
-            .tag(Tags.Asset(assets[idx].ticker))
+        do {
+            assets = try MyCitadelClient.shared?.refreshAssets().map(AssetDisplayInfo.init) ?? []
+        } catch {
+            errorSheet = true
+            errorMessage = error.localizedDescription
         }
-        .onDelete(perform: { indexSet in
-            assets.remove(atOffsets: indexSet)
-        })
     }
 }
 
 struct AssetsView_Previews: PreviewProvider {
-    @State static var dumbData = DumbData().data.assets
-
     static var previews: some View {
-        AssetsView(assets: $dumbData)
+        AssetsView()
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
 public class AppDisplayInfo: ObservableObject {
     @Published public var wallets: [AccountDisplayInfo]
@@ -180,6 +181,10 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
         Gradient(colors: [self.category.primaryColor(), self.category.secondaryColor()])
     }
     
+    public convenience init(withAsset asset: RGB20Asset) {
+        self.init(withTicker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.fractionalBits)
+    }
+
     public init(withTicker ticker: String, name: String, symbol: String, category: AssetCategory = .security,
                 precision: UInt8 = 8, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1) {
         self.ticker = ticker

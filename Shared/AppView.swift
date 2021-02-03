@@ -34,10 +34,11 @@ struct AppView: View {
         #endif
     }
 
+    @Binding var data: AppDisplayInfo
+
     @State private var showingSheet = false
     @State private var activeSheet = Sheet.addAccount
     @State private var selection: Tags? = nil
-    @Binding var data: AppDisplayInfo
     @State private var assets: [AssetDisplayInfo] = []
     
     var body: some View {
@@ -84,8 +85,8 @@ struct AppView: View {
                 }
             }
 
-            Section(header: Text("Assets with balance")) {
-                ForEach(data.assets, id: \.ticker) { asset in
+            Section(header: Text("Assets")) {
+                ForEach(assets, id: \.ticker) { asset in
                     HStack {
                         Label(asset.name, systemImage: asset.symbol)
                         Spacer()
@@ -102,7 +103,7 @@ struct AppView: View {
                 }
             }
 
-            NavigationLink(destination: AssetsView(assets: $data.assets)) {
+            NavigationLink(destination: AssetsView()) {
                 Text("All known assets")
                     .font(.headline)
             }
@@ -167,9 +168,7 @@ struct AppView: View {
     }
     
     private func load() {
-        let a = try? MyCitadelClient.shared?.refreshAssets().map { asset in
-            AssetDisplayInfo(withTicker: asset.ticker, name: asset.name, symbol: "bitcoinsign.circle.fill")
-        }
+        let a = try? MyCitadelClient.shared?.refreshAssets().map(AssetDisplayInfo.init)
         self.assets = a ?? []
     }
 
