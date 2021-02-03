@@ -157,7 +157,7 @@ struct AssetRow: View {
     var asset: AssetDisplayInfo
     
     var body: some View {
-        NavigationLink(destination: AssetView(assetId: asset.id)) {
+        NavigationLink(destination: AssetView(asset: asset)) {
             HStack {
                 Label(asset.name, systemImage: asset.symbol)
                 Spacer()

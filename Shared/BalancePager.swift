@@ -22,8 +22,10 @@ struct BalancePager: View {
     var body: some View {
         TabView(selection: $selection) {
             ForEach(wallet.assets, id: \.ticker) { asset in
-                BalanceCard(asset: asset)
-                    .tag(asset.ticker)
+                NavigationLink(destination: AssetView(asset: asset)) {
+                    AssetCard(asset: asset)
+                        .tag(asset.ticker)
+                }
             }
             .padding()
         }

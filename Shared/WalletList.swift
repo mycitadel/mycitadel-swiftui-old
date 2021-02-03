@@ -14,7 +14,7 @@ struct WalletList: View {
         List {
             ForEach(wallet.assets, id: \.ticker) { asset in
                 ZStack {
-                    BalanceCard(asset: asset)
+                    AssetCard(asset: asset)
                         .frame(width: nil, height: 125, alignment: .center)
                         .padding(4)
                     NavigationLink(destination: TransactionView(wallet: wallet, ticker: asset.ticker)) {

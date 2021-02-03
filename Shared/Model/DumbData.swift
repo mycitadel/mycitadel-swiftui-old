@@ -34,7 +34,7 @@ extension TransactionDisplayInfo {
     }
 }
 
-extension BalanceDisplayInfo {
+extension AssetDisplayInfo {
     public convenience init(randomWithAsset asset: AssetDisplayInfo, useSmallBalance isSmall: Bool = false) {
         let balance = Float.random(in: isSmall ? 0.95...166.6 : 1000...10000) / asset.fiatRate
         self.init(withAsset: asset, balance: balance)
@@ -45,7 +45,7 @@ extension AccountDisplayInfo {
     public convenience init(randomWithAssets assets: [AssetDisplayInfo], named name: String,
                             contract: AccountContract, useSmallBalance isSmall: Bool = false) {
         let balances = assets.map { asset in
-            BalanceDisplayInfo(randomWithAsset: asset, useSmallBalance: isSmall)
+            AssetDisplayInfo(randomWithAsset: asset, useSmallBalance: isSmall)
         }
         let transactions = (0...Int.random(in: 20...40)).map { _ in
             TransactionDisplayInfo(randomWithAsset: assets.randomElement()!)
@@ -62,9 +62,11 @@ struct DumbData {
         let btc = AssetDisplayInfo(
             withId: "BTC",
             ticker: "BTC",
-            name: "Bitcoin (onchain)",
+            name: "Bitcoin",
             symbol: "bitcoinsign.circle.fill",
             category: .bitcoin,
+            issuer: "Proof of work blockchain",
+            verified: true,
             btcRate: 1,
             fiatRate: 10_000
         )

@@ -117,7 +117,7 @@ public class AccountDisplayInfo: ObservableObject, Identifiable {
     public let id: UUID = UUID()
     public let contract: AccountContract
     @Published var name: String
-    @Published var assets: [BalanceDisplayInfo]
+    @Published var assets: [AssetDisplayInfo]
     @Published var transactions: [TransactionDisplayInfo]
     
     public var imageName: String {
@@ -132,7 +132,7 @@ public class AccountDisplayInfo: ObservableObject, Identifiable {
         }
     }
     
-    public init(named name: String, havingAssets assets: [BalanceDisplayInfo] = [],
+    public init(named name: String, havingAssets assets: [AssetDisplayInfo] = [],
                 transactions: [TransactionDisplayInfo] = [], contract: AccountContract = .current(CurrentContract())) {
         self.name = name
         self.contract = contract
@@ -174,43 +174,15 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
     public let name: String
     public let details: String? = nil
     public let precision: UInt8
-    public let category: AssetCategory // Derived from schema id
 
     // These are not parts of the genesis and purely UI related
-    public let symbol: String
+    public var symbol: String
+    public var category: AssetCategory // Derived from schema id
+    public var issuer: String
+    public var verified: Bool
+    
     @Published public var btcRate: Float
     @Published public var fiatRate: Float
-
-    public var gradient: Gradient {
-        Gradient(colors: [self.category.primaryColor(), self.category.secondaryColor()])
-    }
-    
-    public convenience init(withAsset asset: RGB20Asset) {
-        self.init(withId: asset.id, ticker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.fractionalBits)
-    }
-
-    public init(withId id: String, ticker: String, name: String, symbol: String, category: AssetCategory = .security,
-                precision: UInt8 = 8, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1) {
-        self.id = id
-        self.ticker = ticker
-        self.name = name
-        self.symbol = symbol
-        self.category = category
-        self.precision = precision
-        self.btcRate = btcRate
-        self.fiatRate = fiatRate
-    }
-    
-    public func transmutate(atomic: UInt64) -> Float {
-        Float(atomic) / pow(Float(10), Float(precision))
-    }
-
-    public func transmutate(accounting: Float) -> UInt64 {
-        UInt64(accounting * pow(Float(10), Float(precision)))
-    }
-}
-
-public class BalanceDisplayInfo: AssetDisplayInfo {
     @Published public var atomicBalance: UInt64
 
     public var balance: Float {
@@ -229,13 +201,61 @@ public class BalanceDisplayInfo: AssetDisplayInfo {
     public var fiatBalance: Float {
         self.balance * self.fiatRate
     }
-        
-    public init(withAsset asset: AssetDisplayInfo, balance: Float = 0) {
-        atomicBalance = asset.transmutate(accounting: balance)
-        super.init(
+
+    public var gradient: Gradient {
+        Gradient(colors: [self.category.primaryColor(), self.category.secondaryColor()])
+    }
+    
+    public var verifiedSymbol: String {
+        verified ? "checkmark.seal.fill" : "xmark.seal"
+    }
+    
+    public var verifiedImage: some View {
+        Image(systemName: verifiedSymbol)
+            .foregroundColor(verified ? .green : .orange)
+    }
+    
+    public var issuerLabel: some View {
+        HStack(alignment: .center) {
+            Text(issuer)
+            verifiedImage.shadow(color: .white, radius: 3, x: 0, y: 0)
+        }
+    }
+
+    public init(withId id: String, ticker: String, name: String, symbol: String, category: AssetCategory = .security,
+                issuer: String = "unknown issuer", verified: Bool = false,
+                precision: UInt8 = 8, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1, balance: UInt64 = 0) {
+        self.id = id
+        self.ticker = ticker
+        self.name = name
+        self.symbol = symbol
+        self.category = category
+        self.issuer = issuer
+        self.verified = verified
+        self.precision = precision
+        self.btcRate = btcRate
+        self.fiatRate = fiatRate
+        self.atomicBalance = 0
+    }
+    
+    public convenience init(withAsset asset: RGB20Asset) {
+        self.init(withId: asset.id, ticker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.fractionalBits)
+    }
+    
+    public convenience init(withAsset asset: AssetDisplayInfo, balance: Float = 0) {
+        self.init(
             withId: asset.id, ticker: asset.ticker, name: asset.name, symbol: asset.symbol, category: asset.category,
             precision: asset.precision, btcRate: asset.btcRate, fiatRate: asset.fiatRate
         )
+        atomicBalance = asset.transmutate(accounting: balance)
+    }
+
+    public func transmutate(atomic: UInt64) -> Float {
+        Float(atomic) / pow(Float(10), Float(precision))
+    }
+
+    public func transmutate(accounting: Float) -> UInt64 {
+        UInt64(accounting * pow(Float(10), Float(precision)))
     }
 }
 

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct BalanceCard: View {
-    @ObservedObject var asset: BalanceDisplayInfo
+struct AssetCard: View {
+    @ObservedObject var asset: AssetDisplayInfo
     @Environment(\.currencyUoA) var fiatUoA: String
     
     var body: some View {
@@ -20,15 +20,21 @@ struct BalanceCard: View {
                 .opacity(0.33)
                 .offset(x: -33, y: -33)
             VStack(alignment: .leading) {
-                Text(asset.name).font(.headline)
-                Spacer()
-                Text("\(asset.balance, specifier: "%.2f") \(asset.ticker)").font(.largeTitle)
+                Text(asset.name).font(.title)
                 Spacer()
                 HStack {
-                    Text("\(asset.fiatBalance, specifier: "%.2f") \(fiatUoA)")
+                    Text("\(asset.balance, specifier: "%.2f") \(asset.ticker)").font(.largeTitle)
                     Spacer()
-                    Text("\(asset.btcBalance, specifier:"%.6f") BTC")
-                }.font(.footnote)
+                    VStack(alignment: .trailing) {
+                        Text("\(asset.fiatBalance, specifier: "%.2f") \(fiatUoA)")
+                        Text("\(asset.btcBalance, specifier:"%.6f") BTC")
+                    }.font(.footnote)
+                }
+                Spacer()
+                HStack {
+                    Spacer()
+                    asset.issuerLabel.font(.headline)
+                }
             }
             .foregroundColor(.black)
         }
@@ -36,5 +42,11 @@ struct BalanceCard: View {
         .background(RadialGradient(gradient: asset.gradient, center: .topLeading, startRadius: 66.6, endRadius: 313))
         .cornerRadius(13)
         .shadow(radius: 6.66)
+    }
+}
+
+struct AssetCard_Previews: PreviewProvider {
+    static var previews: some View {
+        AssetCard(asset: DumbData.init().data.assets[0])
     }
 }
