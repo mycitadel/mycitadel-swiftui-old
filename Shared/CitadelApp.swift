@@ -7,16 +7,18 @@
 
 import SwiftUI
 import MyCitadelKit
+import CoreImage.CIFilterBuiltins
 
 public func generateQRCode(from string: String) -> Image {
-    let data = string.data(using: String.Encoding.ascii)
+    let context = CIContext()
+    let filter = CIFilter.qrCodeGenerator()
+    let data = Data(string.utf8)
+    
+    filter.setValue(data, forKey: "inputMessage")
 
-    if let filter = CIFilter(name: "CIQRCodeGenerator") {
-        filter.setValue(data, forKey: "inputMessage")
-        let transform = CGAffineTransform(scaleX: 3, y: 3)
-
-        if let output = filter.outputImage?.transformed(by: transform) {
-            return Image(uiImage: UIImage(ciImage: output))
+    if let outputImage = filter.outputImage {
+        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+            return Image(uiImage: UIImage(cgImage: cgimg))
         }
     }
 

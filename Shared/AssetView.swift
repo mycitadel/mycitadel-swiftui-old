@@ -96,9 +96,12 @@ struct AssetView: View {
                 DetailsCell(title: "Replacement of lost assets", details: "impossible")
             }
             
-            Section(footer: Text("Use QR code to share the asset profile")) {
+            Section(footer: Text("Use QR code to share the asset genesis")) {
                 generateQRCode(from: asset.genesis)
-                    .aspectRatio(1.5, contentMode: .fit)
+                    .interpolation(.none)
+                    .resizable()
+                    .scaledToFit()
+                    .aspectRatio(1, contentMode: .fit)
             }
             
             Label("More on information sources", systemImage: "info.circle")

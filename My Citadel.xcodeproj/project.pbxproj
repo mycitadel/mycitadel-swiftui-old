@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3007B65525CB783300C936DD /* CreateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65425CB783300C936DD /* CreateAccount.swift */; };
+		3007B65625CB783300C936DD /* CreateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65425CB783300C936DD /* CreateAccount.swift */; };
 		304DE95625C741F2008FE0A4 /* MyCitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; };
 		304DE95725C741F2008FE0A4 /* MyCitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96825C83D3E008FE0A4 /* AssetsView.swift */; };
@@ -71,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3007B65425CB783300C936DD /* CreateAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccount.swift; sourceTree = "<group>"; };
 		304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MyCitadelKit.xcframework; path = "../mycitadel-node/artifacts/MyCitadelKit.xcframework"; sourceTree = "<group>"; };
 		304DE96825C83D3E008FE0A4 /* AssetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsView.swift; sourceTree = "<group>"; };
 		304DE96B25C87021008FE0A4 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
@@ -201,6 +204,7 @@
 				30A6CEC125636EC9002F30B0 /* AddKeyring.swift */,
 				308BD03325631E8A009E4DEE /* AddAccount.swift */,
 				30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */,
+				3007B65425CB783300C936DD /* CreateAccount.swift */,
 			);
 			path = Sheets;
 			sourceTree = "<group>";
@@ -324,6 +328,7 @@
 				30A82FAF25CB32E2002EFA31 /* SheetConfig.swift in Sources */,
 				308BD01825628135009E4DEE /* AssetCard.swift in Sources */,
 				304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */,
+				3007B65525CB783300C936DD /* CreateAccount.swift in Sources */,
 				308BD00C25627E21009E4DEE /* DisplayInfo.swift in Sources */,
 				304DE96C25C87021008FE0A4 /* AssetView.swift in Sources */,
 			);
@@ -347,6 +352,7 @@
 				30A82FB025CB32E2002EFA31 /* SheetConfig.swift in Sources */,
 				308BD01925628135009E4DEE /* AssetCard.swift in Sources */,
 				304DE96A25C83D3E008FE0A4 /* AssetsView.swift in Sources */,
+				3007B65625CB783300C936DD /* CreateAccount.swift in Sources */,
 				308BD00D25627E21009E4DEE /* DisplayInfo.swift in Sources */,
 				304DE96D25C87021008FE0A4 /* AssetView.swift in Sources */,
 			);

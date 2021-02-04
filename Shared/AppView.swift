@@ -147,7 +147,7 @@ struct AppView: View {
                         Button("Import asset", action: importAsset)
                     }
                 } label: {
-                    Image(systemName: "ellipsis.circle")
+                    Image(systemName: "plus")
                 }
                 
                 Button(action: importAnything) {
@@ -163,7 +163,7 @@ struct AppView: View {
     @ViewBuilder
     private func sheetContent() -> some View {
         switch activeSheet {
-        case .addAccount: AddAccountSheet(data: $data)
+        case .addAccount: CreateAccount()
         case .addKeyring: AddKeyringSheet()
         case .importAsset: Import(importName: "asset", category: .genesis)
         case .importAnything: Import(importName: "anything", category: .all)
@@ -215,13 +215,17 @@ struct AppView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            AppView(data: $dumbData)
-                .previewDevice("iPhone 12 Pro")
+            NavigationView {
+                AppView(data: $dumbData)
+                    .previewDevice("iPhone 12 Pro")
+            }
             #if !os(macOS)
-            AppView(data: $dumbData)
-                .preferredColorScheme(.dark)
-                .environment(\.editMode, $editMode)
-                .previewDevice("iPhone 12 Pro")
+            NavigationView {
+                AppView(data: $dumbData)
+                    .preferredColorScheme(.dark)
+                    .environment(\.editMode, $editMode)
+                    .previewDevice("iPhone 12 Pro")
+            }
             #endif
         }
     }

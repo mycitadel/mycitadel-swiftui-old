@@ -15,8 +15,6 @@ extension NSColor {
 #endif
 
 struct AddAccountSheet: View {
-    @Binding var data: AppDisplayInfo
-
     @State private var name: String = ""
     @State private var miniscript: String = ""
     @State private var scripting = WalletScripting.publicKey
@@ -37,102 +35,101 @@ struct AddAccountSheet: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section {
-                    TextField("Account name", text: $name)
-                }
+        Form {
+            Section {
+                TextField("Account name", text: $name)
+            }
+            
+            Section(header: Picker(selection: $scripting, label: EmptyView()) {
+                Text("Single key").tag(WalletScripting.publicKey)
+                Text("Multisig").tag(WalletScripting.multisig)
+                Text("Miniscript").tag(WalletScripting.miniscript)
+            }) {
                 
-                Section(header: Picker(selection: $scripting, label: EmptyView()) {
-                    Text("Single key").tag(WalletScripting.publicKey)
-                    Text("Multisig").tag(WalletScripting.multisig)
-                    Text("Miniscript").tag(WalletScripting.miniscript)
-                }) {
-                    
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                
-                switch scripting {
-                case .publicKey:
-                    EmptyView()
-                case .multisig:
-                    Section(header: Text("Multisig composition:")) {
-                        GroupBox {
-                            Stepper(value: $signingKeysCount, in: 1...totalKeysCount) {
-                                Text("Require \(signingKeysCount) signatures")
-                            }
-                            Stepper(value: $totalKeysCount, in: 1...16) {
-                                Text("from a set of \(totalKeysCount) keys")
-                            }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
+            switch scripting {
+            case .publicKey:
+                EmptyView()
+            case .multisig:
+                Section(header: Text("Multisig composition:")) {
+                    GroupBox {
+                        Stepper(value: $signingKeysCount, in: 1...totalKeysCount) {
+                            Text("Require \(signingKeysCount) signatures")
                         }
-                    }
-                case .miniscript:
-                    Section(header: Text("Type in miniscript:")) {
-                        TextEditor(text: $miniscript)
-                            .lineLimit(10)
-                            .frame(minHeight: 130)
+                        Stepper(value: $totalKeysCount, in: 1...16) {
+                            Text("from a set of \(totalKeysCount) keys")
+                        }
                     }
                 }
-                
-                Section(header: Text("Allowed descriptors")) {
-                    Toggle(isOn: $isBare) {
-                        VStack(alignment: .leading) {
-                            Text("Bare script")
-                            Text("pk, bare")
-                                .font(.footnote)
-                                .foregroundColor(Color(UIColor.secondaryLabel))
-                        }
+            case .miniscript:
+                Section(header: Text("Type in miniscript:")) {
+                    TextEditor(text: $miniscript)
+                        .lineLimit(10)
+                        .frame(minHeight: 130)
+                }
+            }
+            
+            Section(header: Text("Allowed descriptors")) {
+                Toggle(isOn: $isBare) {
+                    VStack(alignment: .leading) {
+                        Text("Bare script")
+                        Text("pk, bare")
+                            .font(.footnote)
+                            .foregroundColor(Color(UIColor.secondaryLabel))
                     }
-                    Toggle(isOn: $isLegacy) {
-                        VStack(alignment: .leading) {
-                            Text("Legacy non-SegWit")
-                            Text("pkh, sh")
-                                .font(.footnote)
-                                .foregroundColor(Color(UIColor.secondaryLabel))
-                        }
+                }
+                Toggle(isOn: $isLegacy) {
+                    VStack(alignment: .leading) {
+                        Text("Legacy non-SegWit")
+                        Text("pkh, sh")
+                            .font(.footnote)
+                            .foregroundColor(Color(UIColor.secondaryLabel))
                     }
-                    Toggle(isOn: $isSegWitLegacy) {
-                        VStack(alignment: .leading) {
-                            Text("Legacy SegWit")
-                            Text("sh(wpkh), sh(wsh)")
-                                .font(.footnote)
-                                .foregroundColor(Color(UIColor.secondaryLabel))
-                        }
+                }
+                Toggle(isOn: $isSegWitLegacy) {
+                    VStack(alignment: .leading) {
+                        Text("Legacy SegWit")
+                        Text("sh(wpkh), sh(wsh)")
+                            .font(.footnote)
+                            .foregroundColor(Color(UIColor.secondaryLabel))
                     }
-                    Toggle(isOn: $isSegWit) {
-                        VStack(alignment: .leading) {
-                            Text("SegWit v0")
-                            Text("wpkh, wsh")
-                                .font(.footnote)
-                                .foregroundColor(Color(UIColor.secondaryLabel))
-                        }
+                }
+                Toggle(isOn: $isSegWit) {
+                    VStack(alignment: .leading) {
+                        Text("SegWit v0")
+                        Text("wpkh, wsh")
+                            .font(.footnote)
+                            .foregroundColor(Color(UIColor.secondaryLabel))
                     }
-                    Toggle(isOn: $isTaproot) {
-                        VStack(alignment: .leading) {
-                            Text("Taproot (SegWit v1)")
-                        }
+                }
+                Toggle(isOn: $isTaproot) {
+                    VStack(alignment: .leading) {
+                        Text("Taproot (SegWit v1)")
                     }
                 }
             }
-            .frame(minWidth: 266, idealWidth: 333, minHeight: 444, idealHeight: 666, alignment: .topLeading)
-            .padding(extraPadding)
-            .navigationTitle("New account")
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(action: {
-                        data.wallets.append(AccountDisplayInfo(named: name, havingAssets: [], transactions: []))
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Create").bold()
-                    }
+        }
+        .frame(minWidth: 266, idealWidth: 333, minHeight: 444, idealHeight: 666, alignment: .topLeading)
+        .padding(extraPadding)
+        .navigationTitle("New account")
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(action: {
+                    // data.wallets.append(AccountDisplayInfo(named: name, havingAssets: [], transactions: []))
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Create").bold()
                 }
+            }
 
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Cancel")
-                    }
+            ToolbarItem(placement: .cancellationAction) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Cancel")
                 }
             }
         }
@@ -140,10 +137,10 @@ struct AddAccountSheet: View {
 }
 
 struct AddAccountSheet_Previews: PreviewProvider {
-    @State static var dumb_data = DumbData().data
-
     static var previews: some View {
-        AddAccountSheet(data: $dumb_data)
-            .previewDevice("iPhone 12 Pro")
+        NavigationView {
+            AddAccountSheet()
+                .previewDevice("iPhone 12 Pro")
+        }
     }
 }
