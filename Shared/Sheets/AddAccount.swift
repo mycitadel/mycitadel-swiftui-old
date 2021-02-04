@@ -22,9 +22,9 @@ struct AddAccountSheet: View {
     @State private var isLegacy = false
     @State private var isSegWit = true
     @State private var isSegWitLegacy = false
-    @State private var isTaproot = true
-    @State private var signingKeysCount = 1
-    @State private var totalKeysCount = 1
+    @State private var isTaproot = false
+    @State private var signingKeysCount = 2
+    @State private var totalKeysCount = 3
 
     #if os(macOS)
     @State private var extraPadding = EdgeInsets(top: 13, leading: 13, bottom: 13, trailing: 13)
@@ -64,11 +64,16 @@ struct AddAccountSheet: View {
                     }
                 }
             case .miniscript:
-                Section(header: Text("Type in miniscript:")) {
+                Section(header: Text("Type in miniscript:"), footer: Text("Use key fingerprint in form of `[9af4]` for referencing signing keys in the miniscript code")) {
                     TextEditor(text: $miniscript)
                         .lineLimit(10)
                         .frame(minHeight: 130)
                 }
+            }
+
+            Section(header: Text("Select signing keys"), footer: Text("It seems you don't have any registered singing keys which are required for the account creation")) {
+                Button(action: {}) { Label("Create new signing key", systemImage: "plus") }
+                Button(action: {}) { Label("Import existing signing key", systemImage: "square.and.arrow.down") }
             }
             
             Section(header: Text("Allowed descriptors")) {
@@ -82,7 +87,7 @@ struct AddAccountSheet: View {
                 }
                 Toggle(isOn: $isLegacy) {
                     VStack(alignment: .leading) {
-                        Text("Legacy non-SegWit")
+                        Text("Hashed")
                         Text("pkh, sh")
                             .font(.footnote)
                             .foregroundColor(Color(UIColor.secondaryLabel))
@@ -90,7 +95,7 @@ struct AddAccountSheet: View {
                 }
                 Toggle(isOn: $isSegWitLegacy) {
                     VStack(alignment: .leading) {
-                        Text("Legacy SegWit")
+                        Text("Legacy SegWit (no witness ver)")
                         Text("sh(wpkh), sh(wsh)")
                             .font(.footnote)
                             .foregroundColor(Color(UIColor.secondaryLabel))
@@ -98,7 +103,7 @@ struct AddAccountSheet: View {
                 }
                 Toggle(isOn: $isSegWit) {
                     VStack(alignment: .leading) {
-                        Text("SegWit v0")
+                        Text("SegWit (v0 witness)")
                         Text("wpkh, wsh")
                             .font(.footnote)
                             .foregroundColor(Color(UIColor.secondaryLabel))
@@ -106,14 +111,17 @@ struct AddAccountSheet: View {
                 }
                 Toggle(isOn: $isTaproot) {
                     VStack(alignment: .leading) {
-                        Text("Taproot (SegWit v1)")
+                        Text("Taproot (v1 witness)")
+                        Text("tr")
+                            .font(.footnote)
+                            .foregroundColor(Color(UIColor.secondaryLabel))
                     }
                 }
             }
         }
         .frame(minWidth: 266, idealWidth: 333, minHeight: 444, idealHeight: 666, alignment: .topLeading)
         .padding(extraPadding)
-        .navigationTitle("New account")
+        .navigationTitle("Set up current account")
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
