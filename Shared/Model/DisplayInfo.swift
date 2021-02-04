@@ -170,6 +170,7 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
 
     // These are parts of the genesis
     public let id: String
+    public let genesis: String
     public let ticker: String
     public let name: String
     public let details: String? = nil
@@ -222,10 +223,11 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
         }
     }
 
-    public init(withId id: String, ticker: String, name: String, symbol: String, category: AssetCategory = .security,
+    public init(withId id: String, genesis: String, ticker: String, name: String, symbol: String, category: AssetCategory = .security,
                 issuer: String = "unknown issuer", verified: Bool = false,
                 precision: UInt8 = 8, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1, balance: UInt64 = 0) {
         self.id = id
+        self.genesis = genesis
         self.ticker = ticker
         self.name = name
         self.symbol = symbol
@@ -239,12 +241,13 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
     }
     
     public convenience init(withAsset asset: RGB20Asset) {
-        self.init(withId: asset.id, ticker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.fractionalBits)
+        self.init(withId: asset.id, genesis: asset.genesis, ticker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.fractionalBits)
     }
     
     public convenience init(withAsset asset: AssetDisplayInfo, balance: Float = 0) {
         self.init(
-            withId: asset.id, ticker: asset.ticker, name: asset.name, symbol: asset.symbol, category: asset.category,
+            withId: asset.id, genesis: asset.genesis, ticker: asset.ticker, name: asset.name, symbol: asset.symbol, category: asset.category,
+            issuer: asset.issuer, verified: asset.verified,
             precision: asset.precision, btcRate: asset.btcRate, fiatRate: asset.fiatRate
         )
         atomicBalance = asset.transmutate(accounting: balance)
