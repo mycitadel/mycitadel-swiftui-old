@@ -44,7 +44,7 @@ struct AppView: View {
 
     var body: some View {
         List(selection: isEditing ? nil : $selection) {
-            Section(header: Text("Accounts")) {
+            Section(header: Text("Contracts")) {
                 ForEach(data.wallets.indices) { idx in
                     NavigationLink(destination: MasterView(wallet: $data.wallets[idx])) {
                         Label(data.wallets[idx].name,  systemImage: data.wallets[idx].imageName)
@@ -66,7 +66,7 @@ struct AppView: View {
                 }
             }
 
-            Section(header: Text("Signing keys")) {
+            Section(header: Text("Identities")) {
                 ForEach(data.keyrings) { keyring in
                     Label(keyring.name,  systemImage: "signature")
                         .tag(Tags.Keyring(keyring.id))
