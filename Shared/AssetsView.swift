@@ -138,7 +138,8 @@ struct AssetList: View {
     
     public func reloadAssets() {
         do {
-            assets = try MyCitadelClient.shared.refreshAssets().map(AssetDisplayInfo.init)
+            var citadel = MyCitadelClient.shared.citadel
+            assets = try citadel.syncAssets().map(AssetDisplayInfo.init)
         } catch {
             errorSheet.present(error)
         }

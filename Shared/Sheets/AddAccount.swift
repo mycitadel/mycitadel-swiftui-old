@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
 #if os(macOS)
 typealias UIColor = NSColor
@@ -25,6 +26,8 @@ struct AddAccountSheet: View {
     @State private var isTaproot = false
     @State private var signingKeysCount = 2
     @State private var totalKeysCount = 3
+
+    @State private var errorSheet = ErrorSheetConfig()
 
     #if os(macOS)
     @State private var extraPadding = EdgeInsets(top: 13, leading: 13, bottom: 13, trailing: 13)
@@ -125,10 +128,7 @@ struct AddAccountSheet: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button(action: {
-                    // data.wallets.append(AccountDisplayInfo(named: name, havingAssets: [], transactions: []))
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
+                Button(action: createContract) {
                     Text("Create").bold()
                 }
             }
@@ -141,6 +141,18 @@ struct AddAccountSheet: View {
                 }
             }
         }
+        .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
+    }
+    
+    func createContract() {
+        do {
+            var citadel = MyCitadelClient.shared.citadel;
+            let _ = try citadel.createSingleSig(named: name, descriptor: .segwit, enableRGB: true)
+        } catch {
+            errorSheet.present(error)
+            return
+        }
+        self.presentationMode.wrappedValue.dismiss()
     }
 }
 
