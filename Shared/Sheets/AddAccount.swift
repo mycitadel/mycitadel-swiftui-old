@@ -19,13 +19,10 @@ struct AddAccountSheet: View {
     @State private var name: String = ""
     @State private var miniscript: String = ""
     @State private var scripting = WalletScripting.publicKey
-    @State private var isBare = false
-    @State private var isLegacy = false
-    @State private var isSegWit = true
-    @State private var isSegWitLegacy = false
-    @State private var isTaproot = false
-    @State private var signingKeysCount = 2
-    @State private var totalKeysCount = 3
+    @State private var descriptorType = DescriptorType.segwit
+    @State private var hasRGB = true
+    @State private var signingKeysCount = 1
+    @State private var signingKeys = []
 
     @State private var errorSheet = ErrorSheetConfig()
 
@@ -57,14 +54,11 @@ struct AddAccountSheet: View {
                 EmptyView()
             case .multisig:
                 Section(header: Text("Multisig composition:")) {
-                    GroupBox {
-                        Stepper(value: $signingKeysCount, in: 1...totalKeysCount) {
-                            Text("Require \(signingKeysCount) signatures")
-                        }
-                        Stepper(value: $totalKeysCount, in: 1...16) {
-                            Text("from a set of \(totalKeysCount) keys")
-                        }
+                    Stepper(value: $signingKeysCount, in: 1...signingKeys.count+1) {
+                        Text("Require \(signingKeysCount) signatures from:")
                     }
+                    Label("Your device-stored key", systemImage: "signature")
+                    Button(action: {}) { Label("Add co-signer", systemImage: "square.and.arrow.down") }
                 }
             case .miniscript:
                 Section(header: Text("Type in miniscript:"), footer: Text("Use key fingerprint in form of `[9af4]` for referencing signing keys in the miniscript code")) {
@@ -74,50 +68,89 @@ struct AddAccountSheet: View {
                 }
             }
 
-            Section(header: Text("Select signing keys"), footer: Text("It seems you don't have any registered singing keys which are required for the account creation")) {
-                Button(action: {}) { Label("Create new signing key", systemImage: "plus") }
-                Button(action: {}) { Label("Import existing signing key", systemImage: "square.and.arrow.down") }
+            Section(header: Text("Descriptor & address format")) {
+                Button(action: { descriptorType = .segwit }) {
+                    HStack {
+                        Image(systemName: "checkmark")
+                            .opacity(descriptorType == .segwit ? 1 : 0)
+                        VStack(alignment: .leading) {
+                            Text("SegWit – witness ver 0")
+                                .foregroundColor(.primary)
+                            Text("In both legacy and new formats")
+                                .font(.footnote)
+                                .foregroundColor(Color(UIColor.secondaryLabel))
+                        }
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            Text(scripting == .publicKey ? "P2WPKH" : "P2WSH")
+                                .font(.body)
+                                .foregroundColor(Color(UIColor.secondaryLabel))
+                            Text("(-in-P2SH)")
+                                .font(.caption2)
+                                .foregroundColor(Color(UIColor.secondaryLabel))
+                        }
+                    }
+                }
+                
+                Button(action: { descriptorType = .taproot }) {
+                    HStack {
+                        Image(systemName: "checkmark")
+                            .opacity(descriptorType == .taproot ? 1 : 0)
+                        VStack(alignment: .leading) {
+                            Text("Taproot – witness ver 1")
+                                .foregroundColor(.primary)
+                            Text("Yearly preview")
+                                .font(.footnote)
+                                .foregroundColor(Color(UIColor.secondaryLabel))
+                        }
+                        Spacer()
+                        Text("P2TR")
+                            .font(.body)
+                            .foregroundColor(Color(UIColor.secondaryLabel))
+                    }
+                }
+
+                Button(action: { descriptorType = .hashed }) {
+                    HStack {
+                        Image(systemName: "checkmark")
+                            .opacity(descriptorType == .hashed ? 1 : 0)
+                        VStack(alignment: .leading) {
+                            Text("Legacy – no witness")
+                                .foregroundColor(.primary)
+                            Text("Requires higher fees")
+                                .font(.footnote)
+                                .foregroundColor(Color(UIColor.secondaryLabel))
+                        }
+                        Spacer()
+                        Text(scripting == .publicKey ? "P2PKH" : "P2SH")
+                            .font(.body)
+                            .foregroundColor(Color(UIColor.secondaryLabel))
+                    }
+                }
+
+                Button(action: { descriptorType = .bare }) {
+                    HStack {
+                        Image(systemName: "checkmark")
+                            .opacity(descriptorType == .bare ? 1 : 0)
+                        VStack(alignment: .leading) {
+                            Text("\(scripting == .publicKey ? "Bare public key" : "Raw script")")
+                                .foregroundColor(.primary)
+                            Text("Read-only wallet for ancient miners\nDepricated & not recommended")
+                                .font(.footnote)
+                                .foregroundColor(Color(UIColor.secondaryLabel))
+                        }
+                        Spacer()
+                        Text(scripting == .publicKey ? "P2PK" : "BARE")
+                            .font(.body)
+                            .foregroundColor(Color(UIColor.secondaryLabel))
+                    }
+                }
             }
             
-            Section(header: Text("Allowed descriptors")) {
-                Toggle(isOn: $isBare) {
+            Section(footer: Text("RGB is a smart-contracting & digital asset technology that works with Bitcoin on-chain and Lightning network. Turning its support will make wallet incompatible with all software (including other wallets) which does not have RGB support")) {
+                Toggle(isOn: $hasRGB) {
                     VStack(alignment: .leading) {
-                        Text("Bare script")
-                        Text("pk, bare")
-                            .font(.footnote)
-                            .foregroundColor(Color(UIColor.secondaryLabel))
-                    }
-                }
-                Toggle(isOn: $isLegacy) {
-                    VStack(alignment: .leading) {
-                        Text("Hashed")
-                        Text("pkh, sh")
-                            .font(.footnote)
-                            .foregroundColor(Color(UIColor.secondaryLabel))
-                    }
-                }
-                Toggle(isOn: $isSegWitLegacy) {
-                    VStack(alignment: .leading) {
-                        Text("Legacy SegWit (no witness ver)")
-                        Text("sh(wpkh), sh(wsh)")
-                            .font(.footnote)
-                            .foregroundColor(Color(UIColor.secondaryLabel))
-                    }
-                }
-                Toggle(isOn: $isSegWit) {
-                    VStack(alignment: .leading) {
-                        Text("SegWit (v0 witness)")
-                        Text("wpkh, wsh")
-                            .font(.footnote)
-                            .foregroundColor(Color(UIColor.secondaryLabel))
-                    }
-                }
-                Toggle(isOn: $isTaproot) {
-                    VStack(alignment: .leading) {
-                        Text("Taproot (v1 witness)")
-                        Text("tr")
-                            .font(.footnote)
-                            .foregroundColor(Color(UIColor.secondaryLabel))
+                        Text("Support RGB assets")
                     }
                 }
             }
@@ -129,8 +162,10 @@ struct AddAccountSheet: View {
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button(action: createContract) {
-                    Text("Create").bold()
+                    Text("Create")
+                        .bold()
                 }
+                .disabled(scripting != .publicKey || name.isEmpty)
             }
 
             ToolbarItem(placement: .cancellationAction) {
