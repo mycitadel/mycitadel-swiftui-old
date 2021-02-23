@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CreateAccount: View {
+    @Environment(\.presentationMode) var presentationMode
+
     var body: some View {
         NavigationView {
             List {
@@ -37,7 +39,9 @@ struct CreateAccount: View {
             .navigationTitle("Create a new account")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(action: {}) { Text("Dismiss") }
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }) { Text("Dismiss") }
                 }
             }
         }

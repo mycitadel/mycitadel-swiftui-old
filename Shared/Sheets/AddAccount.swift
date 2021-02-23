@@ -23,7 +23,6 @@ struct AddAccountSheet: View {
     @State private var hasRGB = true
     @State private var signingKeysCount = 1
     @State private var signingKeys = []
-
     @State private var errorSheet = ErrorSheetConfig()
 
     #if os(macOS)
@@ -85,7 +84,7 @@ struct AddAccountSheet: View {
                             Text(scripting == .publicKey ? "P2WPKH" : "P2WSH")
                                 .font(.body)
                                 .foregroundColor(Color(UIColor.secondaryLabel))
-                            Text("(-in-P2SH)")
+                            Text("(+in-P2SH)")
                                 .font(.caption2)
                                 .foregroundColor(Color(UIColor.secondaryLabel))
                         }
