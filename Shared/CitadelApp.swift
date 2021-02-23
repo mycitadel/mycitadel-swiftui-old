@@ -62,6 +62,12 @@ struct CitadelApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         try! MyCitadelClient.connect()
+        var citadel = MyCitadelClient.shared.citadel
+        if let contracts = try? citadel.syncContracts() {
+            if contracts.isEmpty {
+                try? citadel.createSingleSig(named: "Default", descriptor: .segwit, enableRGB: true)
+            }
+        }
         return true
     }
 }
