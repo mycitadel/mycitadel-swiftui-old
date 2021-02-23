@@ -153,11 +153,9 @@ public enum SpendingDescriptors {
 }
 
 public enum SpendigLock: Hashable {
-    case pubkey(id: String)
-    case multisig(threshold: UInt8, ids: [String])
+    case pubkey(pubkeyChain: String)
+    case multisig(threshold: UInt8, pubkeyChains: [String])
     case miniscript(script: String)
-    case musig
-    case tapscript(script: String)
 }
 
 public enum WalletScripting: Hashable {
@@ -167,12 +165,10 @@ public enum WalletScripting: Hashable {
 }
 
 public struct CurrentContract {
-    public let lock: SpendigLock
-    public let descriptors: [SpendingDescriptors]
+    public let descriptor: String
     
-    public init(lock: SpendigLock = .pubkey(id: ""), descriptors: [SpendingDescriptors] = [.segWit]) {
-        self.lock = lock
-        self.descriptors = descriptors
+    public init(descriptor: String) {
+        self.descriptor = descriptor
     }
 }
 
@@ -217,8 +213,18 @@ public class AccountDisplayInfo: ObservableObject, Identifiable {
         self.contract.imageName
     }
     
+    public init(citadelContract contract: WalletContract, citadelVault vault: Citadel) {
+        self.name = contract.name
+        switch contract.policy {
+        case .current(let descriptor):
+            self.contract = .current(CurrentContract(descriptor: descriptor))
+        }
+        self.assets = []
+        self.transactions = []
+    }
+    
     public init(named name: String, havingAssets assets: [AssetDisplayInfo] = [],
-                transactions: [TransactionDisplayInfo] = [], contract: AccountContract = .current(CurrentContract())) {
+                transactions: [TransactionDisplayInfo] = [], contract: AccountContract = .current(CurrentContract(descriptor: ""))) {
         self.name = name
         self.contract = contract
         self.assets = assets

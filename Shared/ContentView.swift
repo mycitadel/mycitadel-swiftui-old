@@ -13,7 +13,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            AppView(data: $data)
+            AppView()
             
             MasterView(wallet: $data.wallets[0])
             TransactionView(wallet: data.wallets[0])

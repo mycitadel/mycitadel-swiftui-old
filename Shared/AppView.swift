@@ -34,8 +34,7 @@ struct AppView: View {
         #endif
     }
 
-    @Binding var data: AppDisplayInfo
-
+    @State private var accounts: [AccountDisplayInfo] = []
     @State private var assets: [AssetDisplayInfo] = []
     @State private var selection: Tags? = nil
     @State private var showingSheet = false
@@ -45,17 +44,20 @@ struct AppView: View {
     var body: some View {
         List(selection: isEditing ? nil : $selection) {
             Section(header: Text("Contracts")) {
-                ForEach(data.wallets.indices) { idx in
-                    NavigationLink(destination: MasterView(wallet: $data.wallets[idx])) {
-                        Label(data.wallets[idx].name,  systemImage: data.wallets[idx].imageName)
+                ForEach(accounts.indices) { idx in
+                    NavigationLink(destination: MasterView(wallet: $accounts[idx])) {
+                        Label(accounts[idx].name,  systemImage: accounts[idx].imageName)
                     }
-                    .tag(Tags.Account(data.wallets[idx].id))
+                    .tag(Tags.Account(accounts[idx].id))
                 }
+                /*
                 .onMove(perform: { indices, newOffset in
-                    data.wallets.move(fromOffsets: indices, toOffset: newOffset)
+                    accounts.move(fromOffsets: indices, toOffset: newOffset)
                 })
+                 */
                 .onDelete(perform: { indexSet in
-                    data.wallets.remove(atOffsets: indexSet)
+                    // TODO: Do the actual removal
+                    accounts.remove(atOffsets: indexSet)
                 })
                 
                 if isEditing {
@@ -66,6 +68,7 @@ struct AppView: View {
                 }
             }
 
+            /*
             Section(header: Text("Identities")) {
                 ForEach(data.keyrings) { keyring in
                     Label(keyring.name,  systemImage: "signature")
@@ -85,6 +88,7 @@ struct AppView: View {
                     }.onTapGesture(perform: createKeyring)
                 }
             }
+            */
 
             Section(header: Text("Main assets")) {
                 ForEach(assets) { asset in
@@ -130,6 +134,7 @@ struct AppView: View {
 
 
             ToolbarItemGroup(placement: .navigationBarLeading) {
+                /*
                 Menu {
                     Section {
                         Button("Add account", action: createWallet)
@@ -149,7 +154,11 @@ struct AppView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                */
                 
+                Button(action: createWallet) {
+                    Image(systemName: "plus")
+                }
                 Button(action: importAnything) {
                     Image(systemName: "qrcode.viewfinder")
                 }
@@ -171,13 +180,24 @@ struct AppView: View {
     }
     
     private func reloadData() {
-        reloadAssets()
+        var citadel = MyCitadelClient.shared.citadel
+        do {
+            try citadel.syncAll()
+        } catch {
+            errorSheet.present(error)
+        }
+        accounts = citadel.contracts.map { AccountDisplayInfo(citadelContract: $0, citadelVault: citadel) }
+        do {
+            assets = try citadel.syncAssets().values.map(AssetDisplayInfo.init)
+        } catch {
+            errorSheet.present(error)
+        }
     }
     
     private func reloadAssets() {
         do {
             var citadel = MyCitadelClient.shared.citadel
-            assets = try citadel.syncAssets().map(AssetDisplayInfo.init)
+            assets = try citadel.syncAssets().values.map(AssetDisplayInfo.init)
         } catch {
             errorSheet.present(error)
         }
@@ -209,7 +229,6 @@ struct AppView: View {
 }
 
 struct AppView_Previews: PreviewProvider {
-    @State static var dumbData = DumbData().data
     #if !os(macOS)
     @State static var editMode = EditMode.active
     #endif
@@ -217,12 +236,12 @@ struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                AppView(data: $dumbData)
+                AppView()
                     .previewDevice("iPhone 12 Pro")
             }
             #if !os(macOS)
             NavigationView {
-                AppView(data: $dumbData)
+                AppView()
                     .preferredColorScheme(.dark)
                     .environment(\.editMode, $editMode)
                     .previewDevice("iPhone 12 Pro")

@@ -127,7 +127,7 @@ struct DumbData {
         self.wallet = AccountDisplayInfo(
             randomWithAssets: [btc, btcn, usdt, lnpbp],
             named: "Current",
-            contract: .current(CurrentContract()),
+            contract: .current(CurrentContract(descriptor: "")),
             useSmallBalance: true
         )
 
@@ -140,13 +140,13 @@ struct DumbData {
         let family = AccountDisplayInfo(
             randomWithAssets: [btc, btcn, usdt],
             named: "Family",
-            contract: .current(CurrentContract())
+            contract: .current(CurrentContract(descriptor: ""))
         )
         
         let company = AccountDisplayInfo(
             randomWithAssets: [btc, btcn, usdt],
             named: "My company",
-            contract: .current(CurrentContract())
+            contract: .current(CurrentContract(descriptor: ""))
         )
         
         let lightning1 = AccountDisplayInfo(
