@@ -15,7 +15,7 @@ extension NSColor {
 }
 #endif
 
-struct AddAccountSheet: View {
+struct CreateCurrentContract: View {
     @State private var name: String = ""
     @State private var miniscript: String = ""
     @State private var scripting = WalletScripting.publicKey
@@ -189,10 +189,10 @@ struct AddAccountSheet: View {
     }
 }
 
-struct AddAccountSheet_Previews: PreviewProvider {
+struct CreateCurrentContract_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            AddAccountSheet()
+            CreateCurrentContract()
                 .previewDevice("iPhone 12 Pro")
         }
     }

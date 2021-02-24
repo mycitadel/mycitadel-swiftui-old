@@ -163,7 +163,7 @@ struct AppView: View {
     @ViewBuilder
     private func sheetContent() -> some View {
         switch activeSheet {
-        case .addAccount: CreateAccount()
+        case .addAccount: SelectContract()
         case .addKeyring: AddKeyringSheet()
         case .importAsset: Import(importName: "asset", category: .genesis)
         case .importAnything: Import(importName: "anything", category: .all)

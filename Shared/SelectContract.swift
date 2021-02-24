@@ -7,36 +7,36 @@
 
 import SwiftUI
 
-struct CreateAccount: View {
+struct SelectContract: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationView {
             List {
-                Text("There are many forms of wallet accounts. Read about them and choose the type of the account you would like to create")
+                Text("There are many forms of wallet contracts. Read about them and choose the type of the contracts. you would like to create")
                     .lineSpacing(6)
                     .font(.title3)
                     .padding(.vertical, 23)
 
                 ZStack {
-                    AccountCard(type: ContractType.current)
-                    NavigationLink(destination: AddAccountSheet()) {
+                    ContractCard(type: ContractType.current)
+                    NavigationLink(destination: CreateCurrentContract()) {
                         EmptyView()
                     }
                     .frame(width: 0)
                     .opacity(0)
                 }
 
-                Text("Today we support only current accounts; but with a new releases we will continue to grow the set of possibilities. Have a sneak peak of what will be waiting you in the future:")
+                Text("Today we support only current account contracts; but with new releases we will continue to grow the set of possibilities. Have a sneak peak of what will be waiting you in the future:")
                     .lineSpacing(6)
                     .font(.title3)
                     .padding(.top, 23)
 
                 ForEach([ContractType.instant, ContractType.saving, ContractType.staking, ContractType.liquidity, ContractType.trading]) { type in
-                    AccountCard(type: type)
+                    ContractCard(type: type)
                 }
             }
-            .navigationTitle("Create a new account")
+            .navigationTitle("Create a new contract")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(action: {
@@ -48,7 +48,7 @@ struct CreateAccount: View {
     }
 }
 
-struct AccountCard: View {
+struct ContractCard: View {
     let type: ContractType
     
     var body: some View {
@@ -90,8 +90,8 @@ struct AccountCard: View {
     }
 }
 
-struct CreateAccount_Previews: PreviewProvider {
+struct SelectContract_Previews: PreviewProvider {
     static var previews: some View {
-        CreateAccount()
+        CreateCurrentContract()
     }
 }
