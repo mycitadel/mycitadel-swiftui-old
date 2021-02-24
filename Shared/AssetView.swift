@@ -11,6 +11,13 @@ import MyCitadelKit
 struct AssetView: View {
     var asset: Asset
 
+    private let dateFormatter: DateFormatter = {
+        var formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    
     var body: some View {
         List {
             Section(header: BalanceCard(assetId: asset.id)
@@ -25,83 +32,99 @@ struct AssetView: View {
                 DetailsCell(title: "Ticker", details: asset.ticker)
                 DetailsCell(title: "Name", details: asset.name)
                 DetailsCell(title: "Divisibility", details: "\(asset.decimalPrecision) subdecimals")
-                DetailsCell(title: "Known since", details: "09 Jan 2009")
-                NavigationLink(destination: Text("none")) {
-                    Text("Recardian contract")
-                        .font(.headline)
+                DetailsCell(title: "Known since", details: dateFormatter.string(from: asset.genesisDate))
+                
+                if let ricardianContract = asset.ricardianContract {
+                    NavigationLink(destination: Text(ricardianContract)) {
+                        Text("Ricardian contract")
+                            .font(.headline)
+                    }
+                } else {
+                    DetailsCell(title: "Ricardian contract", details: "none")
                 }
             }
             
-            Section(header: Text("Balance information"), footer: Text("You do not own the asset")) {
-                Button(action: {}) { Text("Buy some") }
+            Section(header: Text("Balance information")) {
+                DetailsCell(title: "Owned balance", details: asset.hasBalance ? asset.formattedBalance : "no asset yet")
+                Button(action: {}) { Text("Buy").foregroundColor(.green) }
+                if asset.hasBalance {
+                    Button(action: {}) { Text("Sell").foregroundColor(.red) }
+                }
             }
 
             Section(header: Text("Souveregnity status"), footer: Text("Information source: MyCitadel self-souvergnity digital assets raiting®")) {
-                DetailsCell(title: "Category", details: "Digital currency")
-                DetailsCell(title: "Trust profile", details: "Trustless")
-                DetailsCell(title: "Centralization", details: "Decentralized")
+                DetailsCell(title: "Category", details: asset.category.localizedDescription)
+                DetailsCell(title: "Trust profile", details: asset.isNative ? "Trustless" : "Trusted issuer")
+                DetailsCell(title: "Centralization", details: asset.isNative ? "Decentralized" : "Cenrtalized issue")
                 DetailsCell(title: "Censorship resistance", details: "Uncensorable")
                 DetailsCell(title: "Confiscatability", details: "Unconfiscable")
-                DetailsCell(title: "Chain analysis", details: "Possible")
-                DetailsCell(title: "Ledger", details: "Public")
-                DetailsCell(title: "Fungibility", details: "Can be tainted")
+                DetailsCell(title: "Chain analysis", details: asset.isNative ? "Possible" : "Impossible")
+                DetailsCell(title: "Ledger", details: asset.isNative ? "Public" : "Not used")
+                DetailsCell(title: "Fungibility", details: asset.isNative ? "Moderate or high" : "High")
             }
 
             Section(header: Text("Technical profile"), footer: Text("Information source: embedded genesis data")) {
-                DetailsCell(title: "Class", details: "Blockchain-based")
-                DetailsCell(title: "Blockchain", details: "Bitcoin mainnet")
-                DetailsCell(title: "Asset class", details: "Fungible asset (RGB-20)")
-                SubheadingCell(title: "Digital asset technology", details: "Native blockchain unit of accounting")
+                DetailsCell(title: "Class", details: asset.isNative ? "Blockchain-based" : "Bearer rights")
+                DetailsCell(title: "Blockchain", details: asset.network.localizedDescription)
+                DetailsCell(title: "Asset class", details: asset.isNative ? "Native blockchain coin" : "Fungible asset (RGB-20)")
+                SubheadingCell(title: "Digital asset technology", details: asset.isNative ? "Native blockchain unit of accounting" : "Client-side-validated smart contract")
             }
             
             Section(header: Text("Supply information"), footer: Text("Information source: embedded genesis data")) {
                 Group {
-                    DetailsCell(title: "Total issues", details: "666 999")
-                    DetailsCell(title: "First issue", details: "09 Jan 2010")
-                    DetailsCell(title: "Last known issue", details: "03 Feb 2021")
+                    DetailsCell(title: "Total issues", details: "\(asset.countIssues)")
+                    DetailsCell(title: "First issue", details: dateFormatter.string(from: asset.genesisDate))
+                    DetailsCell(title: "Last known issue", details: dateFormatter.string(from: asset.latestIssue))
                 }
-                DetailsCell(title: "Maximum possible supply", details: "21 000 000 BTC")
-                DetailsCell(title: "Known issued supply", details: "16 000 000 BTC", subdetails: "83% of max. supply")
-                DetailsCell(title: "Possible unknown issue", details: "6.25 BTC")
-                DetailsCell(title: "Expected inflation", details: "5 000 000 BTC", subdetails: "17% of max. supply")
-                DetailsCell(title: "Issue rights by", details: "PoW mining")
-                DetailsCell(title: "Issue right holders", details: "unenumerable")
-                DetailsCell(title: "Known burned supply", details: "≤800 000 BTC", subdetails: "as of 03 Feb 2021")
-                DetailsCell(title: "Known circulating supply", details: "≥15 200 000 BTC", subdetails: "as of 03 Feb 2021")
+                DetailsCell(title: "Maximum possible supply", details: asset.formattedSupply(metric: .maxIssued))
+                DetailsCell(title: "Known issued supply", details: asset.formattedSupply(metric: .knownIssued), subdetails: "83% of max. supply")
+                DetailsCell(title: "Possible unknown issue", details: asset.formattedSupply(metric: .maxUnknown))
+                DetailsCell(title: "Expected inflation", details: "\(asset.supply(metric: .maxIssued) ?? Double(UInt64.max) - (asset.supply(metric: .knownIssued) ?? 0)) \(asset.ticker)", subdetails: "\(100.0 - (asset.percentageIssued(includingUnknown: false) ?? 100.0))% of max. supply")
+                DetailsCell(title: "Issue rights by", details: asset.isNative ? "mining" : "centralized issuer")
+                DetailsCell(title: "Known burned supply", details: asset.formattedSupply(metric: .knownBurned), subdetails: "as of \(dateFormatter.string(from: CitadelVault.embedded.blockchainState.updatedAt))")
+                DetailsCell(title: "Known replaced supply", details: asset.isReplacementPossible ? "none" : asset.formattedSupply(metric: .knownReplaced), subdetails: "as of \(dateFormatter.string(from: CitadelVault.embedded.blockchainState.updatedAt))")
             }
 
             Section(header: Text("Issuer information"), footer: Text("Information source: MyCitadel digital asset issuer database")) {
                 SubheadingCell(title: "Issuer name", details: asset.authenticity.issuer?.name ?? "unknown")
-                SubheadingCell(title: "Issuer details", details: "Decentralized consensus in bitcoin mainnet blockchain")
+                SubheadingCell(title: "Issuer details", details: asset.localizedIssuer)
                 HStack(alignment: .center) {
-                    SubheadingCell(title: "Verification status", details: "Publically known")
+                    SubheadingCell(title: "Verification status", details: asset.authenticity.status.localizedString)
                     Spacer()
                     AssetAuthenticityImage(asset: asset)
                         .font(.title3)
                 }
-                Button(action: {}) {
+                if let url = asset.authenticity.url {
+                    Button(action: {}) {
+                        HStack(alignment: .center) {
+                            SubheadingCell(title: "Verification link", details: url)
+                            Spacer()
+                            Image(systemName: "chevron.right.2")
+                                .font(.title3)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                } else {
                     HStack(alignment: .center) {
-                        SubheadingCell(title: "Verification link", details: "https://bitcoin.org")
-                        Spacer()
-                        Image(systemName: "chevron.right.2")
-                            .font(.title3)
-                            .foregroundColor(.gray)
+                        SubheadingCell(title: "Verification link", details: "none")
                     }
                 }
             }
 
             Section(header: Text("Other ownable rights"), footer: Text("Information source: embedded genesis data")) {
-                DetailsCell(title: "Renomination", details: "impossible")
-                DetailsCell(title: "Proof of burn", details: "anybody")
-                DetailsCell(title: "Replacement of lost assets", details: "impossible")
+                DetailsCell(title: "Renomination", details: asset.isRenominationPossible ? "possible" : "impossible")
+                DetailsCell(title: "Proof of burn", details: asset.isProofOfBurnPossible ? "anybody" : "impossible")
+                DetailsCell(title: "Replacement of lost assets", details: asset.isReplacementPossible ? "by the issuer" : "impossible")
             }
-            
-            Section(footer: Text("Use QR code to share the asset genesis")) {
-                generateQRCode(from: asset.genesis)
-                    .interpolation(.none)
-                    .resizable()
-                    .scaledToFit()
-                    .aspectRatio(1, contentMode: .fit)
+
+            if !asset.isNative {
+                Section(footer: Text("Use QR code to share the asset genesis")) {
+                    generateQRCode(from: asset.genesis)
+                        .interpolation(.none)
+                        .resizable()
+                        .scaledToFit()
+                        .aspectRatio(1, contentMode: .fit)
+                }
             }
             
             Label("More on information sources", systemImage: "info.circle")

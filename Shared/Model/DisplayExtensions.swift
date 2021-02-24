@@ -8,6 +8,16 @@
 import SwiftUI
 import MyCitadelKit
 
+extension BitcoinNetwork {
+    var localizedDescription: String {
+        switch self {
+        case .mainnet: return "Bitcoin mainnet"
+        case .testnet: return "Bitcoin testnet"
+        case .signet: return "Bitcoin signet"
+        }
+    }
+}
+
 extension AssetCategory {
     var localizedDescription: String {
         switch self {
@@ -54,6 +64,18 @@ extension Asset {
         case .nft: return "arrowtriangle.down"
         }
     }
+    
+    public var formattedBalance: String {
+        "\(balance.total) \(ticker)"
+    }
+    
+    public func formattedSupply(metric: SupplyMetric) -> String {
+        "\(supply(metric: metric) ?? 0) \(ticker)"
+    }
+
+    public var localizedIssuer: String {
+        isNative ? "Decentralized consensus on \(network.localizedDescription) blockchain" : "Trusted centralized party"
+    }
 }
 
 extension AssetAuthenticity {
@@ -76,7 +98,7 @@ extension VerificationStatus {
     }
     
     public var verifiedSymbol: String {
-        self.isVerified() ? "xmark.seal" : "checkmark.seal.fill"
+        self.isVerified() ? "checkmark.seal.fill" : "xmark.seal"
     }
     
     public var verifiedColor: Color {
