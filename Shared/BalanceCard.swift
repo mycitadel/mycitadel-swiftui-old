@@ -9,9 +9,17 @@ import SwiftUI
 import MyCitadelKit
 
 struct BalanceCard: View {
-    var balance: Balance
+    var wallet: WalletContract?
+    var assetId: String = CitadelVault.embedded.network.nativeAssetId()
+    var balance: Balance {
+        if let wallet = wallet {
+            return wallet.balance(of: assetId)!
+        } else {
+            return asset.balance
+        }
+    }
     var asset: Asset {
-        CitadelVault.embedded.assets[balance.assetId]!
+        CitadelVault.embedded.assets[assetId]!
     }
     @Environment(\.currencyUoA) var fiatUoA: String
     
@@ -29,17 +37,21 @@ struct BalanceCard: View {
                 HStack {
                     Text("\(balance.total, specifier: "%.2f") \(asset.ticker)").font(.largeTitle)
                     Spacer()
-                    /*
                     VStack(alignment: .trailing) {
-                        Text("\(asset.fiatBalance, specifier: "%.2f") \(fiatUoA)")
-                        Text("\(asset.btcBalance, specifier:"%.6f") BTC")
+                        Text("\(balance.fiatBalance, specifier: "%.2f") \(fiatUoA)")
+                        Text("\(balance.btcBalance, specifier:"%.6f") BTC")
                     }.font(.footnote)
-                    */
                 }
                 Spacer()
                 HStack {
                     Spacer()
-                    asset.issuerLabel.font(.headline)
+                    HStack(alignment: .center) {
+                        Text(asset.authenticity.issuer?.name ?? "Unknown")
+                        Image(systemName: asset.authenticity.symbol)
+                            .foregroundColor(asset.authenticity.color)
+                            .shadow(color: .white, radius: 3, x: 0, y: 0)
+                    }
+                    .font(.headline)
                 }
             }
             .foregroundColor(.black)
@@ -53,6 +65,6 @@ struct BalanceCard: View {
 
 struct AssetCard_Previews: PreviewProvider {
     static var previews: some View {
-        BalanceCard(balance: CitadelVault.embedded.balances.first!)
+        BalanceCard()
     }
 }

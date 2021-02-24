@@ -45,7 +45,7 @@ extension Asset {
     public var gradient: Gradient {
         Gradient(colors: [self.category.primaryColor(), self.category.secondaryColor()])
     }
-    
+
     public var symbol: String {
         switch category {
         case .currency: return "bitcoinsign.circle.fill"
@@ -54,20 +54,15 @@ extension Asset {
         case .nft: return "arrowtriangle.down"
         }
     }
-    
-    public var verifiedSymbol: String {
-        authenticity.status.verifiedSymbol
+}
+
+extension AssetAuthenticity {
+    public var symbol: String {
+        status.verifiedSymbol
     }
     
-    public var verifiedImage: some View {
-        authenticity.status.verifiedImage
-    }
-    
-    public var issuerLabel: some View {
-        HStack(alignment: .center) {
-            Text(authenticity.issuer?.name ?? "Unknown")
-            verifiedImage.shadow(color: .white, radius: 3, x: 0, y: 0)
-        }
+    public var color: Color {
+        status.verifiedColor
     }
 }
 
@@ -84,17 +79,12 @@ extension VerificationStatus {
         self.isVerified() ? "xmark.seal" : "checkmark.seal.fill"
     }
     
-    public var verifiedImage: some View {
-        let color: Color
-
+    public var verifiedColor: Color {
         switch self {
-        case .publicTruth: color = .blue
-        case .verified: color = .green
-        case .unverified: color = .orange
+        case .publicTruth: return .blue
+        case .verified: return .green
+        case .unverified: return .orange
         }
-
-        return Image(systemName: verifiedSymbol)
-            .foregroundColor(color)
     }
 }
 
@@ -114,5 +104,14 @@ extension Policy {
         switch self {
         case .current(_): return .current
         }
+    }
+}
+
+extension Balance {
+    public var fiatBalance: Double {
+        0
+    }
+    public var btcBalance: Double {
+        0
     }
 }

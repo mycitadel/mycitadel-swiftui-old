@@ -14,12 +14,12 @@ struct MasterView: View {
     var body: some View {
         #if os(iOS)
         if UIDevice.current.userInterfaceIdiom == .pad {
-            WalletList(wallet: wallet)
+            BalanceList(wallet: wallet)
         } else {
-            WalletView(wallet: wallet, selection: wallet.balances.keys.first? ?? "")
+            WalletView(wallet: wallet, selection: wallet.availableAssetIds.first ?? "")
         }
         #else
-            WalletList(wallet: wallet)
+            BalanceList(wallet: wallet)
         #endif
     }
 }
@@ -77,10 +77,10 @@ struct WalletView: View {
 }
 
 struct WalletView_Previews: PreviewProvider {
-    @State static var dumb = DumbData()
-
+    static var wallet = CitadelVault.embedded.contracts.first!
+    
     static var previews: some View {
-        WalletView(wallet: $dumb.wallet, selection: dumb.wallet.assets.first?.ticker ?? "")
+        WalletView(wallet: wallet, selection: wallet.availableAssetIds.first ?? "")
             .preferredColorScheme(.dark)
             .previewDevice("iPhone 12 Pro")
     }

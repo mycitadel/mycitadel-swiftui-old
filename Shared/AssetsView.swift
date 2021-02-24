@@ -164,7 +164,7 @@ struct AssetRow: View {
                 Text(asset.ticker)
             }
         }
-        .tag(Tags.Asset(asset.id))
+        .tag(asset.id)
     }
 }
 

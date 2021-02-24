@@ -8,13 +8,6 @@
 import SwiftUI
 import MyCitadelKit
 
-enum Tags: Hashable {
-    case Account(UUID)
-    case Keyring(UUID)
-    case Asset(String)
-    case Settings
-}
-
 enum Sheet {
     case addAccount
     case addKeyring
@@ -35,8 +28,7 @@ struct AppView: View {
     }
 
     @StateObject private var citadel = CitadelVault.embedded
-    @State private var accounts: [AccountDisplayInfo] = []
-    @State private var selection: Tags? = nil
+    @State private var selection: String? = nil
     @State private var showingSheet = false
     @State private var activeSheet = Sheet.addAccount
     @State private var errorSheet = ErrorSheetConfig()
@@ -44,11 +36,11 @@ struct AppView: View {
     var body: some View {
         List(selection: isEditing ? nil : $selection) {
             Section(header: Text("Contracts")) {
-                ForEach(accounts.indices) { idx in
-                    NavigationLink(destination: MasterView(wallet: $accounts[idx])) {
-                        Label(accounts[idx].name,  systemImage: accounts[idx].imageName)
+                ForEach(citadel.contracts, id: \.id) { contract in
+                    NavigationLink(destination: MasterView(wallet: contract)) {
+                        Label(contract.name,  systemImage: contract.imageName)
                     }
-                    .tag(Tags.Account(accounts[idx].id))
+                    .tag(contract.id)
                 }
                 /*
                 .onMove(perform: { indices, newOffset in
@@ -57,7 +49,6 @@ struct AppView: View {
                  */
                 .onDelete(perform: { indexSet in
                     // TODO: Do the actual removal
-                    accounts.remove(atOffsets: indexSet)
                 })
                 
                 if isEditing {
@@ -178,15 +169,13 @@ struct AppView: View {
         case .importAnything: Import(importName: "anything", category: .all)
         }
     }
-    
+
     private func reloadData() {
-        var citadel = CitadelVault.embedded!
         do {
             try citadel.syncAll()
         } catch {
             errorSheet.present(error)
         }
-        accounts = citadel.contracts.map { AccountDisplayInfo(citadelContract: $0, citadelVault: citadel) }
         do {
             let _ = try citadel.syncAssets()
         } catch {

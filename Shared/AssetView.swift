@@ -13,7 +13,7 @@ struct AssetView: View {
 
     var body: some View {
         List {
-            Section(header: BalanceCard(asset: asset)
+            Section(header: BalanceCard(assetId: asset.id)
                         .padding(.bottom, 30)
                         .aspectRatio(1.5, contentMode: .fill),
                     footer: Text("Information source: embedded genesis data")) {
@@ -76,7 +76,7 @@ struct AssetView: View {
                 HStack(alignment: .center) {
                     SubheadingCell(title: "Verification status", details: "Publically known")
                     Spacer()
-                    asset.verifiedImage
+                    AssetAuthenticityImage(asset: asset)
                         .font(.title3)
                 }
                 Button(action: {}) {
@@ -153,7 +153,7 @@ struct SubheadingCell: View {
 struct AssetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            AssetView(asset: DumbData.init().data.assets[0])
+            AssetView(asset: CitadelVault.embedded.assets.values.first!)
         }
     }
 }

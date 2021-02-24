@@ -45,7 +45,7 @@ struct CitadelApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(data: $data).onAppear(perform: load).alert(isPresented: $showingAlert) {
+            ContentView().onAppear(perform: load).alert(isPresented: $showingAlert) {
                 Alert(title: Text("Failed to initialize MyCitadel node"), message: Text(alertMessage!))
             }
         }

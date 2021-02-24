@@ -8,17 +8,17 @@
 import SwiftUI
 import MyCitadelKit
 
-struct WalletList: View {
+struct BalanceList: View {
     var wallet: WalletContract
 
     var body: some View {
         List {
-            ForEach(Array(wallet.balances.values), id: \.assetId) { balance in
+            ForEach(wallet.availableAssetIds, id: \.self) { assetId in
                 ZStack {
-                    BalanceCard(balance: balance)
+                    BalanceCard(wallet: wallet, assetId: assetId)
                         .frame(width: nil, height: 125, alignment: .center)
                         .padding(4)
-                    NavigationLink(destination: TransactionView(wallet: wallet, assetId: balance.assetId)) {
+                    NavigationLink(destination: TransactionView(wallet: wallet, assetId: assetId)) {
                         EmptyView()
                     }.buttonStyle(PlainButtonStyle())
                 }
@@ -28,8 +28,8 @@ struct WalletList: View {
     }
 }
 
-struct WalletList_Previews: PreviewProvider {
+struct BalanceList_Previews: PreviewProvider {
     static var previews: some View {
-        WalletList(wallet: CitadelVault.embedded.contracts.first!)
+        BalanceList(wallet: CitadelVault.embedded.contracts.first!)
     }
 }
