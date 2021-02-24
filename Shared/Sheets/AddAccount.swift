@@ -180,8 +180,7 @@ struct AddAccountSheet: View {
     
     func createContract() {
         do {
-            var citadel = MyCitadelClient.shared.citadel;
-            let _ = try citadel.createSingleSig(named: name, descriptor: .segwit, enableRGB: true)
+            let _ = try CitadelVault.embedded.createSingleSig(named: name, descriptor: .segwit, enableRGB: true)
         } catch {
             errorSheet.present(error)
             return

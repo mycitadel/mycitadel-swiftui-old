@@ -213,7 +213,7 @@ public class AccountDisplayInfo: ObservableObject, Identifiable {
         self.contract.imageName
     }
     
-    public init(citadelContract contract: WalletContract, citadelVault vault: Citadel) {
+    public init(citadelContract contract: WalletContract, citadelVault vault: CitadelVault) {
         self.name = contract.name
         switch contract.policy {
         case .current(let descriptor):
@@ -232,7 +232,7 @@ public class AccountDisplayInfo: ObservableObject, Identifiable {
     }
 }
 
-public enum AssetCategory {
+public enum AssetCategoryOld {
     case bitcoin
     case stablecoin
     case security
@@ -269,7 +269,7 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
 
     // These are not parts of the genesis and purely UI related
     public var symbol: String
-    public var category: AssetCategory // Derived from schema id
+    public var category: AssetCategoryOld // Derived from schema id
     public var issuer: String
     public var verified: Bool
     
@@ -314,9 +314,9 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
         }
     }
 
-    public init(withId id: String, genesis: String, ticker: String, name: String, symbol: String, category: AssetCategory = .security,
+    public init(withId id: String, genesis: String, ticker: String, name: String, symbol: String, category: AssetCategoryOld = .security,
                 issuer: String = "unknown issuer", verified: Bool = false,
-                precision: UInt8 = 8, btcRate: Float = 1.0 / 10_000, fiatRate: Float = 1, balance: UInt64 = 0) {
+                precision: UInt8 = 8, btcRate: Float = 0, fiatRate: Float = 0, balance: UInt64 = 0) {
         self.id = id
         self.genesis = genesis
         self.ticker = ticker
@@ -332,7 +332,20 @@ public class AssetDisplayInfo: ObservableObject, Identifiable {
     }
     
     public convenience init(withAsset asset: RGB20Asset) {
-        self.init(withId: asset.id, genesis: asset.genesis, ticker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.fractionalBits)
+        self.init(withId: asset.id, genesis: asset.genesis, ticker: asset.ticker, name: asset.name, symbol: "coloncurrencysign.circle.fill", precision: asset.decimalPrecision)
+
+        if asset.isNative {
+            self.category = .bitcoin
+            self.symbol = "bitcoinsign.circle.fill"
+            self.verified = true
+            if CitadelVault.embedded.network == .mainnet {
+                self.btcRate = 1
+                self.fiatRate = 50_000
+            } else {
+                self.btcRate = 0
+                self.fiatRate = 0
+            }
+        }
     }
     
     public convenience init(withAsset asset: AssetDisplayInfo, balance: Float = 0) {

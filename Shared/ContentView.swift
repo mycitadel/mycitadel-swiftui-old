@@ -6,17 +6,17 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
 struct ContentView: View {
-    @Binding var data: AppDisplayInfo
     @State private var selection: String = ""
 
     var body: some View {
         NavigationView {
             AppView()
             
-            MasterView(wallet: $data.wallets[0])
-            TransactionView(wallet: data.wallets[0])
+            MasterView(wallet: CitadelVault.embedded.contracts.first!)
+            TransactionView(wallet: CitadelVault.embedded.contracts.first!)
                 .navigationTitle("History")
         }
     }
@@ -27,10 +27,10 @@ struct ContentView_Previews: PreviewProvider {
 
     static var previews: some View {
         Group {
-            ContentView(data: $dumb.data)
+            ContentView()
                 .previewDevice("iPhone 12 Pro")
 
-            ContentView(data: $dumb.data)
+            ContentView()
                 .preferredColorScheme(.dark)
                 .previewLayout(.fixed(width: 2388/2, height: 1668/2))
                 .previewDevice("iPad Pro (11-inch) (2nd generation)")

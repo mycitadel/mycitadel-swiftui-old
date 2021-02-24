@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
 struct BalancePager: View {
-    @Binding var wallet: AccountDisplayInfo
+    var wallet: WalletContract
     @Binding var selection: String
 
     #if os(iOS)
@@ -21,10 +22,10 @@ struct BalancePager: View {
     
     var body: some View {
         TabView(selection: $selection) {
-            ForEach(wallet.assets, id: \.ticker) { asset in
-                NavigationLink(destination: AssetView(asset: asset)) {
-                    AssetCard(asset: asset)
-                        .tag(asset.ticker)
+            ForEach(Array(wallet.balances.values), id: \.assetId) { balance in
+                NavigationLink(destination: AssetView(asset: CitadelVault.embedded.assets[balance.assetId]!)) {
+                    BalanceCard(balance: balance)
+                        .tag(balance.assetId)
                 }
             }
             .padding()
@@ -35,11 +36,10 @@ struct BalancePager: View {
 
 
 struct BalancePager_Previews: PreviewProvider {
-    @State static var dumb = DumbData()
     @State static var selection: String = ""
     
     static var previews: some View {
-        BalancePager(wallet: $dumb.wallet, selection: $selection)
+        BalancePager(wallet: CitadelVault.embedded.contracts.first!, selection: $selection)
             .previewDevice("iPhone 12 Pro")
             .frame(height: 100.0/*@END_MENU_TOKEN@*/)
             .environment(\.currencyUoA, "USD")

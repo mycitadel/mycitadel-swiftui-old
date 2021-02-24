@@ -11,6 +11,8 @@
 		3007B65625CB783300C936DD /* CreateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65425CB783300C936DD /* CreateAccount.swift */; };
 		3007B65825CBA15500C936DD /* CreateSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65725CBA15500C936DD /* CreateSigner.swift */; };
 		3007B65925CBA15500C936DD /* CreateSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65725CBA15500C936DD /* CreateSigner.swift */; };
+		3015232925E5BF1600069C06 /* DisplayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015232825E5BF1600069C06 /* DisplayExtensions.swift */; };
+		3015232A25E5BF1600069C06 /* DisplayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015232825E5BF1600069C06 /* DisplayExtensions.swift */; };
 		304DE95625C741F2008FE0A4 /* MyCitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; };
 		304DE95725C741F2008FE0A4 /* MyCitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96825C83D3E008FE0A4 /* AssetsView.swift */; };
@@ -27,8 +29,8 @@
 		308BD00C25627E21009E4DEE /* DisplayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD00B25627E21009E4DEE /* DisplayInfo.swift */; };
 		308BD00D25627E21009E4DEE /* DisplayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD00B25627E21009E4DEE /* DisplayInfo.swift */; };
 		308BD0132562810B009E4DEE /* BalancePager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD0122562810B009E4DEE /* BalancePager.swift */; };
-		308BD01825628135009E4DEE /* AssetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01725628135009E4DEE /* AssetCard.swift */; };
-		308BD01925628135009E4DEE /* AssetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01725628135009E4DEE /* AssetCard.swift */; };
+		308BD01825628135009E4DEE /* BalanceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01725628135009E4DEE /* BalanceCard.swift */; };
+		308BD01925628135009E4DEE /* BalanceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01725628135009E4DEE /* BalanceCard.swift */; };
 		308BD01F256282B3009E4DEE /* DumbData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01E256282B3009E4DEE /* DumbData.swift */; };
 		308BD020256282B3009E4DEE /* DumbData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD01E256282B3009E4DEE /* DumbData.swift */; };
 		308BD0242562A258009E4DEE /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD0232562A258009E4DEE /* WalletView.swift */; };
@@ -77,6 +79,8 @@
 /* Begin PBXFileReference section */
 		3007B65425CB783300C936DD /* CreateAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccount.swift; sourceTree = "<group>"; };
 		3007B65725CBA15500C936DD /* CreateSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSigner.swift; sourceTree = "<group>"; };
+		3015232825E5BF1600069C06 /* DisplayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayExtensions.swift; sourceTree = "<group>"; };
+		3015232B25E5C56200069C06 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/Combine.framework; sourceTree = DEVELOPER_DIR; };
 		304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MyCitadelKit.xcframework; path = "../mycitadel-node/artifacts/MyCitadelKit.xcframework"; sourceTree = "<group>"; };
 		304DE96825C83D3E008FE0A4 /* AssetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsView.swift; sourceTree = "<group>"; };
 		304DE96B25C87021008FE0A4 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
@@ -90,7 +94,7 @@
 		308BCFF525627CDB009E4DEE /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		308BD00B25627E21009E4DEE /* DisplayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayInfo.swift; sourceTree = "<group>"; };
 		308BD0122562810B009E4DEE /* BalancePager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalancePager.swift; sourceTree = "<group>"; };
-		308BD01725628135009E4DEE /* AssetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCard.swift; sourceTree = "<group>"; };
+		308BD01725628135009E4DEE /* BalanceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceCard.swift; sourceTree = "<group>"; };
 		308BD01E256282B3009E4DEE /* DumbData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumbData.swift; sourceTree = "<group>"; };
 		308BD0232562A258009E4DEE /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		308BD0282562A3D9009E4DEE /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 		306DD97A258E8F0E00E8C148 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3015232B25E5C56200069C06 /* Combine.framework */,
 				304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */,
 			);
 			name = Frameworks;
@@ -153,7 +158,7 @@
 				30A6CEB425634F17002F30B0 /* AppView.swift */,
 				308BCFE425627CD8009E4DEE /* ContentView.swift */,
 				308BD0122562810B009E4DEE /* BalancePager.swift */,
-				308BD01725628135009E4DEE /* AssetCard.swift */,
+				308BD01725628135009E4DEE /* BalanceCard.swift */,
 				308BD0232562A258009E4DEE /* WalletView.swift */,
 				308BD0282562A3D9009E4DEE /* TransactionView.swift */,
 				308BCFE525627CDB009E4DEE /* Assets.xcassets */,
@@ -196,6 +201,7 @@
 			children = (
 				308BD01E256282B3009E4DEE /* DumbData.swift */,
 				308BD00B25627E21009E4DEE /* DisplayInfo.swift */,
+				3015232825E5BF1600069C06 /* DisplayExtensions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -320,6 +326,7 @@
 			files = (
 				308BCFF825627CDB009E4DEE /* ContentView.swift in Sources */,
 				308BD03425631E8A009E4DEE /* AddAccount.swift in Sources */,
+				3015232925E5BF1600069C06 /* DisplayExtensions.swift in Sources */,
 				3007B65825CBA15500C936DD /* CreateSigner.swift in Sources */,
 				308BD0292562A3D9009E4DEE /* TransactionView.swift in Sources */,
 				30A6CEB02563453E002F30B0 /* WalletList.swift in Sources */,
@@ -331,7 +338,7 @@
 				308BD01F256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC325636EC9002F30B0 /* AddKeyring.swift in Sources */,
 				30A82FAF25CB32E2002EFA31 /* SheetConfig.swift in Sources */,
-				308BD01825628135009E4DEE /* AssetCard.swift in Sources */,
+				308BD01825628135009E4DEE /* BalanceCard.swift in Sources */,
 				304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				3007B65525CB783300C936DD /* CreateAccount.swift in Sources */,
 				308BD00C25627E21009E4DEE /* DisplayInfo.swift in Sources */,
@@ -345,6 +352,7 @@
 			files = (
 				308BCFF925627CDB009E4DEE /* ContentView.swift in Sources */,
 				308BD03525631E8A009E4DEE /* AddAccount.swift in Sources */,
+				3015232A25E5BF1600069C06 /* DisplayExtensions.swift in Sources */,
 				3007B65925CBA15500C936DD /* CreateSigner.swift in Sources */,
 				308BD02A2562A3D9009E4DEE /* TransactionView.swift in Sources */,
 				30A6CEB12563453E002F30B0 /* WalletList.swift in Sources */,
@@ -356,7 +364,7 @@
 				308BD020256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC225636EC9002F30B0 /* AddKeyring.swift in Sources */,
 				30A82FB025CB32E2002EFA31 /* SheetConfig.swift in Sources */,
-				308BD01925628135009E4DEE /* AssetCard.swift in Sources */,
+				308BD01925628135009E4DEE /* BalanceCard.swift in Sources */,
 				304DE96A25C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				3007B65625CB783300C936DD /* CreateAccount.swift in Sources */,
 				308BD00D25627E21009E4DEE /* DisplayInfo.swift in Sources */,

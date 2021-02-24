@@ -9,22 +9,22 @@ import SwiftUI
 import MyCitadelKit
 
 struct AssetView: View {
-    let asset: AssetDisplayInfo
+    var asset: Asset
 
     var body: some View {
         List {
-            Section(header: AssetCard(asset: asset)
+            Section(header: BalanceCard(asset: asset)
                         .padding(.bottom, 30)
                         .aspectRatio(1.5, contentMode: .fill),
                     footer: Text("Information source: embedded genesis data")) {
                 HStack(alignment: .center) {
-                    SubheadingCell(title: "Isset Id", details: asset.id)
+                    SubheadingCell(title: "Asset Id", details: asset.id)
                     Spacer()
                     Button(action: {}) { Image(systemName: "doc.on.doc") }
                 }
                 DetailsCell(title: "Ticker", details: asset.ticker)
                 DetailsCell(title: "Name", details: asset.name)
-                DetailsCell(title: "Divisibility", details: "\(asset.precision) subdecimals")
+                DetailsCell(title: "Divisibility", details: "\(asset.decimalPrecision) subdecimals")
                 DetailsCell(title: "Known since", details: "09 Jan 2009")
                 NavigationLink(destination: Text("none")) {
                     Text("Recardian contract")
@@ -71,7 +71,7 @@ struct AssetView: View {
             }
 
             Section(header: Text("Issuer information"), footer: Text("Information source: MyCitadel digital asset issuer database")) {
-                SubheadingCell(title: "Issuer name", details: asset.issuer)
+                SubheadingCell(title: "Issuer name", details: asset.authenticity.issuer?.name ?? "unknown")
                 SubheadingCell(title: "Issuer details", details: "Decentralized consensus in bitcoin mainnet blockchain")
                 HStack(alignment: .center) {
                     SubheadingCell(title: "Verification status", details: "Publically known")

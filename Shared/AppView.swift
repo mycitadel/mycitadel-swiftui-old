@@ -34,8 +34,8 @@ struct AppView: View {
         #endif
     }
 
+    @StateObject private var citadel = CitadelVault.embedded
     @State private var accounts: [AccountDisplayInfo] = []
-    @State private var assets: [AssetDisplayInfo] = []
     @State private var selection: Tags? = nil
     @State private var showingSheet = false
     @State private var activeSheet = Sheet.addAccount
@@ -91,7 +91,7 @@ struct AppView: View {
             */
 
             Section(header: Text("Main assets")) {
-                ForEach(assets) { asset in
+                ForEach(Array(citadel.assets.values), id: \.id) { asset in
                     AssetRow(asset: asset)
                 }
                 .onDelete(perform: deleteAsset)
@@ -180,7 +180,7 @@ struct AppView: View {
     }
     
     private func reloadData() {
-        var citadel = MyCitadelClient.shared.citadel
+        var citadel = CitadelVault.embedded!
         do {
             try citadel.syncAll()
         } catch {
@@ -188,7 +188,7 @@ struct AppView: View {
         }
         accounts = citadel.contracts.map { AccountDisplayInfo(citadelContract: $0, citadelVault: citadel) }
         do {
-            assets = try citadel.syncAssets().values.map(AssetDisplayInfo.init)
+            let _ = try citadel.syncAssets()
         } catch {
             errorSheet.present(error)
         }
@@ -196,8 +196,7 @@ struct AppView: View {
     
     private func reloadAssets() {
         do {
-            var citadel = MyCitadelClient.shared.citadel
-            assets = try citadel.syncAssets().values.map(AssetDisplayInfo.init)
+            let _ = try CitadelVault.embedded.syncAssets()
         } catch {
             errorSheet.present(error)
         }

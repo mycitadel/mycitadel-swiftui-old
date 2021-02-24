@@ -6,19 +6,20 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
 struct MasterView: View {
-    @Binding var wallet: AccountDisplayInfo
+    var wallet: WalletContract
 
     var body: some View {
         #if os(iOS)
         if UIDevice.current.userInterfaceIdiom == .pad {
-            WalletList(wallet: $wallet)
+            WalletList(wallet: wallet)
         } else {
-            WalletView(wallet: $wallet, selection: wallet.assets.first?.ticker ?? "")
+            WalletView(wallet: wallet, selection: wallet.balances.keys.first? ?? "")
         }
         #else
-            WalletList(wallet: $wallet)
+            WalletList(wallet: wallet)
         #endif
     }
 }
@@ -53,12 +54,12 @@ struct SendReceiveView: View {
 }
 
 struct WalletView: View {
-    @Binding var wallet: AccountDisplayInfo
+    var wallet: WalletContract
     @State var selection: String
     
     var body: some View {
         List {
-            BalancePager(wallet: $wallet, selection: $selection)
+            BalancePager(wallet: wallet, selection: $selection)
                 .frame(height: 200.0)
             Section(header: SendReceiveView()) {
                 ForEach(wallet.transactions.filter { selection == "" || $0.asset.ticker == selection }) { transaction in

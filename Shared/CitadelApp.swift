@@ -52,7 +52,7 @@ struct CitadelApp: App {
     }
     
     private func load() {
-        if let err = MyCitadelClient.shared?.lastError() {
+        if let err = CitadelVault.embedded.lastError() {
             self.showingAlert = true
             self.alertMessage = err.localizedDescription
         }
@@ -61,11 +61,10 @@ struct CitadelApp: App {
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        try! MyCitadelClient.connect()
-        var citadel = MyCitadelClient.shared.citadel
-        if let contracts = try? citadel.syncContracts() {
+        try! CitadelVault.runEmbeddedNode(connectingNetwork: .testnet)
+        if let contracts = try? CitadelVault.embedded.syncContracts() {
             if contracts.isEmpty {
-                try? citadel.createSingleSig(named: "Default", descriptor: .segwit, enableRGB: true)
+                try? CitadelVault.embedded.createSingleSig(named: "Default", descriptor: .segwit, enableRGB: true)
             }
         }
         return true

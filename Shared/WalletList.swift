@@ -6,18 +6,19 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
 struct WalletList: View {
-    @Binding var wallet: AccountDisplayInfo
+    var wallet: WalletContract
 
     var body: some View {
         List {
-            ForEach(wallet.assets, id: \.ticker) { asset in
+            ForEach(Array(wallet.balances.values), id: \.assetId) { balance in
                 ZStack {
-                    AssetCard(asset: asset)
+                    BalanceCard(balance: balance)
                         .frame(width: nil, height: 125, alignment: .center)
                         .padding(4)
-                    NavigationLink(destination: TransactionView(wallet: wallet, ticker: asset.ticker)) {
+                    NavigationLink(destination: TransactionView(wallet: wallet, assetId: balance.assetId)) {
                         EmptyView()
                     }.buttonStyle(PlainButtonStyle())
                 }
@@ -28,9 +29,7 @@ struct WalletList: View {
 }
 
 struct WalletList_Previews: PreviewProvider {
-    @State static var dumb = DumbData()
-
     static var previews: some View {
-        WalletList(wallet: $dumb.wallet)
+        WalletList(wallet: CitadelVault.embedded.contracts.first!)
     }
 }

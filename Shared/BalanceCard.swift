@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
-struct AssetCard: View {
-    @ObservedObject var asset: AssetDisplayInfo
+struct BalanceCard: View {
+    var balance: Balance
+    var asset: Asset {
+        CitadelVault.embedded.assets[balance.assetId]!
+    }
     @Environment(\.currencyUoA) var fiatUoA: String
     
     var body: some View {
@@ -23,12 +27,14 @@ struct AssetCard: View {
                 Text(asset.name).font(.title)
                 Spacer()
                 HStack {
-                    Text("\(asset.balance, specifier: "%.2f") \(asset.ticker)").font(.largeTitle)
+                    Text("\(balance.total, specifier: "%.2f") \(asset.ticker)").font(.largeTitle)
                     Spacer()
+                    /*
                     VStack(alignment: .trailing) {
                         Text("\(asset.fiatBalance, specifier: "%.2f") \(fiatUoA)")
                         Text("\(asset.btcBalance, specifier:"%.6f") BTC")
                     }.font(.footnote)
+                    */
                 }
                 Spacer()
                 HStack {
@@ -47,6 +53,6 @@ struct AssetCard: View {
 
 struct AssetCard_Previews: PreviewProvider {
     static var previews: some View {
-        AssetCard(asset: DumbData.init().data.assets[0])
+        BalanceCard(balance: CitadelVault.embedded.balances.first!)
     }
 }

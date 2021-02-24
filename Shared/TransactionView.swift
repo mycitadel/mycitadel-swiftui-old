@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MyCitadelKit
 
 struct TransactionCell: View {
     @ObservedObject var transaction: TransactionDisplayInfo
@@ -37,11 +38,11 @@ struct TransactionCell: View {
 }
 
 struct TransactionView: View {
-    @ObservedObject var wallet: AccountDisplayInfo
-    var ticker: String? = nil
+    var wallet: WalletContract
+    var assetId: String? = nil
 
     var body: some View {
-        List(wallet.transactions.filter { ticker == nil || $0.asset.ticker == ticker }) { transaction in
+        List(wallet.transactions.filter { assetId == nil || $0.asset.id == assetId }) { transaction in
             TransactionCell(transaction: transaction)
         }
         .toolbar {
@@ -60,11 +61,8 @@ struct TransactionView: View {
 }
 
 struct TransactionView_Previews: PreviewProvider {
-    @State static var dumb = DumbData()
-    @State static var ticker: String = ""
-
     static var previews: some View {
-        TransactionView(wallet: dumb.wallet)
+        TransactionView(wallet: CitadelVault.embedded.contracts.first!)
             .preferredColorScheme(.dark)
             .previewDevice("iPhone 12 Pro")
     }

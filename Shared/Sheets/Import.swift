@@ -134,7 +134,7 @@ struct Import: View {
             recognitionMessages = [
                 ("Ticker", asset.ticker),
                 ("Name", asset.name),
-                ("Known supply", String(asset.knownCirculating))
+                ("Known supply", String(asset.knownIssued ?? 0))
             ]
             canImport = true
         default: break
@@ -161,8 +161,7 @@ struct Import: View {
         do {
             switch info.details {
             case .rgb20Asset(_):
-                var citadel = MyCitadelClient.shared.citadel
-                let _ = try citadel.importAsset(genesisBech32: bechString)
+                let _ = try CitadelVault.embedded.importAsset(fromString: bechString)
             default:
                 break
             }

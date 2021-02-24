@@ -109,14 +109,14 @@ struct AssetList: View {
         #endif
     }
 
-    @State private var assets: [AssetDisplayInfo] = []
+    @StateObject private var citadel = CitadelVault.embedded
 
     @Binding var showingSheet: Bool
     @Binding var errorSheet: ErrorSheetConfig
 
     var body: some View {
         List {
-            ForEach(assets) { asset in
+            ForEach(Array(citadel.assets.values), id: \.id) { asset in
                 AssetRow(asset: asset)
             }
             .onDelete(perform: deleteAsset)
@@ -138,8 +138,7 @@ struct AssetList: View {
     
     public func reloadAssets() {
         do {
-            var citadel = MyCitadelClient.shared.citadel
-            assets = try citadel.syncAssets().values.map(AssetDisplayInfo.init)
+            let _ = try CitadelVault.embedded.syncAssets()
         } catch {
             errorSheet.present(error)
         }
@@ -155,7 +154,7 @@ struct AssetList: View {
 }
 
 struct AssetRow: View {
-    var asset: AssetDisplayInfo
+    var asset: Asset
     
     var body: some View {
         NavigationLink(destination: AssetView(asset: asset)) {
