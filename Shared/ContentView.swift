@@ -9,8 +9,6 @@ import SwiftUI
 import MyCitadelKit
 
 struct ContentView: View {
-    @State private var selection: String = ""
-
     var body: some View {
         NavigationView {
             AppView()
@@ -23,8 +21,6 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    @State static var dumb = DumbData()
-
     static var previews: some View {
         Group {
             ContentView()

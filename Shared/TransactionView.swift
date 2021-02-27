@@ -39,22 +39,30 @@ struct TransactionCell: View {
 
 struct TransactionView: View {
     var wallet: WalletContract
-    var assetId: String? = nil
+    var assetId: String = CitadelVault.embedded.nativeAsset.id
 
+    @State var presentedSheet: PresentedSheet?
+    
     var body: some View {
-        List(wallet.transactions.filter { assetId == nil || $0.asset.id == assetId }) { transaction in
+        List(wallet.transactions.filter { $0.asset.id == assetId }) { transaction in
             TransactionCell(transaction: transaction)
         }
         .toolbar {
-            ToolbarItemGroup(placement: .automatic) {
-                Button("Receive") { }
+            ToolbarItemGroup(placement: .navigationBarLeading) {
+                Button("Receive") { presentedSheet = .invoice(wallet, assetId) }
                     .background(Color.accentColor)
                     .foregroundColor(.white)
                     .cornerRadius(13)
+                Spacer()
                 Button("Send") { }
                     .background(Color.accentColor)
                     .foregroundColor(.white)
                     .cornerRadius(13)
+            }
+        }
+        .sheet(item: $presentedSheet) { item in
+            switch item {
+            case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
             }
         }
     }
@@ -62,7 +70,8 @@ struct TransactionView: View {
 
 struct TransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionView(wallet: CitadelVault.embedded.contracts.first!)
+        TransactionView(wallet: CitadelVault.embedded.contracts.first!,
+                        assetId: CitadelVault.embedded.assets.values.first!.id)
             .preferredColorScheme(.dark)
             .previewDevice("iPhone 12 Pro")
     }

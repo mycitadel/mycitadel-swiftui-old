@@ -16,6 +16,20 @@ extension BitcoinNetwork {
         case .signet: return "Bitcoin signet"
         }
     }
+    
+    var localizedSats: String {
+        switch self {
+        case .mainnet: return "Sats."
+        default: return "tSats."
+        }
+    }
+
+    var localizedSatoshis: String {
+        switch self {
+        case .mainnet: return "Satoshis"
+        default: return "Testnet satoshis"
+        }
+    }
 }
 
 extension AssetCategory {

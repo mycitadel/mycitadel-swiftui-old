@@ -101,7 +101,7 @@ struct AssetView: View {
                             Spacer()
                             Image(systemName: "chevron.right.2")
                                 .font(.title3)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                         }
                     }
                 } else {

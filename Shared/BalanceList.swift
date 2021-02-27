@@ -13,12 +13,12 @@ struct BalanceList: View {
 
     var body: some View {
         List {
-            ForEach(wallet.availableAssetIds, id: \.self) { assetId in
+            ForEach(wallet.availableAssets, id: \.id) { asset in
                 ZStack {
-                    BalanceCard(wallet: wallet, assetId: assetId)
+                    BalanceCard(wallet: wallet, assetId: asset.id)
                         .frame(width: nil, height: 125, alignment: .center)
                         .padding(4)
-                    NavigationLink(destination: TransactionView(wallet: wallet, assetId: assetId)) {
+                    NavigationLink(destination: TransactionView(wallet: wallet, assetId: asset.id)) {
                         EmptyView()
                     }.buttonStyle(PlainButtonStyle())
                 }

@@ -16,7 +16,7 @@ struct MasterView: View {
         if UIDevice.current.userInterfaceIdiom == .pad {
             BalanceList(wallet: wallet)
         } else {
-            WalletView(wallet: wallet, selection: wallet.availableAssetIds.first ?? "")
+            WalletView(wallet: wallet)
         }
         #else
             BalanceList(wallet: wallet)
@@ -25,11 +25,13 @@ struct MasterView: View {
 }
 
 struct SendReceiveView: View {
+    @Binding var presentedSheet: PresentedSheet?
+    
     var body: some View {
         HStack {
             Spacer()
             
-            Button(action: {}) {
+            Button(action: { presentedSheet = .invoice(nil, nil) }) {
                 Label("Invoice", systemImage: "scroll")
                     .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                     .foregroundColor(.white)
@@ -55,14 +57,15 @@ struct SendReceiveView: View {
 
 struct WalletView: View {
     var wallet: WalletContract
-    @State var selection: String
+    @State var assetId: String = CitadelVault.embedded.nativeAsset.id
+    @State private var presentedSheet: PresentedSheet?
     
     var body: some View {
         List {
-            BalancePager(wallet: wallet, selection: $selection)
+            BalancePager(wallet: wallet, assetId: $assetId)
                 .frame(height: 200.0)
-            Section(header: SendReceiveView()) {
-                ForEach(wallet.transactions.filter { selection == "" || $0.asset.ticker == selection }) { transaction in
+            Section(header: SendReceiveView(presentedSheet: $presentedSheet)) {
+                ForEach(wallet.transactions.filter { assetId == "" || $0.asset.ticker == assetId }) { transaction in
                     TransactionCell(transaction: transaction)
                 }
             }
@@ -73,6 +76,11 @@ struct WalletView: View {
                 Image(systemName: "calendar")
             }
         })
+        .sheet(item: $presentedSheet) { item in
+            switch item {
+            case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
+            }
+        }
     }
 }
 
@@ -80,7 +88,7 @@ struct WalletView_Previews: PreviewProvider {
     static var wallet = CitadelVault.embedded.contracts.first!
     
     static var previews: some View {
-        WalletView(wallet: wallet, selection: wallet.availableAssetIds.first ?? "")
+        WalletView(wallet: wallet)
             .preferredColorScheme(.dark)
             .previewDevice("iPhone 12 Pro")
     }

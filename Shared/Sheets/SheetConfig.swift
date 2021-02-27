@@ -6,6 +6,20 @@
 //
 
 import SwiftUI
+import MyCitadelKit
+
+enum PresentedSheet {
+    case invoice(WalletContract?, String?)
+}
+
+extension PresentedSheet: Identifiable {
+    var id: Int {
+        switch self {
+        case .invoice(_, _): return 0
+        }
+    }
+}
+
 
 class SheetConfig: ObservableObject {
     var presented: Bool = false

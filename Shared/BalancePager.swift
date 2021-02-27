@@ -10,7 +10,7 @@ import MyCitadelKit
 
 struct BalancePager: View {
     var wallet: WalletContract
-    @Binding var selection: String
+    @Binding var assetId: String
 
     #if os(iOS)
         var tabBarStyle = PageTabViewStyle()
@@ -21,7 +21,7 @@ struct BalancePager: View {
     #endif
     
     var body: some View {
-        TabView(selection: $selection) {
+        TabView(selection: $assetId) {
             ForEach(wallet.availableAssetIds, id: \.self) { assetId in
                 NavigationLink(destination: AssetView(asset: CitadelVault.embedded.assets[assetId]!)) {
                     BalanceCard(wallet: wallet, assetId: assetId)
@@ -39,7 +39,7 @@ struct BalancePager_Previews: PreviewProvider {
     @State static var selection: String = ""
     
     static var previews: some View {
-        BalancePager(wallet: CitadelVault.embedded.contracts.first!, selection: $selection)
+        BalancePager(wallet: CitadelVault.embedded.contracts.first!, assetId: $selection)
             .previewDevice("iPhone 12 Pro")
             .frame(height: 100.0/*@END_MENU_TOKEN@*/)
             .environment(\.currencyUoA, "USD")

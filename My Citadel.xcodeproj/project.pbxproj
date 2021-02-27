@@ -15,6 +15,8 @@
 		3015232A25E5BF1600069C06 /* DisplayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015232825E5BF1600069C06 /* DisplayExtensions.swift */; };
 		3015233425E66CAA00069C06 /* EntityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233325E66CAA00069C06 /* EntityViews.swift */; };
 		3015233525E66CAA00069C06 /* EntityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233325E66CAA00069C06 /* EntityViews.swift */; };
+		3015233825E6EE8900069C06 /* Invoicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233725E6EE8900069C06 /* Invoicing.swift */; };
+		3015233925E6EE8900069C06 /* Invoicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233725E6EE8900069C06 /* Invoicing.swift */; };
 		304DE95625C741F2008FE0A4 /* MyCitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; };
 		304DE95725C741F2008FE0A4 /* MyCitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96825C83D3E008FE0A4 /* AssetsView.swift */; };
@@ -84,6 +86,7 @@
 		3015232825E5BF1600069C06 /* DisplayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayExtensions.swift; sourceTree = "<group>"; };
 		3015232B25E5C56200069C06 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/Combine.framework; sourceTree = DEVELOPER_DIR; };
 		3015233325E66CAA00069C06 /* EntityViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViews.swift; sourceTree = "<group>"; };
+		3015233725E6EE8900069C06 /* Invoicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoicing.swift; sourceTree = "<group>"; };
 		304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MyCitadelKit.xcframework; path = "../mycitadel-node/artifacts/MyCitadelKit.xcframework"; sourceTree = "<group>"; };
 		304DE96825C83D3E008FE0A4 /* AssetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsView.swift; sourceTree = "<group>"; };
 		304DE96B25C87021008FE0A4 /* AssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetView.swift; sourceTree = "<group>"; };
@@ -176,14 +179,15 @@
 				3007B65425CB783300C936DD /* SelectContract.swift */,
 				308BD03325631E8A009E4DEE /* CreateCurrentContract.swift */,
 				308BCFE425627CD8009E4DEE /* ContentView.swift */,
+				308BD0232562A258009E4DEE /* WalletView.swift */,
 				30A6CEAF2563453E002F30B0 /* BalanceList.swift */,
 				308BD0122562810B009E4DEE /* BalancePager.swift */,
 				308BD01725628135009E4DEE /* BalanceCard.swift */,
-				308BD0232562A258009E4DEE /* WalletView.swift */,
 				308BD0282562A3D9009E4DEE /* TransactionView.swift */,
 				308BCFE525627CDB009E4DEE /* Assets.xcassets */,
 				304DE96825C83D3E008FE0A4 /* AssetsView.swift */,
 				304DE96B25C87021008FE0A4 /* AssetView.swift */,
+				3015233725E6EE8900069C06 /* Invoicing.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -349,6 +353,7 @@
 				30A6CEBA256351A1002F30B0 /* AppView.swift in Sources */,
 				308BD01F256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC325636EC9002F30B0 /* AddKeyring.swift in Sources */,
+				3015233825E6EE8900069C06 /* Invoicing.swift in Sources */,
 				30A82FAF25CB32E2002EFA31 /* SheetConfig.swift in Sources */,
 				308BD01825628135009E4DEE /* BalanceCard.swift in Sources */,
 				3015233425E66CAA00069C06 /* EntityViews.swift in Sources */,
@@ -376,6 +381,7 @@
 				308BD0252562A258009E4DEE /* WalletView.swift in Sources */,
 				308BD020256282B3009E4DEE /* DumbData.swift in Sources */,
 				30A6CEC225636EC9002F30B0 /* AddKeyring.swift in Sources */,
+				3015233925E6EE8900069C06 /* Invoicing.swift in Sources */,
 				30A82FB025CB32E2002EFA31 /* SheetConfig.swift in Sources */,
 				308BD01925628135009E4DEE /* BalanceCard.swift in Sources */,
 				3015233525E66CAA00069C06 /* EntityViews.swift in Sources */,
