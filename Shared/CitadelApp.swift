@@ -18,7 +18,11 @@ public func generateQRCode(from string: String) -> Image {
 
     if let outputImage = filter.outputImage {
         if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+            #if os(macOS)
+            return Image(nsImage: NSImage(cgImage: cgimg, size: NSSize(width: 512, height: 512)))
+            #else
             return Image(uiImage: UIImage(cgImage: cgimg))
+            #endif
         }
     }
 
@@ -41,8 +45,13 @@ struct CitadelApp: App {
     @State private var data = DumbData().data
     @State private var showingAlert = false
     @State private var alertMessage: String?
+    #if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
+    #endif
+    #if os(macOS)
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #endif
+    
     var body: some Scene {
         WindowGroup {
             ContentView().onAppear(perform: load).alert(isPresented: $showingAlert) {
@@ -59,14 +68,32 @@ struct CitadelApp: App {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        try! CitadelVault.runEmbeddedNode(connectingNetwork: .testnet)
-        if let contracts = try? CitadelVault.embedded.syncContracts() {
-            if contracts.isEmpty {
-                try? CitadelVault.embedded.createSingleSig(named: "Default", descriptor: .segwit, enableRGB: true)
+func initCitadel() {
+    try! CitadelVault.runEmbeddedNode(connectingNetwork: .testnet)
+    if let contracts = try? CitadelVault.embedded.syncContracts() {
+        if contracts.isEmpty {
+            do {
+                try CitadelVault.embedded.createSingleSig(named: "Default", descriptor: .segwit, enableRGB: true)
+            } catch {
+                fatalError("initializing default contract: \(error.localizedDescription)")
             }
         }
+    }
+}
+
+#if os(iOS)
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        initCitadel()
         return true
     }
 }
+#endif
+
+#if os(macOS)
+class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        initCitadel()
+    }
+}
+#endif

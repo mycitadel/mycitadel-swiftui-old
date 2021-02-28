@@ -15,6 +15,12 @@ enum Sheet {
     case importAnything
 }
 
+extension View {
+    func conditional(closure: (Self) -> AnyView) -> AnyView {
+        return closure(self)
+    }
+}
+
 struct AppView: View {
     #if !os(macOS)
     @Environment(\.editMode) private var editMode
@@ -123,7 +129,16 @@ struct AppView: View {
             }
             #endif
 
-
+            #if os(macOS)
+            ToolbarItemGroup(placement: .automatic) {
+                Button(action: createWallet) {
+                    Image(systemName: "plus")
+                }
+                Button(action: importAnything) {
+                    Image(systemName: "square.and.arrow.down")
+                }
+            }
+            #else
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 /*
                 Menu {
@@ -154,6 +169,7 @@ struct AppView: View {
                     Image(systemName: "qrcode.viewfinder")
                 }
             }
+            #endif
         })
         .sheet(isPresented: $showingSheet, onDismiss: reloadData, content: sheetContent)
         .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
@@ -172,7 +188,7 @@ struct AppView: View {
 
     private func reloadData() {
         do {
-            try citadel.syncAll()
+            let _ = try citadel.syncContracts()
         } catch {
             errorSheet.present(error)
         }

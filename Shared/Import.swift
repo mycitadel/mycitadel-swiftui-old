@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+#if os(iOS)
 import CodeScanner
+#endif
 import MyCitadelKit
 
 struct Import: View {
@@ -44,8 +46,6 @@ struct Import: View {
                 TextEditor(text: $bechString)
                     .font(.title2)
                     .lineSpacing(6)
-                    .autocapitalization(.none)
-                    .textContentType(.none)
                     .disableAutocorrection(true)
                     .padding(0)
                     .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
@@ -56,11 +56,12 @@ struct Import: View {
 
                 Divider()
 
+                #if os(iOS)
                 Label("Or scan a QR code:", systemImage: "qrcode.viewfinder")
                     .font(.headline)
                 CodeScannerView(codeTypes: [.qr], simulatedData: "genesis1qyfe883hey6jrgj2xvk5g3dfmfqfzm7a4wez4pd2krf7ltsxffd6u6nrvjvvnc8vt9llmp7663pgututl9heuwaudet72ay9j6thc6cetuvhxvsqqya5xjt2w9y4u6sfkuszwwctnrpug5yjxnthmr3mydg05rdrpspcxysnqvvqpfvag2w8jxzzsz9pf8pjfwf0xvln5z7w93yjln3gcnyxsa04jsf2p8vu4sxgppfv0j9qer9wpmqlum5uyzrzwven3euhvknz398yv7n7vvfnxzp26eryuz0vxgueqrftgqxgv90dp3sgxxqkzggryve5s8l0nt94xne7pv6ksln9wj3ekel753vcwhvksuud2037k5lmj2k5cmut4clzfzucds5h4aqt4cx6pyqtqgsqq0e4wu", completion: parseBechQr)
                     .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
-
+                #endif                
                
                 Group {
                     HStack {
@@ -141,6 +142,7 @@ struct Import: View {
         }
     }
     
+    #if os(iOS)
     private func parseBechQr(result: Result<String, CodeScannerView.ScanError>) {
         switch result {
         case .success(let bech32):
@@ -155,6 +157,7 @@ struct Import: View {
             recognitionErrors = ["QR error: \(error.localizedDescription)"]
         }
     }
+    #endif
     
     private func importBech32() {
         let info = Bech32Info(bechString)

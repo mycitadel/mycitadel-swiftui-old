@@ -20,12 +20,18 @@ struct AssetsView: View {
 
     @State private var showingImportSheet: Bool = false
     @State private var errorSheet = ErrorSheetConfig()
+    
+    #if os(iOS)
+    static let toolbarPlacement = ToolbarItemPlacement.bottomBar
+    #else
+    static let toolbarPlacement = ToolbarItemPlacement.status
+    #endif
 
     var body: some View {
         self.assetList
         .navigationTitle("Known assets")
         .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
+            ToolbarItemGroup(placement: AssetsView.toolbarPlacement) {
                 Spacer()
 
                 Menu {
@@ -78,9 +84,11 @@ struct AssetsView: View {
                 Spacer()
             }
 
+            #if os(iOS)
             ToolbarItem(placement: .primaryAction) {
                 EditButton()
             }
+            #endif
         }
         .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
         .sheet(isPresented: $showingImportSheet) {

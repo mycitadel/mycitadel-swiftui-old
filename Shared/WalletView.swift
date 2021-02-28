@@ -59,12 +59,16 @@ struct WalletView: View {
     var wallet: WalletContract
     @State var assetId: String = CitadelVault.embedded.nativeAsset.id
     @State private var presentedSheet: PresentedSheet?
+    @State private var errorMessage: String? = nil
     
     var body: some View {
         List {
             BalancePager(wallet: wallet, assetId: $assetId)
                 .frame(height: 200.0)
             Section(header: SendReceiveView(presentedSheet: $presentedSheet)) {
+                if let errorMessage = errorMessage {
+                    Text(errorMessage).foregroundColor(.red)
+                }
                 ForEach(wallet.transactions.filter { assetId == "" || $0.asset.ticker == assetId }) { transaction in
                     TransactionCell(transaction: transaction)
                 }
@@ -72,14 +76,23 @@ struct WalletView: View {
         }
         .navigationTitle(wallet.name)
         .toolbar(content: {
-            Button(action: { }) {
-                Image(systemName: "calendar")
+            Button(action: sync) {
+                Image(systemName: "arrow.clockwise")
             }
         })
         .sheet(item: $presentedSheet) { item in
             switch item {
             case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
             }
+        }
+    }
+    
+    func sync() {
+        do {
+            try wallet.sync()
+            errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
         }
     }
 }

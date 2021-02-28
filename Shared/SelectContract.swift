@@ -82,7 +82,7 @@ struct ContractCard: View {
             }
             .padding()
             .foregroundColor(.black)
-            .background(Color(.white))
+            .background(Color(CGColor.white))
         }
         .cornerRadius(13)
         .shadow(radius: 6.66)

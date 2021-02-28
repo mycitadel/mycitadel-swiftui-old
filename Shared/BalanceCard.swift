@@ -35,12 +35,14 @@ struct BalanceCard: View {
                 Text(asset.name).font(.title)
                 Spacer()
                 HStack {
-                    Text("\(balance.total, specifier: "%.2f") \(asset.ticker)").font(.largeTitle)
+                    Text("\(balance.total) \(asset.ticker)").font(.largeTitle)
+                    /*
                     Spacer()
                     VStack(alignment: .trailing) {
                         Text("\(balance.fiatBalance, specifier: "%.2f") \(fiatUoA)")
                         Text("\(balance.btcBalance, specifier:"%.6f") BTC")
                     }.font(.footnote)
+                    */
                 }
                 Spacer()
                 HStack {

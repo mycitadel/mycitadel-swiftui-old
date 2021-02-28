@@ -212,7 +212,14 @@ struct CreateInvoice: View {
                     Toggle(isOn: $invoiceConfig.legacyFormat) {
                         Text("Support pre-SegWit wallets")
                     }
-                    Button(action: { UIPasteboard.general.string = generatedStringOrError }) {
+                    Button(action: {
+                        #if os(iOS)
+                            UIPasteboard.general.string = generatedStringOrError
+                        #endif
+                        #if os(macOS)
+                        NSPasteboard.general.setString(generatedStringOrError, forType: .string)
+                        #endif
+                    }) {
                         HStack {
                             Text(generatedStringOrError)
                                 .multilineTextAlignment(.leading)
@@ -289,8 +296,14 @@ struct InvoiceDetails: View {
                             .font(.title)
                         TextField("Specify \(amountName.lowercased())", text: $invoiceConfig.amount)
                             .font(.title)
-                            .keyboardType(invoiceConfig.units == .atomic ? .numberPad : .decimalPad)
                             .multilineTextAlignment(.trailing)
+                            .conditional {
+                                #if os(iOS)
+                                return AnyView($0.keyboardType(invoiceConfig.units == .atomic ? .numberPad : .decimalPad))
+                                #else
+                                    return AnyView($0)
+                                #endif
+                            }
                             .onReceive(Just(invoiceConfig.amount)) { newValue in
                                 let filtered = newValue.filter { "0123456789.,".contains($0) }
                                 if filtered != newValue {
@@ -352,22 +365,31 @@ struct InvoiceDetails: View {
                             invoiceConfig.assetId = citadel.network.nativeAssetId();
                             invoiceConfig.units = .accounting
                     }) {
-                        Label(citadel.network.coinName(),
-                              systemImage: invoiceConfig.asset.isNative && invoiceConfig.units == .accounting ? "checkmark" : "")
+                        Label {
+                            Text(citadel.network.coinName())
+                        } icon: {
+                            Image(systemName: "checkmark").opacity(invoiceConfig.asset.isNative && invoiceConfig.units == .accounting ? 1 : 0)
+                        }
                     }.foregroundColor(.primary)
                     Button(action: {
                             invoiceConfig.assetId = citadel.network.nativeAssetId();
                             invoiceConfig.units = .atomic
                     }) {
-                        Label(citadel.network.localizedSatoshis,
-                              systemImage: invoiceConfig.asset.isNative && invoiceConfig.units == .atomic ? "checkmark" : "")
+                        Label {
+                            Text(citadel.network.localizedSatoshis)
+                        } icon: {
+                            Image(systemName: "checkmark").opacity(invoiceConfig.asset.isNative && invoiceConfig.units == .atomic ? 1 : 0)
+                        }
                     }.foregroundColor(.primary)
                 }
             } else {
                 Section(header: Text("Native asset")) {
                     Button(action: { invoiceConfig.assetId = citadel.network.nativeAssetId() }) {
-                        Label(citadel.network.coinName(),
-                              systemImage: invoiceConfig.asset.isNative ? "checkmark" : "")
+                        Label {
+                            Text(citadel.network.coinName())
+                        } icon: {
+                            Image(systemName: "checkmark").opacity(invoiceConfig.asset.isNative ? 1 : 0)
+                        }
                     }.foregroundColor(.primary)
                 }
             }
@@ -382,15 +404,18 @@ struct InvoiceDetails: View {
                 ForEach(Array(citadel.assets.values), id: \.id) { asset in
                     if !asset.isNative {
                         Button(action: { invoiceConfig.assetId = asset.id }) {
-                            Label(asset.name,
-                                  systemImage: invoiceConfig.assetId == asset.id ? "checkmark" : "")
+                            Label {
+                                Text(asset.name)
+                            } icon: {
+                                Image(systemName: "checkmark").opacity(invoiceConfig.assetId == asset.id ? 1 : 0)
+                            }
                         }
                         .foregroundColor(.primary)
                     }
                 }
             }
         }
-        .listStyle(InsetGroupedListStyle())
+        .listStyle(SidebarListStyle())
         .navigationTitle("Invoice amount")
     }
 }

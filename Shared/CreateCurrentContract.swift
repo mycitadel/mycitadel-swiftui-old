@@ -157,7 +157,7 @@ struct CreateCurrentContract: View {
         .frame(minWidth: 266, idealWidth: 333, minHeight: 444, idealHeight: 666, alignment: .topLeading)
         .padding(extraPadding)
         .navigationTitle("Set up current account")
-        .navigationBarBackButtonHidden(true)
+        // .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button(action: createContract) {

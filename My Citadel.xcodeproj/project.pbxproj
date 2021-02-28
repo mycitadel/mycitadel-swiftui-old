@@ -11,6 +11,8 @@
 		3007B65625CB783300C936DD /* SelectContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65425CB783300C936DD /* SelectContract.swift */; };
 		3007B65825CBA15500C936DD /* CreateSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65725CBA15500C936DD /* CreateSigner.swift */; };
 		3007B65925CBA15500C936DD /* CreateSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65725CBA15500C936DD /* CreateSigner.swift */; };
+		301404EE25EAF28700F4AA07 /* MyCitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; };
+		301404EF25EAF28700F4AA07 /* MyCitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3015232925E5BF1600069C06 /* DisplayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015232825E5BF1600069C06 /* DisplayExtensions.swift */; };
 		3015232A25E5BF1600069C06 /* DisplayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015232825E5BF1600069C06 /* DisplayExtensions.swift */; };
 		3015233425E66CAA00069C06 /* EntityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233325E66CAA00069C06 /* EntityViews.swift */; };
@@ -74,6 +76,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				301404EF25EAF28700F4AA07 /* MyCitadelKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				301404EE25EAF28700F4AA07 /* MyCitadelKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +141,7 @@
 		3015233625E6A72D00069C06 /* Drafts */ = {
 			isa = PBXGroup;
 			children = (
+				308BD02D2562C808009E4DEE /* AppView.swift */,
 				308BD00B25627E21009E4DEE /* DisplayInfo.swift */,
 				308BD01E256282B3009E4DEE /* DumbData.swift */,
 				30A6CEC125636EC9002F30B0 /* AddKeyring.swift */,
@@ -157,7 +162,6 @@
 		308BCFDD25627CD8009E4DEE = {
 			isa = PBXGroup;
 			children = (
-				30A6CEA325632E0D002F30B0 /* My Citadel.entitlements */,
 				308BCFE225627CD8009E4DEE /* Shared */,
 				308BCFEC25627CDB009E4DEE /* iOS */,
 				308BCFF325627CDB009E4DEE /* macOS */,
@@ -204,7 +208,7 @@
 		308BCFEC25627CDB009E4DEE /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				308BD02D2562C808009E4DEE /* AppView.swift */,
+				30A6CEA325632E0D002F30B0 /* My Citadel.entitlements */,
 				308BCFED25627CDB009E4DEE /* Info.plist */,
 			);
 			path = iOS;
@@ -273,6 +277,8 @@
 			dependencies = (
 			);
 			name = "My Citadel (macOS)";
+			packageProductDependencies = (
+			);
 			productName = "My Citadel (macOS)";
 			productReference = 308BCFF225627CDB009E4DEE /* My Citadel.app */;
 			productType = "com.apple.product-type.application";
@@ -567,7 +573,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = BLS4N8A6L6;
@@ -595,7 +601,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = BLS4N8A6L6;

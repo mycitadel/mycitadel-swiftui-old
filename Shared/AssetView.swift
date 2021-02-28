@@ -17,7 +17,13 @@ struct AssetView: View {
         formatter.timeStyle = .none
         return formatter
     }()
-    
+
+    #if os(iOS)
+    static let listStyle = GroupedListStyle()
+    #else
+    static let listStyle = SidebarListStyle()
+    #endif
+
     var body: some View {
         List {
             Section(header: BalanceCard(assetId: asset.id)
@@ -54,7 +60,7 @@ struct AssetView: View {
 
             Section(header: Text("Souveregnity status"), footer: Text("Information source: MyCitadel self-souvergnity digital assets raiting®")) {
                 DetailsCell(title: "Category", details: asset.category.localizedDescription)
-                DetailsCell(title: "Trust profile", details: asset.isNative ? "Trustless" : "Trusted issuer")
+                DetailsCell(title: "Trust profile", details: asset.isNative ? "Trustless" : "Must trust issuer")
                 DetailsCell(title: "Centralization", details: asset.isNative ? "Decentralized" : "Cenrtalized issue")
                 DetailsCell(title: "Censorship resistance", details: "Uncensorable")
                 DetailsCell(title: "Confiscatability", details: "Unconfiscable")
@@ -129,8 +135,8 @@ struct AssetView: View {
             
             Label("More on information sources", systemImage: "info.circle")
         }
-        .listStyle(GroupedListStyle())
-            .navigationTitle("Digital asset profile")
+        .listStyle(AssetView.listStyle)
+        .navigationTitle("Digital asset profile")
     }
 }
 

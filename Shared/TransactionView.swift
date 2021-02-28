@@ -42,13 +42,20 @@ struct TransactionView: View {
     var assetId: String = CitadelVault.embedded.nativeAsset.id
 
     @State var presentedSheet: PresentedSheet?
+    private let placement: ToolbarItemPlacement = {
+        #if os(iOS)
+        return ToolbarItemPlacement.navigationBarLeading
+        #else
+        return ToolbarItemPlacement.primaryAction
+        #endif
+    }()
     
     var body: some View {
         List(wallet.transactions.filter { $0.asset.id == assetId }) { transaction in
             TransactionCell(transaction: transaction)
         }
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarLeading) {
+            ToolbarItemGroup(placement: placement) {
                 Button("Receive") { presentedSheet = .invoice(wallet, assetId) }
                     .background(Color.accentColor)
                     .foregroundColor(.white)
