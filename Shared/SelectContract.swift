@@ -51,6 +51,12 @@ struct SelectContract: View {
 struct ContractCard: View {
     let type: ContractType
     
+    #if os(macOS)
+    let whiteColor = Color(CGColor.white)
+    #else
+    let whiteColor = Color(.white)
+    #endif
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .bottomLeading) {
@@ -82,7 +88,7 @@ struct ContractCard: View {
             }
             .padding()
             .foregroundColor(.black)
-            .background(Color(CGColor.white))
+            .background(whiteColor)
         }
         .cornerRadius(13)
         .shadow(radius: 6.66)

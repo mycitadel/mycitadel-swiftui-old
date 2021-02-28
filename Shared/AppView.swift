@@ -188,12 +188,12 @@ struct AppView: View {
 
     private func reloadData() {
         do {
-            let _ = try citadel.syncContracts()
+            let _ = try citadel.syncAssets()
         } catch {
             errorSheet.present(error)
         }
         do {
-            let _ = try citadel.syncAssets()
+            let _ = try citadel.syncContracts()
         } catch {
             errorSheet.present(error)
         }

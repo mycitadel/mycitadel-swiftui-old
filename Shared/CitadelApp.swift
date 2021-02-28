@@ -70,13 +70,12 @@ struct CitadelApp: App {
 
 func initCitadel() {
     try! CitadelVault.runEmbeddedNode(connectingNetwork: .testnet)
-    if let contracts = try? CitadelVault.embedded.syncContracts() {
-        if contracts.isEmpty {
-            do {
-                try CitadelVault.embedded.createSingleSig(named: "Default", descriptor: .segwit, enableRGB: true)
-            } catch {
-                fatalError("initializing default contract: \(error.localizedDescription)")
-            }
+    try? CitadelVault.embedded.syncAll()
+    if CitadelVault.embedded.contracts.isEmpty {
+        do {
+            try CitadelVault.embedded.createSingleSig(named: "Default", descriptor: .segwit, enableRGB: true)
+        } catch {
+            fatalError("initializing default contract: \(error.localizedDescription)")
         }
     }
 }
