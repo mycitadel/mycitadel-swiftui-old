@@ -70,6 +70,7 @@ struct TransactionView: View {
         .sheet(item: $presentedSheet) { item in
             switch item {
             case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
+            default: let _ = 0
             }
         }
     }

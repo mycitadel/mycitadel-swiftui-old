@@ -25,6 +25,13 @@ struct BalanceList: View {
             }
         }
         .navigationTitle(wallet.name)
+        .toolbar {
+            ToolbarItem {
+                Button(action: { try? wallet.sync() }) {
+                    Image(systemName: "arrow.clockwise")
+                }
+            }
+        }
     }
 }
 

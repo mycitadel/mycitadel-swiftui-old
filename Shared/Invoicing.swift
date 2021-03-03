@@ -282,6 +282,12 @@ struct InvoiceDetails: View {
         invoiceConfig.amountType == .perItem ? "Price" : "Amount"
     }
     
+    #if os(iOS)
+    private let listStyle = InsetGroupedListStyle()
+    #else
+    private let listStyle = SidebarListStyle()
+    #endif
+    
     var body: some View {
         List {
             Section(header: Text(amountName)) {
@@ -294,33 +300,12 @@ struct InvoiceDetails: View {
                     HStack(alignment: .lastTextBaseline) {
                         Text("\(amountName): ")
                             .font(.title)
-                        TextField("Specify \(amountName.lowercased())", text: $invoiceConfig.amount)
+                        AmountField(
+                            placeholder: "Specify \(amountName.lowercased())",
+                            units: invoiceConfig.units,
+                            amount: $invoiceConfig.amount
+                        )
                             .font(.title)
-                            .multilineTextAlignment(.trailing)
-                            .conditional {
-                                #if os(iOS)
-                                return AnyView($0.keyboardType(invoiceConfig.units == .atomic ? .numberPad : .decimalPad))
-                                #else
-                                    return AnyView($0)
-                                #endif
-                            }
-                            .onReceive(Just(invoiceConfig.amount)) { newValue in
-                                let filtered = newValue.filter { "0123456789.,".contains($0) }
-                                if filtered != newValue {
-                                    invoiceConfig.amount = filtered
-                                }
-                                if invoiceConfig.units == .atomic {
-                                    let amount = "\(UInt64(invoiceConfig.amount) ?? 0)"
-                                    if amount != invoiceConfig.amount {
-                                        invoiceConfig.amount = amount
-                                    }
-                                } else {
-                                    let amount = "\(Double(invoiceConfig.amount) ?? 0)"
-                                    if amount != invoiceConfig.amount {
-                                        invoiceConfig.amount = amount
-                                    }
-                                }
-                            }
                         Button(action: { invoiceConfig.nextNomination() }) { Text(invoiceConfig.assetName) }
                             .foregroundColor(.secondary)
                     }
@@ -401,21 +386,19 @@ struct InvoiceDetails: View {
                     Text("No known RGB assets. Please import asset genesis with the import function")
                 }
             }) {
-                ForEach(Array(citadel.assets.values), id: \.id) { asset in
-                    if !asset.isNative {
-                        Button(action: { invoiceConfig.assetId = asset.id }) {
-                            Label {
-                                Text(asset.name)
-                            } icon: {
-                                Image(systemName: "checkmark").opacity(invoiceConfig.assetId == asset.id ? 1 : 0)
-                            }
+                ForEach(Array(citadel.assets.values).filter { !$0.isNative }, id: \.id) { asset in
+                    Button(action: { invoiceConfig.assetId = asset.id }) {
+                        Label {
+                            Text(asset.name)
+                        } icon: {
+                            Image(systemName: "checkmark").opacity(invoiceConfig.assetId == asset.id ? 1 : 0)
                         }
-                        .foregroundColor(.primary)
                     }
+                    .foregroundColor(.primary)
                 }
             }
         }
-        .listStyle(SidebarListStyle())
+        .listStyle(listStyle)
         .navigationTitle("Invoice amount")
     }
 }

@@ -40,7 +40,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.IDEConstraintErrorBreakpoint">
          <BreakpointContent
             uuid = "07940EB6-23AE-49B5-86E3-6F14C0315045"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             breakpointStackSelectionBehavior = "1">

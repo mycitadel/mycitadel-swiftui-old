@@ -41,7 +41,7 @@ struct SendReceiveView: View {
             
             Spacer()
 
-            Button(action: {}) {
+            Button(action: { presentedSheet = .scan("invoice", .invoice) }) {
                 Label("Pay", systemImage: "arrow.up.doc.on.clipboard")
                     .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                     .foregroundColor(.white)
@@ -60,6 +60,7 @@ struct WalletView: View {
     @State var assetId: String = CitadelVault.embedded.nativeAsset.id
     @State private var presentedSheet: PresentedSheet?
     @State private var errorMessage: String? = nil
+    @State private var scannedInvoice: Invoice? = nil
     
     var body: some View {
         List {
@@ -75,14 +76,24 @@ struct WalletView: View {
             }
         }
         .navigationTitle(wallet.name)
-        .toolbar(content: {
-            Button(action: sync) {
-                Image(systemName: "arrow.clockwise")
+        .toolbar {
+            ToolbarItem {
+                Button(action: sync) {
+                    Image(systemName: "arrow.clockwise")
+                }
             }
-        })
+        }
         .sheet(item: $presentedSheet) { item in
             switch item {
             case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
+            case .scan(let name, let category):
+                Import(importName: name, category: category, invoice: $scannedInvoice)
+                    .onDisappear {
+                        if let scannedInvoice = scannedInvoice {
+                            presentedSheet = .pay(wallet, scannedInvoice)
+                        }
+                    }
+            case .pay(_, let invoice): PaymentView(invoice: invoice)
             }
         }
     }

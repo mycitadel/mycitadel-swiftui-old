@@ -13,6 +13,7 @@ struct AssetsView: View {
     @State private var filterBalance: Int = 0
     @State private var sortField: Int = 0
     @State private var sortOrder: Int = 0
+    @State private var invoice: Invoice? = nil
 
     private var assetList: AssetList {
         AssetList(showingSheet: $showingImportSheet, errorSheet: $errorSheet)
@@ -92,7 +93,8 @@ struct AssetsView: View {
         }
         .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
         .sheet(isPresented: $showingImportSheet) {
-            Import(importName: "asset", category: .genesis).onDisappear(perform: self.reloadAssets)
+            Import(importName: "asset", category: .genesis, invoice: $invoice)
+                .onDisappear(perform: self.reloadAssets)
         }
     }
 

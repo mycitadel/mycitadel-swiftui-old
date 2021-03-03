@@ -19,6 +19,7 @@ struct Import: View {
         case genesis = "genesis1"
         case schema = "schema1"
         case consignment = "consignment1"
+        case invoice = "i1"
     }
     
     @Environment(\.presentationMode) var presentationMode
@@ -26,6 +27,7 @@ struct Import: View {
     var importName: String
     var category: Category
 
+    @Binding var invoice: Invoice?
     @State private var bechString: String = ""
     @State private var recognizedAs: String = "<no data>"
     @State private var recognitionMessages: [(String, String)] = []
@@ -138,6 +140,14 @@ struct Import: View {
                 ("Known supply", String(asset.knownIssued ?? 0))
             ]
             canImport = true
+        case .lnbpInvoice(let invoice):
+            recognitionDetails = []
+            recognitionMessages = [
+                ("Beneficiary", invoice.beneficiary),
+                ("Amount", invoice.amount != nil ? String(invoice.amount!) : "any"),
+                ("Asset", invoice.assetId ?? CitadelVault.embedded.network.coinName()),
+            ]
+            canImport = true
         default: break
         }
     }
@@ -165,6 +175,8 @@ struct Import: View {
             switch info.details {
             case .rgb20Asset(_):
                 let _ = try CitadelVault.embedded.importAsset(fromString: bechString)
+            case .lnbpInvoice(let invoice):
+                self.invoice = invoice
             default:
                 break
             }
@@ -177,7 +189,8 @@ struct Import: View {
 }
 
 struct AssetsSheet_Previews: PreviewProvider {
+    @State static private var invoice: Invoice? = nil
     static var previews: some View {
-        Import(importName: "asset", category: .genesis)
+        Import(importName: "asset", category: .genesis, invoice: $invoice)
     }
 }

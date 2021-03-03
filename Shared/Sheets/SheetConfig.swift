@@ -10,12 +10,16 @@ import MyCitadelKit
 
 enum PresentedSheet {
     case invoice(WalletContract?, String?)
+    case scan(String, Import.Category)
+    case pay(WalletContract, Invoice)
 }
 
 extension PresentedSheet: Identifiable {
     var id: Int {
         switch self {
         case .invoice(_, _): return 0
+        case .scan(_, _): return 1
+        case .pay(_, _): return 2
         }
     }
 }

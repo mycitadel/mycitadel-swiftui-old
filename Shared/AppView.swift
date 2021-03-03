@@ -34,6 +34,7 @@ struct AppView: View {
     }
 
     @StateObject private var citadel = CitadelVault.embedded
+    @State private var invoice: Invoice? = nil
     @State private var selection: String? = nil
     @State private var showingSheet = false
     @State private var activeSheet = Sheet.addAccount
@@ -181,8 +182,8 @@ struct AppView: View {
         switch activeSheet {
         case .addAccount: SelectContract()
         case .addKeyring: AddKeyringSheet()
-        case .importAsset: Import(importName: "asset", category: .genesis)
-        case .importAnything: Import(importName: "anything", category: .all)
+        case .importAsset: Import(importName: "asset", category: .genesis, invoice: $invoice)
+        case .importAnything: Import(importName: "anything", category: .all, invoice: $invoice)
         }
     }
 
