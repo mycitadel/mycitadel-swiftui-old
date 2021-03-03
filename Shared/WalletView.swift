@@ -61,7 +61,8 @@ struct WalletView: View {
     @State private var presentedSheet: PresentedSheet?
     @State private var errorMessage: String? = nil
     @State private var scannedInvoice: Invoice? = nil
-    
+    @State private var scannedString: String = ""
+
     var body: some View {
         List {
             BalancePager(wallet: wallet, assetId: $assetId)
@@ -87,13 +88,13 @@ struct WalletView: View {
             switch item {
             case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
             case .scan(let name, let category):
-                Import(importName: name, category: category, invoice: $scannedInvoice)
+                Import(importName: name, category: category, invoice: $scannedInvoice, bechString: $scannedString)
                     .onDisappear {
                         if let scannedInvoice = scannedInvoice {
                             presentedSheet = .pay(wallet, scannedInvoice)
                         }
                     }
-            case .pay(_, let invoice): PaymentView(invoice: invoice)
+            case .pay(_, let invoice): PaymentView(wallet: wallet, invoice: invoice, invoiceString: scannedString)
             }
         }
     }

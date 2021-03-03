@@ -28,7 +28,7 @@ struct Import: View {
     var category: Category
 
     @Binding var invoice: Invoice?
-    @State private var bechString: String = ""
+    @Binding var bechString: String
     @State private var recognizedAs: String = "<no data>"
     @State private var recognitionMessages: [(String, String)] = []
     @State private var recognitionDetails: [String] = []
@@ -63,8 +63,7 @@ struct Import: View {
                     .font(.headline)
                 CodeScannerView(codeTypes: [.qr], simulatedData: "genesis1qyfe883hey6jrgj2xvk5g3dfmfqfzm7a4wez4pd2krf7ltsxffd6u6nrvjvvnc8vt9llmp7663pgututl9heuwaudet72ay9j6thc6cetuvhxvsqqya5xjt2w9y4u6sfkuszwwctnrpug5yjxnthmr3mydg05rdrpspcxysnqvvqpfvag2w8jxzzsz9pf8pjfwf0xvln5z7w93yjln3gcnyxsa04jsf2p8vu4sxgppfv0j9qer9wpmqlum5uyzrzwven3euhvknz398yv7n7vvfnxzp26eryuz0vxgueqrftgqxgv90dp3sgxxqkzggryve5s8l0nt94xne7pv6ksln9wj3ekel753vcwhvksuud2037k5lmj2k5cmut4clzfzucds5h4aqt4cx6pyqtqgsqq0e4wu", completion: parseBechQr)
                     .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
-                #endif                
-               
+                #endif
                 Group {
                     HStack {
                         Label(recognitionErrors.count > 0 ? "Recognition" : "Recognized as", systemImage: "perspective")
@@ -79,7 +78,7 @@ struct Import: View {
                             .padding(.leading, 32)
                     }
                     ForEach(recognitionMessages, id: \.1) { (label, message) in
-                        HStack {
+                        HStack(alignment: .firstTextBaseline) {
                             Text(label)
                                 .font(.headline)
                             Spacer()
@@ -139,6 +138,7 @@ struct Import: View {
                 ("Name", asset.name),
                 ("Known supply", String(asset.knownIssued ?? 0))
             ]
+            recognitionErrors = []
             canImport = true
         case .lnbpInvoice(let invoice):
             recognitionDetails = []
@@ -147,6 +147,7 @@ struct Import: View {
                 ("Amount", invoice.amount != nil ? String(invoice.amount!) : "any"),
                 ("Asset", invoice.assetId ?? CitadelVault.embedded.network.coinName()),
             ]
+            recognitionErrors = []
             canImport = true
         default: break
         }
@@ -190,7 +191,8 @@ struct Import: View {
 
 struct AssetsSheet_Previews: PreviewProvider {
     @State static private var invoice: Invoice? = nil
+    @State static private var scannedString: String = ""
     static var previews: some View {
-        Import(importName: "asset", category: .genesis, invoice: $invoice)
+        Import(importName: "asset", category: .genesis, invoice: $invoice, bechString: $scannedString)
     }
 }

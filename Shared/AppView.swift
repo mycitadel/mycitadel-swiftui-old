@@ -39,6 +39,7 @@ struct AppView: View {
     @State private var showingSheet = false
     @State private var activeSheet = Sheet.addAccount
     @State private var errorSheet = ErrorSheetConfig()
+    @State private var scannedString: String = ""
 
     var body: some View {
         List(selection: isEditing ? nil : $selection) {
@@ -182,8 +183,8 @@ struct AppView: View {
         switch activeSheet {
         case .addAccount: SelectContract()
         case .addKeyring: AddKeyringSheet()
-        case .importAsset: Import(importName: "asset", category: .genesis, invoice: $invoice)
-        case .importAnything: Import(importName: "anything", category: .all, invoice: $invoice)
+        case .importAsset: Import(importName: "asset", category: .genesis, invoice: $invoice, bechString: $scannedString)
+        case .importAnything: Import(importName: "anything", category: .all, invoice: $invoice, bechString: $scannedString)
         }
     }
 
