@@ -41,6 +41,8 @@ struct TransactionView: View {
     var wallet: WalletContract
     var assetId: String = CitadelVault.embedded.nativeAsset.id
 
+    @State private var scannedInvoice: Invoice? = nil
+    @State private var scannedString: String = ""
     @State var presentedSheet: PresentedSheet?
     private let placement: ToolbarItemPlacement = {
         #if os(iOS)
@@ -61,7 +63,7 @@ struct TransactionView: View {
                     .foregroundColor(.white)
                     .cornerRadius(13)
                 Spacer()
-                Button("Send") { }
+                Button("Send") { presentedSheet = .scan("invoice", .invoice) }
                     .background(Color.accentColor)
                     .foregroundColor(.white)
                     .cornerRadius(13)
@@ -70,7 +72,14 @@ struct TransactionView: View {
         .sheet(item: $presentedSheet) { item in
             switch item {
             case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
-            default: let _ = 0
+            case .scan(let name, let category):
+                Import(importName: name, category: category, invoice: $scannedInvoice, bechString: $scannedString)
+                    .onDisappear {
+                        if let scannedInvoice = scannedInvoice {
+                            presentedSheet = .pay(wallet, scannedInvoice)
+                        }
+                    }
+            case .pay(_, let invoice): PaymentView(wallet: wallet, invoice: invoice, invoiceString: scannedString)
             }
         }
     }

@@ -64,6 +64,8 @@
 		30A6CED325648935002F30B0 /* BalancePager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308BD0122562810B009E4DEE /* BalancePager.swift */; };
 		30A82FAF25CB32E2002EFA31 /* SheetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */; };
 		30A82FB025CB32E2002EFA31 /* SheetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */; };
+		30DBF28425EFDDF9006A69F5 /* ContractInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DBF28325EFDDF9006A69F5 /* ContractInfo.swift */; };
+		30DBF28525EFDDF9006A69F5 /* ContractInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DBF28325EFDDF9006A69F5 /* ContractInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -127,6 +129,7 @@
 		30A6CEC125636EC9002F30B0 /* AddKeyring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyring.swift; sourceTree = "<group>"; };
 		30A6CEC625636ECC002F30B0 /* Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Import.swift; sourceTree = "<group>"; };
 		30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetConfig.swift; sourceTree = "<group>"; };
+		30DBF28325EFDDF9006A69F5 /* ContractInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +199,7 @@
 				303D9DB025EFD59F00E2DC6E /* PaymentResultView.swift */,
 				3007B65425CB783300C936DD /* SelectContract.swift */,
 				308BD03325631E8A009E4DEE /* CreateCurrentContract.swift */,
+				30DBF28325EFDDF9006A69F5 /* ContractInfo.swift */,
 				308BCFE425627CD8009E4DEE /* ContentView.swift */,
 				308BD0232562A258009E4DEE /* WalletView.swift */,
 				30A6CEAF2563453E002F30B0 /* BalanceList.swift */,
@@ -383,6 +387,7 @@
 				308BD01825628135009E4DEE /* BalanceCard.swift in Sources */,
 				3015233425E66CAA00069C06 /* EntityViews.swift in Sources */,
 				303D9DAE25EFC3F200E2DC6E /* InvoiceAdvanced.swift in Sources */,
+				30DBF28425EFDDF9006A69F5 /* ContractInfo.swift in Sources */,
 				304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				3007B65525CB783300C936DD /* SelectContract.swift in Sources */,
 				308BD00C25627E21009E4DEE /* DisplayInfo.swift in Sources */,
@@ -415,6 +420,7 @@
 				308BD01925628135009E4DEE /* BalanceCard.swift in Sources */,
 				3015233525E66CAA00069C06 /* EntityViews.swift in Sources */,
 				303D9DAF25EFC3F200E2DC6E /* InvoiceAdvanced.swift in Sources */,
+				30DBF28525EFDDF9006A69F5 /* ContractInfo.swift in Sources */,
 				304DE96A25C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				3007B65625CB783300C936DD /* SelectContract.swift in Sources */,
 				308BD00D25627E21009E4DEE /* DisplayInfo.swift in Sources */,

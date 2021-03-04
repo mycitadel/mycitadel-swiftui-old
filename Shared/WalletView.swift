@@ -28,28 +28,32 @@ struct SendReceiveView: View {
     @Binding var presentedSheet: PresentedSheet?
     
     var body: some View {
-        HStack {
-            Spacer()
-            
-            Button(action: { presentedSheet = .invoice(nil, nil) }) {
-                Label("Invoice", systemImage: "scroll")
-                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
-                    .foregroundColor(.white)
-            }
-            .background(Color.accentColor)
-            .cornerRadius(24)
-            
-            Spacer()
+        VStack {
+            HStack {
+                Button(action: { presentedSheet = .invoice(nil, nil) }) {
+                    Text("Invoice")
+                        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                        .foregroundColor(.white)
+                }
+                .background(Color.accentColor)
+                .cornerRadius(24)
 
-            Button(action: { presentedSheet = .scan("invoice", .invoice) }) {
-                Label("Pay", systemImage: "arrow.up.doc.on.clipboard")
-                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
-                    .foregroundColor(.white)
-            }
-            .background(Color.accentColor)
-            .cornerRadius(24)
+                Button(action: { presentedSheet = .scan("invoice", .invoice) }) {
+                    Label("Pay", systemImage: "arrow.up.doc.on.clipboard")
+                        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                        .foregroundColor(.white)
+                }
+                .background(Color.accentColor)
+                .cornerRadius(24)
 
-            Spacer()
+                Button(action: { presentedSheet = .scan("consignment", .consignment) }) {
+                    Text("Accept")
+                        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                        .foregroundColor(.white)
+                }
+                .background(Color.accentColor)
+                .cornerRadius(24)
+            }
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
     }
@@ -62,6 +66,8 @@ struct WalletView: View {
     @State private var errorMessage: String? = nil
     @State private var scannedInvoice: Invoice? = nil
     @State private var scannedString: String = ""
+    @State private var status: String? = nil
+    @State private var statusPresented: Bool = false
 
     var body: some View {
         List {
@@ -87,16 +93,29 @@ struct WalletView: View {
         .sheet(item: $presentedSheet) { item in
             switch item {
             case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
-            case .scan(let name, let category):
-                Import(importName: name, category: category, invoice: $scannedInvoice, bechString: $scannedString)
+            case .scan(let name, .invoice):
+                Import(importName: name, category: .invoice, invoice: $scannedInvoice, bechString: $scannedString)
                     .onDisappear {
                         if let scannedInvoice = scannedInvoice {
                             presentedSheet = .pay(wallet, scannedInvoice)
                         }
                     }
+            case .scan(let name, .consignment):
+                Import(importName: name, category: .consignment, invoice: $scannedInvoice, bechString: $scannedString)
+                    .onDisappear {
+                        do {
+                            status = try wallet.accept(consignment: scannedString)
+                        } catch {
+                            status = error.localizedDescription
+                        }
+                    }
             case .pay(_, let invoice): PaymentView(wallet: wallet, invoice: invoice, invoiceString: scannedString)
+            default: let _ = ""
             }
         }
+        .alert(isPresented: $statusPresented, content: {
+            Alert(title: Text("Result"), message: Text(status ?? ""), dismissButton: .cancel())
+        })
     }
     
     func sync() {

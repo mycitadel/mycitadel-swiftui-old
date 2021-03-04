@@ -11,8 +11,8 @@ import MyCitadelKit
 struct PaymentView: View {
     @Environment(\.presentationMode) var presentationMode
 
+    @State private var navigateResult: Bool? = nil
     @State private var amount: String = ""
-    @State private var navigateResult: Bool = false
     @State private var transfer: PaymentResult? = nil
     @State private var errorMessage: String? = nil
 
@@ -23,17 +23,28 @@ struct PaymentView: View {
         Double(amount) ?? 0 != 0
     }
 
-
     var body: some View {
         NavigationView {
             Form {
-                AmountField(
-                    placeholder: "Specify amount",
-                    units: .accounting,
-                    amount: $amount
-                )
-                .font(.largeTitle)
-                .disabled(invoice.amount != nil)
+                if let transfer = transfer {
+                    NavigationLink("Payment result", destination: PaymentResultView(txid: transfer.txid, consignment: transfer.consignment), tag: true, selection: $navigateResult)
+                }
+                
+                if let a = invoice.amount {
+                    HStack {
+                        Spacer()
+                        Text("\(a)")
+                            .font(.largeTitle)
+                            .multilineTextAlignment(.trailing)
+                    }
+                } else {
+                    AmountField(
+                        placeholder: "Specify amount",
+                        units: .accounting,
+                        amount: $amount
+                    )
+                    .font(.largeTitle)
+                }
 
                 Section(header: Text("To")) {
                     if let merchant = invoice.merchant {

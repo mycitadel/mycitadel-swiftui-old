@@ -8,13 +8,52 @@
 import SwiftUI
 
 struct PaymentResultView: View {
+    let txid: String
+    let consignment: String?
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Form {
+            Button(action: {
+                #if os(iOS)
+                    UIPasteboard.general.string = txid
+                #endif
+                #if os(macOS)
+                    NSPasteboard.general.setString(txid, forType: .string)
+                #endif
+            }) {
+                HStack {
+                    Text(txid)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
+                    Image(systemName: "doc.on.doc")
+                }
+            }
+                        
+            if let consignment = consignment {
+                Button(action: {
+                    #if os(iOS)
+                        UIPasteboard.general.string = consignment
+                    #endif
+                    #if os(macOS)
+                        NSPasteboard.general.setString(consignment, forType: .string)
+                    #endif
+                }) {
+                    HStack {
+                        Text(consignment)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                        Image(systemName: "doc.on.doc")
+                    }
+                }
+                
+            }
+        }
+        .navigationTitle("Payment created")
     }
 }
 
 struct PaymentResultView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentResultView()
+        PaymentResultView(txid: "", consignment: "")
     }
 }
