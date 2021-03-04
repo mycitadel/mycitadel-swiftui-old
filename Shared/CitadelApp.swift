@@ -42,7 +42,6 @@ extension EnvironmentValues {
 
 @main
 struct CitadelApp: App {
-    @State private var data = DumbData().data
     @State private var showingAlert = false
     @State private var alertMessage: String?
     #if os(iOS)

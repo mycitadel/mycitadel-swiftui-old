@@ -20,7 +20,7 @@ struct SelectContract: View {
 
                 ZStack {
                     ContractCard(type: ContractType.current)
-                    NavigationLink(destination: CreateCurrentContract()) {
+                    NavigationLink(destination: CurrentContract()) {
                         EmptyView()
                     }
                     .frame(width: 0)
@@ -98,6 +98,6 @@ struct ContractCard: View {
 
 struct SelectContract_Previews: PreviewProvider {
     static var previews: some View {
-        CreateCurrentContract()
+        CurrentContract()
     }
 }

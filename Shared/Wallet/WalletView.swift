@@ -89,10 +89,15 @@ struct WalletView: View {
                     Image(systemName: "arrow.clockwise")
                 }
             }
+            ToolbarItem {
+                NavigationLink(destination: WalletDetails(wallet: wallet)) {
+                    Image(systemName: "info")
+                }
+            }
         }
         .sheet(item: $presentedSheet) { item in
             switch item {
-            case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
+            case .invoice(_, _): InvoiceCreate(wallet: wallet, assetId: assetId)
             case .scan(let name, .invoice):
                 Import(importName: name, category: .invoice, invoice: $scannedInvoice, bechString: $scannedString)
                     .onDisappear {

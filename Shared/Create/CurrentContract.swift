@@ -15,7 +15,13 @@ extension NSColor {
 }
 #endif
 
-struct CreateCurrentContract: View {
+public enum WalletScripting: Hashable {
+    case publicKey
+    case multisig
+    case miniscript
+}
+
+struct CurrentContract: View {
     @State private var name: String = ""
     @State private var miniscript: String = ""
     @State private var scripting = WalletScripting.publicKey
@@ -189,10 +195,10 @@ struct CreateCurrentContract: View {
     }
 }
 
-struct CreateCurrentContract_Previews: PreviewProvider {
+struct CurrentContract_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CreateCurrentContract()
+            CurrentContract()
                 .previewDevice("iPhone 12 Pro")
         }
     }

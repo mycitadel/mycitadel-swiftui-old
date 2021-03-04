@@ -148,7 +148,7 @@ final class InvoiceConfig: ObservableObject {
     }
 }
 
-struct CreateInvoice: View {
+struct InvoiceCreate: View {
     @Environment(\.presentationMode) var presentationMode
 
     @ObservedObject var invoiceConfig = InvoiceConfig()
@@ -275,12 +275,10 @@ struct CreateInvoice: View {
     }
 }
 
-struct CreateInvoice_Previews: PreviewProvider {
+struct InvoiceCreate_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            NavigationView {
-                CreateInvoice(wallet: CitadelVault.embedded.contracts.first!)
-            }
+        NavigationView {
+            InvoiceCreate(wallet: CitadelVault.embedded.contracts.first!)
         }
     }
 }

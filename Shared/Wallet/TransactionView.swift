@@ -8,6 +8,7 @@
 import SwiftUI
 import MyCitadelKit
 
+/*
 struct TransactionCell: View {
     @ObservedObject var transaction: TransactionDisplayInfo
     
@@ -34,6 +35,14 @@ struct TransactionCell: View {
                 Text(transaction.asset.ticker).foregroundColor(.secondary)
             }
         }
+    }
+} */
+
+struct TransactionCell: View {
+    var transaction: Transaction
+
+    var body: some View {
+        EmptyView()
     }
 }
 
@@ -71,7 +80,7 @@ struct TransactionView: View {
         }
         .sheet(item: $presentedSheet) { item in
             switch item {
-            case .invoice(_, _): CreateInvoice(wallet: wallet, assetId: assetId)
+            case .invoice(_, _): InvoiceCreate(wallet: wallet, assetId: assetId)
             case .scan(let name, let category):
                 Import(importName: name, category: category, invoice: $scannedInvoice, bechString: $scannedString)
                     .onDisappear {

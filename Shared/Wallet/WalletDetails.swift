@@ -8,7 +8,7 @@
 import SwiftUI
 import MyCitadelKit
 
-struct ContractInfo: View {
+struct WalletDetails: View {
     var wallet: WalletContract
     
     var body: some View {
@@ -18,6 +18,6 @@ struct ContractInfo: View {
 
 struct ContractInfo_Previews: PreviewProvider {
     static var previews: some View {
-        ContractInfo(wallet: CitadelVault.embedded.contracts.first!)
+        WalletDetails(wallet: CitadelVault.embedded.contracts.first!)
     }
 }
