@@ -140,45 +140,6 @@ struct AssetView: View {
     }
 }
 
-struct DetailsCell: View {
-    @State var title: String
-    @State var details: String
-    @State var subdetails: String?
-    
-    var body: some View {
-        HStack {
-            Text(title)
-                .font(.headline)
-            Spacer()
-            VStack(alignment: .trailing) {
-                Text(details)
-                    .font(.body)
-                    .multilineTextAlignment(.trailing)
-                if let subdetails = subdetails {
-                    Text(subdetails)
-                        .font(.caption)
-                        .multilineTextAlignment(.trailing)
-                }
-            }
-        }
-    }
-}
-
-struct SubheadingCell: View {
-    @State var title: String
-    @State var details: String
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .font(.headline)
-            Spacer()
-            Text(details)
-                .font(.body)
-        }.padding(.vertical, 6)
-    }
-}
-
 struct AssetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
