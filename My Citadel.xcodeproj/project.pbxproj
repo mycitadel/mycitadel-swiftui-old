@@ -13,6 +13,10 @@
 		3007B65925CBA15500C936DD /* CreateSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007B65725CBA15500C936DD /* CreateSigner.swift */; };
 		30100A5525F15EAE00DB5CD8 /* InvoiceAdvanced.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5425F15EAE00DB5CD8 /* InvoiceAdvanced.swift */; };
 		30100A5625F15EAE00DB5CD8 /* InvoiceAdvanced.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5425F15EAE00DB5CD8 /* InvoiceAdvanced.swift */; };
+		30100A5A25F2443E00DB5CD8 /* AddressList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5925F2443E00DB5CD8 /* AddressList.swift */; };
+		30100A5B25F2443E00DB5CD8 /* AddressList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5925F2443E00DB5CD8 /* AddressList.swift */; };
+		30100A5D25F25A8600DB5CD8 /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5C25F25A8600DB5CD8 /* AddressView.swift */; };
+		30100A5E25F25A8600DB5CD8 /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5C25F25A8600DB5CD8 /* AddressView.swift */; };
 		301404EE25EAF28700F4AA07 /* MyCitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; };
 		301404EF25EAF28700F4AA07 /* MyCitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3015232925E5BF1600069C06 /* DisplayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015232825E5BF1600069C06 /* DisplayExtensions.swift */; };
@@ -21,6 +25,8 @@
 		3015233525E66CAA00069C06 /* EntityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233325E66CAA00069C06 /* EntityViews.swift */; };
 		3015233825E6EE8900069C06 /* InvoiceCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233725E6EE8900069C06 /* InvoiceCreate.swift */; };
 		3015233925E6EE8900069C06 /* InvoiceCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233725E6EE8900069C06 /* InvoiceCreate.swift */; };
+		3037C6CD25F2B4EB00048CDD /* UtxoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037C6CC25F2B4EB00048CDD /* UtxoView.swift */; };
+		3037C6CE25F2B4EB00048CDD /* UtxoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037C6CC25F2B4EB00048CDD /* UtxoView.swift */; };
 		303D9DA825EFB1C400E2DC6E /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303D9DA725EFB1C400E2DC6E /* PaymentView.swift */; };
 		303D9DA925EFB1C400E2DC6E /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303D9DA725EFB1C400E2DC6E /* PaymentView.swift */; };
 		303D9DAB25EFB29F00E2DC6E /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303D9DAA25EFB29F00E2DC6E /* Controls.swift */; };
@@ -95,10 +101,13 @@
 		3007B65425CB783300C936DD /* SelectContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContract.swift; sourceTree = "<group>"; };
 		3007B65725CBA15500C936DD /* CreateSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSigner.swift; sourceTree = "<group>"; };
 		30100A5425F15EAE00DB5CD8 /* InvoiceAdvanced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceAdvanced.swift; sourceTree = "<group>"; };
+		30100A5925F2443E00DB5CD8 /* AddressList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressList.swift; sourceTree = "<group>"; };
+		30100A5C25F25A8600DB5CD8 /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
 		3015232825E5BF1600069C06 /* DisplayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayExtensions.swift; sourceTree = "<group>"; };
 		3015232B25E5C56200069C06 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/Combine.framework; sourceTree = DEVELOPER_DIR; };
 		3015233325E66CAA00069C06 /* EntityViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViews.swift; sourceTree = "<group>"; };
 		3015233725E6EE8900069C06 /* InvoiceCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceCreate.swift; sourceTree = "<group>"; };
+		3037C6CC25F2B4EB00048CDD /* UtxoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtxoView.swift; sourceTree = "<group>"; };
 		303D9DA725EFB1C400E2DC6E /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
 		303D9DAA25EFB29F00E2DC6E /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 		303D9DAD25EFC3F200E2DC6E /* InvoiceDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceDetails.swift; sourceTree = "<group>"; };
@@ -182,13 +191,15 @@
 		30100A5725F1619C00DB5CD8 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
-				308BCFE425627CD8009E4DEE /* ContentView.swift */,
 				308BD0232562A258009E4DEE /* WalletView.swift */,
 				30DBF28325EFDDF9006A69F5 /* WalletDetails.swift */,
 				30A6CEAF2563453E002F30B0 /* BalanceList.swift */,
 				308BD0122562810B009E4DEE /* BalancePager.swift */,
 				308BD01725628135009E4DEE /* BalanceCard.swift */,
 				308BD0282562A3D9009E4DEE /* TransactionView.swift */,
+				30100A5925F2443E00DB5CD8 /* AddressList.swift */,
+				30100A5C25F25A8600DB5CD8 /* AddressView.swift */,
+				3037C6CC25F2B4EB00048CDD /* UtxoView.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -245,6 +256,7 @@
 				30100A5725F1619C00DB5CD8 /* Wallet */,
 				308BCFE325627CD8009E4DEE /* CitadelApp.swift */,
 				30A6CEB425634F17002F30B0 /* AppView.swift */,
+				308BCFE425627CD8009E4DEE /* ContentView.swift */,
 				308BCFE525627CDB009E4DEE /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -394,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30100A5A25F2443E00DB5CD8 /* AddressList.swift in Sources */,
 				308BCFF825627CDB009E4DEE /* ContentView.swift in Sources */,
 				303D9DA825EFB1C400E2DC6E /* PaymentView.swift in Sources */,
 				308BD03425631E8A009E4DEE /* CurrentContract.swift in Sources */,
@@ -409,6 +422,7 @@
 				30A6CEC825636ECC002F30B0 /* Import.swift in Sources */,
 				30A6CEBA256351A1002F30B0 /* AppView.swift in Sources */,
 				30A6CEC325636EC9002F30B0 /* AddKeyring.swift in Sources */,
+				3037C6CD25F2B4EB00048CDD /* UtxoView.swift in Sources */,
 				303D9DB125EFD59F00E2DC6E /* PaymentResultView.swift in Sources */,
 				3015233825E6EE8900069C06 /* InvoiceCreate.swift in Sources */,
 				30A82FAF25CB32E2002EFA31 /* SheetConfig.swift in Sources */,
@@ -416,6 +430,7 @@
 				3015233425E66CAA00069C06 /* EntityViews.swift in Sources */,
 				303D9DAE25EFC3F200E2DC6E /* InvoiceDetails.swift in Sources */,
 				30DBF28425EFDDF9006A69F5 /* WalletDetails.swift in Sources */,
+				30100A5D25F25A8600DB5CD8 /* AddressView.swift in Sources */,
 				304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				3007B65525CB783300C936DD /* SelectContract.swift in Sources */,
 				304DE96C25C87021008FE0A4 /* AssetView.swift in Sources */,
@@ -426,6 +441,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30100A5B25F2443E00DB5CD8 /* AddressList.swift in Sources */,
 				308BCFF925627CDB009E4DEE /* ContentView.swift in Sources */,
 				303D9DA925EFB1C400E2DC6E /* PaymentView.swift in Sources */,
 				308BD03525631E8A009E4DEE /* CurrentContract.swift in Sources */,
@@ -441,6 +457,7 @@
 				30A6CEC725636ECC002F30B0 /* Import.swift in Sources */,
 				308BD0252562A258009E4DEE /* WalletView.swift in Sources */,
 				30A6CEC225636EC9002F30B0 /* AddKeyring.swift in Sources */,
+				3037C6CE25F2B4EB00048CDD /* UtxoView.swift in Sources */,
 				303D9DB225EFD59F00E2DC6E /* PaymentResultView.swift in Sources */,
 				3015233925E6EE8900069C06 /* InvoiceCreate.swift in Sources */,
 				30A82FB025CB32E2002EFA31 /* SheetConfig.swift in Sources */,
@@ -448,6 +465,7 @@
 				3015233525E66CAA00069C06 /* EntityViews.swift in Sources */,
 				303D9DAF25EFC3F200E2DC6E /* InvoiceDetails.swift in Sources */,
 				30DBF28525EFDDF9006A69F5 /* WalletDetails.swift in Sources */,
+				30100A5E25F25A8600DB5CD8 /* AddressView.swift in Sources */,
 				304DE96A25C83D3E008FE0A4 /* AssetsView.swift in Sources */,
 				3007B65625CB783300C936DD /* SelectContract.swift in Sources */,
 				304DE96D25C87021008FE0A4 /* AssetView.swift in Sources */,

@@ -140,7 +140,7 @@ final class InvoiceConfig: ObservableObject {
                 amount: Double(amount) ?? 0
             )
         }
-        let address = try wallet.address(useLegacySegWit: legacyFormat).address
+        let address = try wallet.nextAddress(legacySegWit: legacyFormat).address
         if representation == .url {
             return "bitcoin:\(address)?amount=\(amount)"
         }

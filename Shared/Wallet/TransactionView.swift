@@ -89,6 +89,7 @@ struct TransactionView: View {
                         }
                     }
             case .pay(_, let invoice): PaymentView(wallet: wallet, invoice: invoice, invoiceString: scannedString)
+            default: let _ = ()
             }
         }
     }

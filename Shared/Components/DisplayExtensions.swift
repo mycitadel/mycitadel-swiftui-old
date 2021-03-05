@@ -79,6 +79,14 @@ extension Asset {
         }
     }
     
+    public var fiatExchangeRate: Double {
+        return 0
+    }
+    
+    public var bitcoinExchangeRate: Double {
+        return 0
+    }
+    
     public var formattedBalance: String {
         "\(balance.total) \(ticker)"
     }

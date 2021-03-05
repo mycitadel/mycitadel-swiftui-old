@@ -53,9 +53,9 @@ struct AmountField: View {
 }
 
 struct CopyableText: View {
-    @State var text: String
-    @State var copyable: Bool = false
-    @State var multilineTextAlignment = TextAlignment.leading
+    let text: String
+    var copyable: Bool = false
+    var multilineTextAlignment = TextAlignment.leading
     var useSpacer: Bool = false
 
     var body: some View {
@@ -81,10 +81,10 @@ struct CopyableText: View {
 }
 
 struct DetailsCell: View {
-    @State var title: String
-    @State var details: String
-    @State var subdetails: String?
-    @State var clipboardCopy: Bool = false
+    let title: String
+    let details: String
+    var subdetails: String?
+    var clipboardCopy: Bool = false
     
     var body: some View {
         HStack {
@@ -104,9 +104,9 @@ struct DetailsCell: View {
 }
 
 struct SubheadingCell: View {
-    @State var title: String
-    @State var details: String
-    @State var clipboardCopy: Bool = false
+    let title: String
+    let details: String
+    var clipboardCopy: Bool = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -115,6 +115,51 @@ struct SubheadingCell: View {
             Spacer()
             CopyableText(text: details, copyable: clipboardCopy, useSpacer: true)
         }.padding(.vertical, 6)
+    }
+}
+
+struct BechBrief: View {
+    let text: String
+    
+    private var isBase58: Bool {
+        for prefix in ["1", "2", "3", "n", "m"] {
+            if text.hasPrefix(prefix) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    private var hrp: String {
+        isBase58
+            ? String(text.prefix(1))
+            : String(text.prefix(while: { $0 != "1" })) + "1"
+    }
+    private var checksum: String {
+        isBase58 ? "" : String(text.suffix(6))
+    }
+    private var mainPart: String {
+        String(text.dropFirst(hrp.count + 1).dropLast(isBase58 ? 0 : 6))
+    }
+    
+    var body: some View {
+        HStack(alignment: .lastTextBaseline, spacing: 0) {
+            Text(hrp.uppercased())
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .layoutPriority(1)
+                .lineLimit(1)
+            Text(mainPart.lowercased())
+                .font(.footnote)
+                .truncationMode(.middle)
+                .fixedSize()
+                .lineLimit(1)
+            Text(checksum)
+                .font(.subheadline)
+                .bold()
+                .layoutPriority(1)
+                .lineLimit(1)
+        }
     }
 }
 

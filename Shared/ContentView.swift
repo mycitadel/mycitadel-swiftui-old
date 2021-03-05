@@ -14,6 +14,7 @@ struct ContentView: View {
             AppView()
             
             MasterView(wallet: CitadelVault.embedded.contracts.first!)
+            
             TransactionView(wallet: CitadelVault.embedded.contracts.first!)
                 .navigationTitle("History")
         }

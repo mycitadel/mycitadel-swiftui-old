@@ -85,10 +85,8 @@ struct WalletView: View {
         .navigationTitle(wallet.name)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                NavigationLink(destination: WalletDetails(wallet: wallet)) {
-                    Button(action: { }) {
-                        Image(systemName: "info.circle")
-                    }
+                Button(action: { presentedSheet = .walletDetails(wallet) }) {
+                    Image(systemName: "info.circle")
                 }
 
                 Button(action: sync) {
@@ -116,6 +114,7 @@ struct WalletView: View {
                         }
                     }
             case .pay(_, let invoice): PaymentView(wallet: wallet, invoice: invoice, invoiceString: scannedString)
+            case .walletDetails(let w): WalletDetails(wallet: w)
             default: let _ = ""
             }
         }

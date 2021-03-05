@@ -9,6 +9,10 @@ import SwiftUI
 import MyCitadelKit
 
 struct BalanceList: View {
+    @State private var presentedSheet: PresentedSheet?
+    @State private var errorMessage: String? = nil
+    @State private var errorPresented: Bool = false
+
     var wallet: WalletContract
 
     var body: some View {
@@ -26,11 +30,34 @@ struct BalanceList: View {
         }
         .navigationTitle(wallet.name)
         .toolbar {
-            ToolbarItem {
-                Button(action: { try? wallet.sync() }) {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button(action: { presentedSheet = .walletDetails(wallet) }) {
+                    Image(systemName: "info.circle")
+                }
+
+                Button(action: sync) {
                     Image(systemName: "arrow.clockwise")
                 }
             }
+        }
+        .sheet(item: $presentedSheet) { item in
+            switch item {
+            case .walletDetails(let w): WalletDetails(wallet: w)
+            default: let _ = ""
+            }
+        }
+        .alert(isPresented: $errorPresented, content: {
+            Alert(title: Text("Error"), message: Text(errorMessage ?? ""), dismissButton: .cancel())
+        })
+    }
+
+    func sync() {
+        do {
+            try wallet.sync()
+            errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
+            errorPresented = true
         }
     }
 }

@@ -12,6 +12,7 @@ enum PresentedSheet {
     case invoice(WalletContract?, String?)
     case scan(String, Import.Category)
     case pay(WalletContract, Invoice)
+    case walletDetails(WalletContract)
 }
 
 extension PresentedSheet: Identifiable {
@@ -20,6 +21,7 @@ extension PresentedSheet: Identifiable {
         case .invoice(_, _): return 0
         case .scan(_, _): return 1
         case .pay(_, _): return 2
+        case .walletDetails(_): return 3
         }
     }
 }
