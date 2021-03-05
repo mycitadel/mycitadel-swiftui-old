@@ -84,14 +84,15 @@ struct WalletView: View {
         }
         .navigationTitle(wallet.name)
         .toolbar {
-            ToolbarItem {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                NavigationLink(destination: WalletDetails(wallet: wallet)) {
+                    Button(action: { }) {
+                        Image(systemName: "info.circle")
+                    }
+                }
+
                 Button(action: sync) {
                     Image(systemName: "arrow.clockwise")
-                }
-            }
-            ToolbarItem {
-                NavigationLink(destination: WalletDetails(wallet: wallet)) {
-                    Image(systemName: "info")
                 }
             }
         }

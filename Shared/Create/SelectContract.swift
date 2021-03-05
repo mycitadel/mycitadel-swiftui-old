@@ -71,7 +71,7 @@ struct ContractCard: View {
                         .opacity(0.25)
                         .edgesIgnoringSafeArea(.all)
                 }
-                Text(type.title)
+                Text(type.localizedName)
                     .font(.largeTitle)
                     .fontWeight(.black)
                     .textCase(.uppercase)
@@ -80,7 +80,7 @@ struct ContractCard: View {
             .background(RadialGradient(gradient: type.gradient, center: .topLeading, startRadius: 66.6, endRadius: 313))
 
             HStack(alignment: .top) {
-                Text(type.description)
+                Text(type.localizedDescription)
                     .lineSpacing(6)
                     .font(.body)
                     .shadow(color: .white, radius: 6, x: 0, y: 0)

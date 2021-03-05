@@ -138,6 +138,9 @@ extension WalletContract {
         self.policy.contractType.imageName
     }
     
+    public var contractType: ContractType {
+        self.policy.contractType
+    }
 }
 
 extension Policy {
@@ -184,7 +187,7 @@ public enum ContractType: Int, Identifiable {
         }
     }
     
-    public var title: String {
+    public var localizedName: String {
         switch self {
         case .current: return "Current account"
         case .saving: return "Saving account"
@@ -197,7 +200,7 @@ public enum ContractType: Int, Identifiable {
         }
     }
 
-    public var description: String {
+    public var localizedDescription: String {
         switch self {
         case .current: return "This is a “normal” bitcoin or digital assets wallet account, suitable for on-chain payments. Accounts of this type may be a single-signature (personal) or multi-signatures (for corporate/family use). Also, power users or enterprise customers will be able to write custom lock times and other conditions with miniscript. However, if you are looking for HODLing we advise you to look at the next type of accounts: saving account; since current accounts are mostly used for paying activities and their private keys are usually kept in the hot state."
         case .saving: return "This is for true HODlers! Saving accounts always keep private keys cold + in the future will support conventants, once CLV will happen!"
