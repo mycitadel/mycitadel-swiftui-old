@@ -82,7 +82,7 @@ struct TransactionView: View {
             switch item {
             case .invoice(_, _): InvoiceCreate(wallet: wallet, assetId: assetId)
             case .scan(let name, let category):
-                Import(importName: name, category: category, invoice: $scannedInvoice, bechString: $scannedString)
+                Import(importName: name, category: category, invoice: $scannedInvoice, dataString: $scannedString)
                     .onDisappear {
                         if let scannedInvoice = scannedInvoice {
                             presentedSheet = .pay(wallet, scannedInvoice)

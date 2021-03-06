@@ -250,3 +250,106 @@ public enum ContractType: Int, Identifiable {
         Gradient(colors: [self.primaryColor, self.secondaryColor])
     }
 }
+
+extension UniversalParser.ParsedData {
+    public var localizedDescription: String {
+        switch self {
+        case .unknown:
+            return "Unknown"
+        case .url:
+            return "URL"
+        case .address(_):
+            return "Bitcoin address"
+        case .bolt11Invoice:
+            return "LN BOLT11 invoice"
+        case .lnpbpId:
+            return "LNPBP-14 id"
+        case .lnpbpData:
+            return "LNPBP-14 data"
+        case .lnpbpZData:
+            return "LNPBP-14 data (compressed)"
+        case .lnbpInvoice(_):
+            return "LNPBP-38 invoice"
+        case .rgbSchemaId:
+            return "RGB Schema Id"
+        case .rgbContractId:
+            return "RGB Contract Id"
+        case .rgbSchema:
+            return "RGB Schema"
+        case .rgbGenesis:
+            return "RGB Genesis"
+        case .rgbConsignment:
+            return "RGB Consignment"
+        case .rgb20Asset(_):
+            return "RGB20 Asset"
+        case .wifPrivateKey:
+            return "WIP private key"
+        case .xpub:
+            return "Extended public key"
+        case .xpriv:
+            return "Extended private key"
+        case .derivation:
+            return "BIP32 derivation path"
+        case .descriptor:
+            return "Script pubkey descriptor"
+        case .miniscript:
+            return "Miniscript"
+        case .script:
+            return "Bitcoin script"
+        case .outpoint(_):
+            return "Transaction outpoint"
+        case .hash160(_):
+            return "160-bit hash"
+        case .genesis(_):
+            return "Genesis block hash"
+        case .hex256(_):
+            return "256-bit number, private key, hash"
+        case .transaction:
+            return "Transaction data"
+        case .psbt:
+            return "Partially signed transaction"
+        case .bech32Unknown(hrp: let hrp, payload: _, data: _):
+            return "Bech32-encoded \(hrp) data"
+        case .base64Unknown(_):
+            return "Unknown Base64-encoded data"
+        case .base58Unknown(_):
+            return "Unknown Base58-encoded data"
+        case .hexUnknown(_):
+            return "Hexadecimal data"
+        }
+    }
+}
+
+extension AddressNetwork {
+    var localizedName: String {
+        switch self {
+        case .mainnet: return "Mainnet"
+        case .testnet: return "Testnet"
+        case .regtest: return "Regtest"
+        }
+    }
+}
+
+extension AddressFormat {
+    var localizedPayload: String {
+        switch self {
+        case .P2PKH: return "Public key hash"
+        case .P2SH: return "Script hash"
+        case .P2WPKH: return "Public key hash"
+        case .P2WSH: return "Script hash"
+        case .P2TR: return "BIP-340 public key"
+        case .future(_): return "Witness programm"
+        }
+    }
+}
+
+extension WitnessVersion {
+    var localizedDescription: String {
+        switch self {
+        case .none: return "pre-SegWit"
+        case .segwit: return "SegWit v0"
+        case .taproot: return "Taproot"
+        case .future(_): return "Future SegWit"
+        }
+    }
+}

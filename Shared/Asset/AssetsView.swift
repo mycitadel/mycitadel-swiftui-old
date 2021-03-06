@@ -94,7 +94,7 @@ struct AssetsView: View {
         }
         .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
         .sheet(isPresented: $showingImportSheet) {
-            Import(importName: "asset", category: .genesis, invoice: $invoice, bechString: $scannedString)
+            Import(importName: "asset", category: .genesis, invoice: $invoice, dataString: $scannedString)
                 .onDisappear(perform: self.reloadAssets)
         }
     }

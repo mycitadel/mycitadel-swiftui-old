@@ -98,14 +98,14 @@ struct WalletView: View {
             switch item {
             case .invoice(_, _): InvoiceCreate(wallet: wallet, assetId: assetId)
             case .scan(let name, .invoice):
-                Import(importName: name, category: .invoice, invoice: $scannedInvoice, bechString: $scannedString)
+                Import(importName: name, category: .invoice, invoice: $scannedInvoice, dataString: $scannedString)
                     .onDisappear {
                         if let scannedInvoice = scannedInvoice {
                             presentedSheet = .pay(wallet, scannedInvoice)
                         }
                     }
             case .scan(let name, .consignment):
-                Import(importName: name, category: .consignment, invoice: $scannedInvoice, bechString: $scannedString)
+                Import(importName: name, category: .consignment, invoice: $scannedInvoice, dataString: $scannedString)
                     .onDisappear {
                         do {
                             status = try wallet.accept(consignment: scannedString)

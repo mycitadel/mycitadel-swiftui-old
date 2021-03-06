@@ -19,7 +19,7 @@ struct Import: View {
         case genesis = "genesis1"
         case schema = "schema1"
         case consignment = "consignment1"
-        case invoice = "i1"
+        case invoice = "i1 bc1 tb1 bcrt1 1 2 3 n m bitcoin:"
     }
     
     @Environment(\.presentationMode) var presentationMode
@@ -28,7 +28,7 @@ struct Import: View {
     var category: Category
 
     @Binding var invoice: Invoice?
-    @Binding var bechString: String
+    @Binding var dataString: String
     @State private var recognizedAs: String = "<no data>"
     @State private var recognitionMessages: [(String, String)] = []
     @State private var recognitionDetails: [String] = []
@@ -36,6 +36,7 @@ struct Import: View {
     @State private var canImport: Bool = false
     @State private var errorSheet: Bool = false
     @State private var errorMessage: String = ""
+    @State private var displayQR: Bool = true
 
     var body: some View {
         NavigationView {
@@ -45,25 +46,34 @@ struct Import: View {
 
                 Spacer()
 
-                TextEditor(text: $bechString)
+                TextEditor(text: $dataString)
                     .font(.title2)
                     .lineSpacing(6)
                     .disableAutocorrection(true)
+                    .autocapitalization(.none)
                     .padding(0)
                     .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
-                    .onChange(of: bechString, perform: parseBech32)
+                    .onChange(of: dataString, perform: parseInput)
                 
-                Text("NB: string must start with \"\(category.rawValue)\"")
+                if category != .all && !recognitionErrors.isEmpty {
+                    HStack(alignment: .firstTextBaseline) {
+                        Text("NB: string must start with")
+                        Text(category.rawValue).italic()
+                    }
                     .font(.footnote)
+                }
 
                 Divider()
 
                 #if os(iOS)
-                Label("Or scan a QR code:", systemImage: "qrcode.viewfinder")
-                    .font(.headline)
-                CodeScannerView(codeTypes: [.qr], simulatedData: "genesis1qyfe883hey6jrgj2xvk5g3dfmfqfzm7a4wez4pd2krf7ltsxffd6u6nrvjvvnc8vt9llmp7663pgututl9heuwaudet72ay9j6thc6cetuvhxvsqqya5xjt2w9y4u6sfkuszwwctnrpug5yjxnthmr3mydg05rdrpspcxysnqvvqpfvag2w8jxzzsz9pf8pjfwf0xvln5z7w93yjln3gcnyxsa04jsf2p8vu4sxgppfv0j9qer9wpmqlum5uyzrzwven3euhvknz398yv7n7vvfnxzp26eryuz0vxgueqrftgqxgv90dp3sgxxqkzggryve5s8l0nt94xne7pv6ksln9wj3ekel753vcwhvksuud2037k5lmj2k5cmut4clzfzucds5h4aqt4cx6pyqtqgsqq0e4wu", completion: parseBechQr)
-                    .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
+                if displayQR {
+                    Label("Or scan a QR code:", systemImage: "qrcode.viewfinder")
+                        .font(.headline)
+                    CodeScannerView(codeTypes: [.qr], simulatedData: "genesis1qyfe883hey6jrgj2xvk5g3dfmfqfzm7a4wez4pd2krf7ltsxffd6u6nrvjvvnc8vt9llmp7663pgututl9heuwaudet72ay9j6thc6cetuvhxvsqqya5xjt2w9y4u6sfkuszwwctnrpug5yjxnthmr3mydg05rdrpspcxysnqvvqpfvag2w8jxzzsz9pf8pjfwf0xvln5z7w93yjln3gcnyxsa04jsf2p8vu4sxgppfv0j9qer9wpmqlum5uyzrzwven3euhvknz398yv7n7vvfnxzp26eryuz0vxgueqrftgqxgv90dp3sgxxqkzggryve5s8l0nt94xne7pv6ksln9wj3ekel753vcwhvksuud2037k5lmj2k5cmut4clzfzucds5h4aqt4cx6pyqtqgsqq0e4wu", completion: parseQr)
+                        .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
+                }
                 #endif
+                
                 Group {
                     HStack {
                         Label(recognitionErrors.count > 0 ? "Recognition" : "Recognized as", systemImage: "perspective")
@@ -73,24 +83,34 @@ struct Import: View {
                             .font(.body)
                     }
                     ForEach(recognitionDetails, id: \.self) { detail in
-                        Text(detail)
-                            .font(.subheadline)
-                            .padding(.leading, 32)
+                        HStack {
+                            Spacer()
+                            Text(detail)
+                                .font(.subheadline)
+                                .truncationMode(.middle)
+                                .lineLimit(1)
+                        }
                     }
                     ForEach(recognitionMessages, id: \.1) { (label, message) in
                         HStack(alignment: .firstTextBaseline) {
                             Text(label)
                                 .font(.headline)
+                                .layoutPriority(1)
                             Spacer()
                             Text(message)
                                 .font(.body)
+                                .truncationMode(.middle)
+                                .lineLimit(1)
                         }
                         .padding(.vertical, 3)
                         .padding(.leading, 32)
                     }
                     ForEach(recognitionErrors, id: \.self) { error in
+                        Spacer()
                         Text(error)
                             .font(.subheadline)
+                            .foregroundColor(.red)
+                            .italic()
                             .padding(.leading, 32)
                     }
                 }
@@ -107,7 +127,7 @@ struct Import: View {
                 }
                 
                 ToolbarItem(placement: .primaryAction) {
-                    Button(action: importBech32) {
+                    Button(action: importData) {
                         Text("Import")
                     }
                     .disabled(!canImport)
@@ -119,18 +139,41 @@ struct Import: View {
         }
     }
     
-    private func parseBech32(_ bech32: String) {
-        let info = Bech32Info(bech32)
+    private func parseData(_ inputString: String) {
+        let info = UniversalParser(inputString)
 
         canImport = false
-        recognizedAs = info.details.name()
+        recognizedAs = info.parsedData.localizedDescription
         recognitionMessages = []
         recognitionDetails = []
+        recognitionErrors = []
 
-        switch info.details {
+        switch info.parsedData {
         case .unknown:
             recognizedAs = "incorrect data"
             recognitionErrors = [info.parseReport]
+        case .address(let address):
+            if address.isBIP21 {
+                recognitionDetails = ["BIP21 bitcoin invoice"]
+            } else {
+                recognitionDetails = ["\(address.encoding.name)-encoded"]
+            }
+            if let amount = address.amount {
+                recognitionMessages.append(("Amount", "\(amount) \(CitadelVault.embedded!.network.ticker())"))
+            }
+            if let label = address.label {
+                recognitionMessages.append(("Beneficiary", label))
+            }
+            if let message = address.message {
+                recognitionMessages.append(("Description", message))
+            }
+            recognitionMessages.append(contentsOf: [
+                (address.format.localizedPayload, address.payload),
+                ("Format", address.format.rawValue),
+                ("Witness version", address.witnessVer.localizedDescription),
+                ("Network", address.network.localizedName),
+            ])
+            canImport = category == .invoice || category == .all
         case .rgb20Asset(let asset):
             recognitionDetails = [asset.id]
             recognitionMessages = [
@@ -138,27 +181,39 @@ struct Import: View {
                 ("Name", asset.name),
                 ("Known supply", String(asset.knownIssued ?? 0))
             ]
-            recognitionErrors = []
-            canImport = true
+            canImport = category == .genesis || category == .all
         case .lnbpInvoice(let invoice):
-            recognitionDetails = []
             recognitionMessages = [
-                ("Beneficiary", invoice.beneficiary),
+                ("Pay to", invoice.beneficiary),
                 ("Amount", invoice.amount != nil ? String(invoice.amount!) : "any"),
                 ("Asset", invoice.assetId ?? CitadelVault.embedded.network.coinName()),
             ]
-            recognitionErrors = []
-            canImport = true
+            if let label = invoice.merchant {
+                recognitionMessages.append(("Beneficiary", label))
+            }
+            if let message = invoice.purpose {
+                recognitionMessages.append(("Description", message))
+            }
+            canImport = category == .invoice || category == .all
         default: break
+        }
+        
+        if !canImport && recognitionErrors.isEmpty {
+            recognitionErrors.append("This type of data can't be imported in the given context")
         }
     }
     
+    private func parseInput(_ inputString: String) {
+        displayQR = false
+        parseData(inputString)
+    }
+    
     #if os(iOS)
-    private func parseBechQr(result: Result<String, CodeScannerView.ScanError>) {
+    private func parseQr(result: Result<String, CodeScannerView.ScanError>) {
         switch result {
         case .success(let bech32):
-            bechString = bech32
-            parseBech32(bech32)
+            dataString = bech32
+            parseData(bech32)
             canImport = true
         case .failure(let error):
             recognizedAs = "incorrect data"
@@ -170,12 +225,12 @@ struct Import: View {
     }
     #endif
     
-    private func importBech32() {
-        let info = Bech32Info(bechString)
+    private func importData() {
+        let info = UniversalParser(dataString)
         do {
-            switch info.details {
+            switch info.parsedData {
             case .rgb20Asset(_):
-                let _ = try CitadelVault.embedded.importAsset(fromString: bechString)
+                let _ = try CitadelVault.embedded.importAsset(fromString: dataString)
             case .lnbpInvoice(let invoice):
                 self.invoice = invoice
             default:
@@ -193,6 +248,6 @@ struct AssetsSheet_Previews: PreviewProvider {
     @State static private var invoice: Invoice? = nil
     @State static private var scannedString: String = ""
     static var previews: some View {
-        Import(importName: "asset", category: .genesis, invoice: $invoice, bechString: $scannedString)
+        Import(importName: "asset", category: .genesis, invoice: $invoice, dataString: $scannedString)
     }
 }

@@ -183,8 +183,8 @@ struct AppView: View {
         switch activeSheet {
         case .addAccount: SelectContract()
         case .addKeyring: AddKeyringSheet()
-        case .importAsset: Import(importName: "asset", category: .genesis, invoice: $invoice, bechString: $scannedString)
-        case .importAnything: Import(importName: "anything", category: .all, invoice: $invoice, bechString: $scannedString)
+        case .importAsset: Import(importName: "asset", category: .genesis, invoice: $invoice, dataString: $scannedString)
+        case .importAnything: Import(importName: "anything", category: .all, invoice: $invoice, dataString: $scannedString)
         }
     }
 
