@@ -33,6 +33,10 @@ struct PaymentView: View {
     var rgbAsset: RGB20Asset? {
         invoice.asset as? RGB20Asset
     }
+    var value: UInt64? {
+        guard let amount = Double(updatedAmount) else { return nil }
+        return UInt64(amount * 100_000_000.0)
+    }
 
     init(wallet: WalletContract? = nil, invoice: Invoice, invoiceString: String) {
         _updatedAmount = .init(initialValue: String(invoice.amount ?? 0))
@@ -165,9 +169,8 @@ struct PaymentView: View {
             return
         }
         do {
-            invoice.amountString = updatedAmount
             errorMessage = nil
-            transfer = try wallet.pay(invoice: invoiceString, fee: 1000)
+            transfer = try wallet.pay(invoice: invoiceString, value: value, fee: 1000)
             navigateResult = true
         } catch {
             errorMessage = error.localizedDescription

@@ -44,11 +44,28 @@ struct Import: View {
     @State private var displayQR: Bool = true
     @State private var importAction: ImportAction? = nil
 
+    var textEditorInner: some View {
+        TextEditor(text: $dataString)
+            .font(.title2)
+            .lineSpacing(6)
+            .disableAutocorrection(true)
+            .padding(0)
+            .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
+            .onChange(of: dataString, perform: parseInput)
+    }
+    
+    var textEditor: some View {
+        #if os(macOS)
+        return textEditorInner
+        #else
+        return textEditorInner.autocapitalization(.none)
+        #endif
+    }
+    
     var body: some View {
         NavigationView {
             if importAction == .pay {
                 NavigationLink("Payment", destination: PaymentView(wallet: wallet, invoice: invoice!, invoiceString: dataString), tag: .pay, selection: $importAction)
-                    .isDetailLink(false)
             }
 
             VStack(alignment: .leading) {
@@ -57,15 +74,8 @@ struct Import: View {
 
                 Spacer()
 
-                TextEditor(text: $dataString)
-                    .font(.title2)
-                    .lineSpacing(6)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                    .padding(0)
-                    .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(UIColor.lightGray), lineWidth: 0.5))
-                    .onChange(of: dataString, perform: parseInput)
-                
+                textEditor
+
                 if category != .all && !recognitionErrors.isEmpty {
                     HStack(alignment: .firstTextBaseline) {
                         Text("NB: string must start with")
@@ -153,7 +163,6 @@ struct Import: View {
                 }
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     private func parseData(_ inputString: String) {
