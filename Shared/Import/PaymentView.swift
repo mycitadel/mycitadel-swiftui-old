@@ -47,7 +47,8 @@ struct PaymentView: View {
                 NavigationLink("Payment result", destination: PayslipView(txid: transfer.txid, consignment: transfer.consignment), tag: true, selection: $navigateResult)
             }
             
-            Section(header: Text("Amount")) {
+            Section(header: Text("Amount"),
+                    footer: assetFooter) {
                 HStack {
                     AmountField(
                         placeholder: "Specify amount",
@@ -58,12 +59,7 @@ struct PaymentView: View {
                     .disabled(hasAmount)
                     Text(invoice.asset?.ticker ?? CitadelVault.embedded.network.ticker())
                 }
-                if let rgbAsset = rgbAsset {
-                    VStack(alignment: .leading) {
-                        Text(rgbAsset.name)
-                        Text(rgbAsset.id)
-                    }
-                }
+                
             }
             
             // TODO: Add fees
@@ -145,6 +141,20 @@ struct PaymentView: View {
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Pay", action: pay)
+            }
+        }
+    }
+    
+    var assetFooter: some View {
+        HStack {
+            if let rgbAsset = rgbAsset {
+                Spacer()
+                VStack(alignment: .trailing) {
+                    Text(rgbAsset.name).bold()
+                    Text(rgbAsset.id)
+                }
+            } else {
+                EmptyView()
             }
         }
     }

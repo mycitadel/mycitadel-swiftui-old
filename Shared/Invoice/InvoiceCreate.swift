@@ -92,14 +92,12 @@ final class InvoiceConfig: ObservableObject {
             addPersonalServer ||
             addWalletServer ||
             useExpiry ||
-            useMerchant ||
-            usePurpose ||
             useDetails ||
             volatilityProtection
         {
             return .lnpbpInvoice
         }
-        if amountType == .fixed {
+        if amountType == .fixed || usePurpose || useMerchant {
             return .url
         }
         return .address
@@ -142,7 +140,17 @@ final class InvoiceConfig: ObservableObject {
         }
         let address = try wallet.nextAddress(legacySegWit: legacyFormat).address
         if representation == .url {
-            return "bitcoin:\(address)?amount=\(amount)"
+            var query: [String] = []
+            if Double(amount) ?? 0 > 0 && amount != "any" {
+                query.append("amount=\(amount)")
+            }
+            if useMerchant {
+                query.append("label=\(merchant.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? merchant)")
+            }
+            if usePurpose {
+                query.append("message=\(purpose.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? purpose)")
+            }
+            return "bitcoin:\(address)?\(query.joined(separator: "&"))"
         }
         return address
     }

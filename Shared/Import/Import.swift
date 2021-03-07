@@ -147,6 +147,11 @@ struct Import: View {
             .alert(isPresented: $errorSheet, content: {
                 Alert(title: Text("Error during import"), message: Text(errorMessage), dismissButton: .cancel())
             })
+            .onAppear {
+                if !dataString.isEmpty {
+                    parseData(dataString)
+                }
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

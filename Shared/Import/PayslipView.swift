@@ -13,39 +13,20 @@ struct PayslipView: View {
     
     var body: some View {
         Form {
-            Button(action: {
-                #if os(iOS)
-                    UIPasteboard.general.string = txid
-                #endif
-                #if os(macOS)
-                    NSPasteboard.general.setString(txid, forType: .string)
-                #endif
-            }) {
-                HStack {
-                    Text(txid)
-                        .multilineTextAlignment(.leading)
-                    Spacer()
-                    Image(systemName: "doc.on.doc")
-                }
+            Section(header: Text("Transaction id")) {
+                CopyableText(text: txid, copyable: true, useSpacer: true)
             }
-                        
+
             if let consignment = consignment {
-                Button(action: {
-                    #if os(iOS)
-                        UIPasteboard.general.string = consignment
-                    #endif
-                    #if os(macOS)
-                        NSPasteboard.general.setString(consignment, forType: .string)
-                    #endif
-                }) {
-                    HStack {
-                        Text(consignment)
-                            .multilineTextAlignment(.leading)
-                        Spacer()
-                        Image(systemName: "doc.on.doc")
-                    }
+                Section(header: Text("Consignment to share")) {
+                    CopyableText(text: consignment, copyable: true, useSpacer: true)
+                    
+                    generateQRCode(from: consignment)
+                        .interpolation(.none)
+                        .resizable()
+                        .scaledToFit()
+                        .aspectRatio(1, contentMode: .fit)
                 }
-                
             }
         }
         .navigationTitle("Payment created")
