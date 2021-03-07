@@ -20,6 +20,12 @@ struct TransactionCell: View {
     var amount: Double {
         asset.amount(fromAtoms: transaction.value)
     }
+    var date: String {
+        guard let date = transaction.date else {
+            return transaction.createdAt
+        }
+        return Self.dateFormatter.string(from: date)
+    }
     
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -34,7 +40,7 @@ struct TransactionCell: View {
                 .font(.title)
                 .foregroundColor(transaction.isOutcoming ?.red : .blue)
                 .padding([.top, .bottom, .trailing], 10)
-            Text("\(transaction.createdAt, formatter: Self.dateFormatter)").foregroundColor(.secondary).font(.footnote)
+            Text(date).foregroundColor(.secondary).font(.footnote)
             Spacer()
             HStack {
                 Text("\(amount)")
@@ -47,7 +53,19 @@ struct TransactionCell: View {
 struct TransactionView: View {
     var wallet: WalletContract
     var assetId: String = CitadelVault.embedded.nativeAsset.id
-
+    
+    private var assetIdModified: String? {
+        assetId == CitadelVault.embedded.nativeAsset.id ? nil : assetId
+    }
+    private var operations: [TransferOperation] {
+        do {
+            let _ = try wallet.syncOperations()
+        } catch {
+            print(error.localizedDescription)
+        }
+        return wallet.operations.filter { $0.assetId == assetIdModified }
+    }
+    
     @State private var scannedInvoice: Invoice? = nil
     @State private var scannedString: String = ""
     @State var presentedSheet: PresentedSheet?
@@ -60,9 +78,10 @@ struct TransactionView: View {
     }()
     
     var body: some View {
-        List(wallet.operations.filter { $0.assetId == assetId }) { transaction in
+        List(operations) { transaction in
             TransactionCell(transaction: transaction)
         }
+        .navigationTitle("History")
         .toolbar {
             ToolbarItemGroup(placement: placement) {
                 Button("Receive") { presentedSheet = .invoice(wallet, assetId) }
