@@ -98,12 +98,7 @@ struct WalletView: View {
             switch item {
             case .invoice(_, _): InvoiceCreate(wallet: wallet, assetId: assetId)
             case .scan(let name, .invoice):
-                Import(importName: name, category: .invoice, invoice: $scannedInvoice, dataString: $scannedString)
-                    .onDisappear {
-                        if let scannedInvoice = scannedInvoice {
-                            presentedSheet = .pay(wallet, scannedInvoice)
-                        }
-                    }
+                Import(importName: name, category: .invoice, invoice: $scannedInvoice, dataString: $scannedString, wallet: wallet)
             case .scan(let name, .consignment):
                 Import(importName: name, category: .consignment, invoice: $scannedInvoice, dataString: $scannedString)
                     .onDisappear {
@@ -113,7 +108,6 @@ struct WalletView: View {
                             status = error.localizedDescription
                         }
                     }
-            case .pay(_, let invoice): PaymentView(wallet: wallet, invoice: invoice, invoiceString: scannedString)
             case .walletDetails(let w): WalletDetails(wallet: w)
             default: let _ = ""
             }

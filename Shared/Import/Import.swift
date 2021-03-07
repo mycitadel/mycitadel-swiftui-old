@@ -22,6 +22,10 @@ struct Import: View {
         case invoice = "i1 bc1 tb1 bcrt1 1 2 3 n m bitcoin:"
     }
     
+    private enum ImportAction: Hashable {
+        case pay
+    }
+    
     @Environment(\.presentationMode) var presentationMode
     
     var importName: String
@@ -29,6 +33,7 @@ struct Import: View {
 
     @Binding var invoice: Invoice?
     @Binding var dataString: String
+    @State var wallet: WalletContract?
     @State private var recognizedAs: String = "<no data>"
     @State private var recognitionMessages: [(String, String)] = []
     @State private var recognitionDetails: [String] = []
@@ -37,9 +42,15 @@ struct Import: View {
     @State private var errorSheet: Bool = false
     @State private var errorMessage: String = ""
     @State private var displayQR: Bool = true
+    @State private var importAction: ImportAction? = nil
 
     var body: some View {
         NavigationView {
+            if importAction == .pay {
+                NavigationLink("Payment", destination: PaymentView(wallet: wallet, invoice: invoice!, invoiceString: dataString), tag: .pay, selection: $importAction)
+                    .isDetailLink(false)
+            }
+
             VStack(alignment: .leading) {
                 Label("Enter bech32 \(importName) string:", systemImage: "pencil")
                     .font(.headline)
@@ -137,6 +148,7 @@ struct Import: View {
                 Alert(title: Text("Error during import"), message: Text(errorMessage), dismissButton: .cancel())
             })
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     private func parseData(_ inputString: String) {
@@ -231,12 +243,21 @@ struct Import: View {
             switch info.parsedData {
             case .rgb20Asset(_):
                 let _ = try CitadelVault.embedded.importAsset(fromString: dataString)
+                self.presentationMode.wrappedValue.dismiss()
+            case .address(let address):
+                var invoice = Invoice(beneficiary: address.address)
+                invoice.amountString = address.value != nil ? String(address.value!) : "any"
+                invoice.merchant = address.label
+                invoice.purpose = address.message
+                self.invoice = invoice
+                importAction = .pay
             case .lnbpInvoice(let invoice):
                 self.invoice = invoice
+                importAction = .pay
             default:
+                self.presentationMode.wrappedValue.dismiss()
                 break
             }
-            self.presentationMode.wrappedValue.dismiss()
         } catch {
             errorSheet = true
             errorMessage = error.localizedDescription

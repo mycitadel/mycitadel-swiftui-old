@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PaymentResultView: View {
+struct PayslipView: View {
     let txid: String
     let consignment: String?
     
@@ -52,8 +52,8 @@ struct PaymentResultView: View {
     }
 }
 
-struct PaymentResultView_Previews: PreviewProvider {
+struct PayslipView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentResultView(txid: "", consignment: "")
+        PayslipView(txid: "", consignment: "")
     }
 }

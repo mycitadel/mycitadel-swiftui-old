@@ -32,6 +32,7 @@ struct AmountField: View {
                     return AnyView($0)
                 #endif
             }
+            /*
             .onReceive(Just(amount)) { newValue in
                 let filtered = newValue.filter { "0123456789.,".contains($0) }
                 if filtered != newValue {
@@ -49,6 +50,7 @@ struct AmountField: View {
                     }
                 }
             }
+            */
     }
 }
 
