@@ -84,7 +84,7 @@ struct WalletView: View {
         }
         .navigationTitle(wallet.name)
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .primaryAction) {
                 Button(action: { presentedSheet = .walletDetails(wallet) }) {
                     Image(systemName: "info.circle")
                 }

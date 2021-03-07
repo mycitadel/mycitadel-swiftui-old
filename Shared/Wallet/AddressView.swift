@@ -52,6 +52,12 @@ struct AddressView: View {
         allocations.bitcoinBalance(network: network) * nativeAsset.fiatExchangeRate
     }
 
+    #if os(macOS)
+    private let listStyle = SidebarListStyle()
+    #else
+    private let listStyle = GroupedListStyle()
+    #endif
+    
     var body: some View {
         List {
             Section {
@@ -136,10 +142,10 @@ struct AddressView: View {
                 }
             }
         }
-        .listStyle(GroupedListStyle())
+        .listStyle(listStyle)
         .navigationTitle("Address details")
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .primaryAction) {
                 Button(action: movePrev) {
                     Image(systemName: "chevron.backward")
                 }.disabled(prev == nil)

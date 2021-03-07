@@ -48,6 +48,12 @@ struct UtxoView: View {
         bitcoins * nativeAsset.fiatExchangeRate
     }
     
+    #if os(macOS)
+    private let listStyle = SidebarListStyle()
+    #else
+    private let listStyle = GroupedListStyle()
+    #endif
+
     var body: some View {
         List {
             Section {
@@ -116,10 +122,10 @@ struct UtxoView: View {
                 }
             }
         }
-        .listStyle(GroupedListStyle())
+        .listStyle(listStyle)
         .navigationTitle("UTXO details")
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .primaryAction) {
                 Button(action: movePrev) {
                     Image(systemName: "chevron.backward")
                 }.disabled(prev == nil)
