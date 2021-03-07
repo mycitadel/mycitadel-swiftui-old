@@ -132,16 +132,7 @@ extension VerificationStatus {
     }
 }
 
-public struct Transaction: Identifiable {
-    public var id: String
-    public var asset: Asset
-}
-
 extension WalletContract {
-    var transactions: [Transaction] {
-        []
-    }
-    
     public var imageName: String {
         self.policy.contractType.imageName
     }

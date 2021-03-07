@@ -77,7 +77,7 @@ struct WalletView: View {
                 if let errorMessage = errorMessage {
                     Text(errorMessage).foregroundColor(.red)
                 }
-                ForEach(wallet.transactions.filter { assetId == "" || $0.asset.ticker == assetId }) { transaction in
+                ForEach(wallet.operations.filter { assetId == "" || $0.assetId == assetId }) { transaction in
                     TransactionCell(transaction: transaction)
                 }
             }

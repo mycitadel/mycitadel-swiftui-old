@@ -8,9 +8,18 @@
 import SwiftUI
 import MyCitadelKit
 
-/*
 struct TransactionCell: View {
-    @ObservedObject var transaction: TransactionDisplayInfo
+    var transaction: TransferOperation
+    var asset: Asset {
+        if let assetId = transaction.assetId {
+            return CitadelVault.embedded.assets[assetId]!
+        } else {
+            return CitadelVault.embedded.nativeAsset
+        }
+    }
+    var amount: Double {
+        asset.amount(fromAtoms: transaction.value)
+    }
     
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -21,28 +30,17 @@ struct TransactionCell: View {
     
     var body: some View {
         HStack {
-            Image(systemName: "chevron.\(transaction.direction == .Out ? "up" : "down").circle.fill")
+            Image(systemName: "chevron.\(transaction.isOutcoming ? "up" : "down").circle.fill")
                 .font(.title)
-                .foregroundColor(transaction.direction == .Out ?.red : .blue)
+                .foregroundColor(transaction.isOutcoming ?.red : .blue)
                 .padding([.top, .bottom, .trailing], 10)
-            VStack(alignment: .leading) {
-                Text(transaction.comment).font(.headline)
-                Text("\(transaction.date, formatter: Self.dateFormatter)").foregroundColor(.secondary).font(.footnote)
-            }
+            Text("\(transaction.createdAt, formatter: Self.dateFormatter)").foregroundColor(.secondary).font(.footnote)
             Spacer()
             HStack {
-                Text("\(transaction.amount)")
-                Text(transaction.asset.ticker).foregroundColor(.secondary)
+                Text("\(amount)")
+                Text(asset.ticker).foregroundColor(.secondary)
             }
         }
-    }
-} */
-
-struct TransactionCell: View {
-    var transaction: Transaction
-
-    var body: some View {
-        EmptyView()
     }
 }
 
@@ -62,7 +60,7 @@ struct TransactionView: View {
     }()
     
     var body: some View {
-        List(wallet.transactions.filter { $0.asset.id == assetId }) { transaction in
+        List(wallet.operations.filter { $0.assetId == assetId }) { transaction in
             TransactionCell(transaction: transaction)
         }
         .toolbar {
