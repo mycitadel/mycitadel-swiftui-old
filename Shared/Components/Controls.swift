@@ -54,6 +54,31 @@ struct AmountField: View {
     }
 }
 
+struct Copyable<Label>: View where Label: View {
+    let text: String
+    var useSpacer: Bool
+    let content: Label
+
+    public init(text: String, useSpacer: Bool = true, @ViewBuilder content: () -> Label) {
+        self.text = text
+        self.useSpacer = useSpacer
+        self.content = content()
+    }
+
+    var body: some View {
+        Button(action: { My_Citadel.clipboardCopy(text: text) }) {
+            HStack {
+                content
+                if useSpacer {
+                    Spacer()
+                }
+                Image(systemName: "doc.on.doc")
+            }
+        }
+        .foregroundColor(.primary)
+    }
+}
+
 struct CopyableText: View {
     let text: String
     var copyable: Bool = false
@@ -62,18 +87,11 @@ struct CopyableText: View {
 
     var body: some View {
         if copyable {
-            Button(action: { My_Citadel.clipboardCopy(text: text) }) {
-                HStack {
-                    Text(text)
-                        .font(.body)
-                        .multilineTextAlignment(multilineTextAlignment)
-                    if useSpacer {
-                        Spacer()
-                    }
-                    Image(systemName: "doc.on.doc")
-                }
-            }
-            .foregroundColor(.primary)
+            Copyable(text: text, useSpacer: useSpacer, content: {
+                Text(text)
+                    .font(.body)
+                    .multilineTextAlignment(multilineTextAlignment)
+            })
         } else {
             Text(text)
                 .font(.body)
