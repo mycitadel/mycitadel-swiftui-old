@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "PaymentView.pay():PaymentView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "TransactionView.operations.getter:TransactionView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PaymentView.hasAmount.getter:PaymentView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Import.importData():Import.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CitadelVault.pay(from:invoice:fee:giveaway:):CAPI.swift">
+      </ContextState>
+      <ContextState
+         contextName = "TransferDirection.init(from:):Wallet.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

@@ -135,7 +135,10 @@ final class InvoiceConfig: ObservableObject {
             return try wallet.invoice(
                 usingFormat: wallet.hasUtxo ? .addressUtxo : .descriptor,
                 nominatedIn: asset,
-                amount: Double(amount) ?? 0
+                amount: Double(amount) ?? 0,
+                from: useMerchant ? merchant : nil,
+                purpose: usePurpose ? purpose : nil,
+                useLegacySegWit: legacyFormat
             )
         }
         let address = try wallet.nextAddress(legacySegWit: legacyFormat).address

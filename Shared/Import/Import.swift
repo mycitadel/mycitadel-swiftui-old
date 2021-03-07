@@ -178,6 +178,14 @@ struct Import: View {
         case .unknown:
             recognizedAs = "incorrect data"
             recognitionErrors = [info.parseReport]
+        case .rgb20Asset(let asset):
+            recognitionDetails = [asset.id]
+            recognitionMessages = [
+                ("Ticker", asset.ticker),
+                ("Name", asset.name),
+                ("Known supply", String(asset.knownIssued ?? 0))
+            ]
+            canImport = category == .genesis || category == .all
         case .address(let address):
             if address.isBIP21 {
                 recognitionDetails = ["BIP21 bitcoin invoice"]
@@ -200,14 +208,6 @@ struct Import: View {
                 ("Network", address.network.localizedName),
             ])
             canImport = category == .invoice || category == .all
-        case .rgb20Asset(let asset):
-            recognitionDetails = [asset.id]
-            recognitionMessages = [
-                ("Ticker", asset.ticker),
-                ("Name", asset.name),
-                ("Known supply", String(asset.knownIssued ?? 0))
-            ]
-            canImport = category == .genesis || category == .all
         case .lnbpInvoice(let invoice):
             recognitionMessages = [
                 ("Pay to", invoice.beneficiary),
@@ -221,6 +221,16 @@ struct Import: View {
                 recognitionMessages.append(("Description", message))
             }
             canImport = category == .invoice || category == .all
+        case .rgbConsignment(let info):
+            recognitionDetails = ["allows accepting RGB payments & state transfers"]
+            recognitionMessages = [
+                ("Asset Id", info.asset.id),
+                ("Asset name", info.asset.name),
+                ("Known circulation", "\(info.asset.knownCirculating) \(info.asset.ticker)"),
+                ("Schema Id", info.schemaId),
+                ("Stats", "\(info.transactionsCount) txes, \(info.transitionsCount) transitions, \(info.extensionsCount) endpoints")
+            ]
+            canImport = category == .consignment || category == .all
         default: break
         }
         

@@ -58,6 +58,14 @@ struct AddressView: View {
     private let listStyle = GroupedListStyle()
     #endif
     
+    private var toolbarPlacement: ToolbarItemPlacement {
+        #if os(iOS)
+        return .navigationBarTrailing
+        #else
+        return .primaryAction
+        #endif
+    }
+
     var body: some View {
         List {
             Section {
@@ -145,7 +153,7 @@ struct AddressView: View {
         .listStyle(listStyle)
         .navigationTitle("Address details")
         .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
+            ToolbarItemGroup(placement: toolbarPlacement) {
                 Button(action: movePrev) {
                     Image(systemName: "chevron.backward")
                 }.disabled(prev == nil)

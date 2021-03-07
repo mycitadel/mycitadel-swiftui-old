@@ -53,6 +53,13 @@ struct UtxoView: View {
     #else
     private let listStyle = GroupedListStyle()
     #endif
+    private var toolbarPlacement: ToolbarItemPlacement {
+        #if os(iOS)
+        return .navigationBarTrailing
+        #else
+        return .primaryAction
+        #endif
+    }
 
     var body: some View {
         List {
@@ -125,7 +132,7 @@ struct UtxoView: View {
         .listStyle(listStyle)
         .navigationTitle("UTXO details")
         .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
+            ToolbarItemGroup(placement: toolbarPlacement) {
                 Button(action: movePrev) {
                     Image(systemName: "chevron.backward")
                 }.disabled(prev == nil)

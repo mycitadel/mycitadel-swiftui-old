@@ -15,6 +15,14 @@ struct BalanceList: View {
 
     var wallet: WalletContract
 
+    private var toolbarPlacement: ToolbarItemPlacement {
+        #if os(iOS)
+        return .navigationBarTrailing
+        #else
+        return .primaryAction
+        #endif
+    }
+    
     var body: some View {
         List {
             ForEach(wallet.availableAssets, id: \.id) { asset in
@@ -30,7 +38,7 @@ struct BalanceList: View {
         }
         .navigationTitle(wallet.name)
         .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
+            ToolbarItemGroup(placement: toolbarPlacement) {
                 Button(action: { presentedSheet = .walletDetails(wallet) }) {
                     Image(systemName: "info.circle")
                 }

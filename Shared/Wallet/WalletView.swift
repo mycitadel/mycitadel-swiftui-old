@@ -69,6 +69,14 @@ struct WalletView: View {
     @State private var status: String? = nil
     @State private var statusPresented: Bool = false
 
+    private var toolbarPlacement: ToolbarItemPlacement {
+        #if os(iOS)
+        return .navigationBarTrailing
+        #else
+        return .primaryAction
+        #endif
+    }
+
     var body: some View {
         List {
             BalancePager(wallet: wallet, assetId: $assetId)
@@ -84,7 +92,7 @@ struct WalletView: View {
         }
         .navigationTitle(wallet.name)
         .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
+            ToolbarItemGroup(placement: toolbarPlacement) {
                 Button(action: { presentedSheet = .walletDetails(wallet) }) {
                     Image(systemName: "info.circle")
                 }
