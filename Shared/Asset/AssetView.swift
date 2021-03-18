@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 
 struct AssetView: View {
     var asset: Asset
@@ -58,7 +58,7 @@ struct AssetView: View {
                 }
             }
 
-            Section(header: Text("Souveregnity status"), footer: Text("Information source: MyCitadel self-souvergnity digital assets raiting®")) {
+            Section(header: Text("Souveregnity status"), footer: Text("Information source: Citadel self-souvergnity digital assets raiting®")) {
                 DetailsCell(title: "Category", details: asset.category.localizedDescription)
                 DetailsCell(title: "Trust profile", details: asset.isNative ? "Trustless" : "Must trust issuer")
                 DetailsCell(title: "Centralization", details: asset.isNative ? "Decentralized" : "Cenrtalized issue")
@@ -91,7 +91,7 @@ struct AssetView: View {
                 DetailsCell(title: "Known replaced supply", details: asset.isReplacementPossible ? "none" : asset.formattedSupply(metric: .knownReplaced), subdetails: "as of \(dateFormatter.string(from: CitadelVault.embedded.blockchainState.updatedAt))")
             }
 
-            Section(header: Text("Issuer information"), footer: Text("Information source: MyCitadel digital asset issuer database")) {
+            Section(header: Text("Issuer information"), footer: Text("Information source: Citadel digital asset issuer database")) {
                 SubheadingCell(title: "Issuer name", details: asset.authenticity.issuer?.name ?? "unknown")
                 SubheadingCell(title: "Issuer details", details: asset.localizedIssuer)
                 HStack(alignment: .center) {

@@ -17,8 +17,6 @@
 		30100A5B25F2443E00DB5CD8 /* AddressList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5925F2443E00DB5CD8 /* AddressList.swift */; };
 		30100A5D25F25A8600DB5CD8 /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5C25F25A8600DB5CD8 /* AddressView.swift */; };
 		30100A5E25F25A8600DB5CD8 /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30100A5C25F25A8600DB5CD8 /* AddressView.swift */; };
-		301404EE25EAF28700F4AA07 /* MyCitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; };
-		301404EF25EAF28700F4AA07 /* MyCitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3015232925E5BF1600069C06 /* DisplayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015232825E5BF1600069C06 /* DisplayExtensions.swift */; };
 		3015232A25E5BF1600069C06 /* DisplayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015232825E5BF1600069C06 /* DisplayExtensions.swift */; };
 		3015233425E66CAA00069C06 /* EntityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3015233325E66CAA00069C06 /* EntityViews.swift */; };
@@ -35,8 +33,6 @@
 		303D9DAF25EFC3F200E2DC6E /* InvoiceDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303D9DAD25EFC3F200E2DC6E /* InvoiceDetails.swift */; };
 		303D9DB125EFD59F00E2DC6E /* PayslipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303D9DB025EFD59F00E2DC6E /* PayslipView.swift */; };
 		303D9DB225EFD59F00E2DC6E /* PayslipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303D9DB025EFD59F00E2DC6E /* PayslipView.swift */; };
-		304DE95625C741F2008FE0A4 /* MyCitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; };
-		304DE95725C741F2008FE0A4 /* MyCitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		304DE96925C83D3E008FE0A4 /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96825C83D3E008FE0A4 /* AssetsView.swift */; };
 		304DE96A25C83D3E008FE0A4 /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96825C83D3E008FE0A4 /* AssetsView.swift */; };
 		304DE96C25C87021008FE0A4 /* AssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304DE96B25C87021008FE0A4 /* AssetView.swift */; };
@@ -70,27 +66,31 @@
 		30A82FB025CB32E2002EFA31 /* SheetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */; };
 		30DBF28425EFDDF9006A69F5 /* WalletDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DBF28325EFDDF9006A69F5 /* WalletDetails.swift */; };
 		30DBF28525EFDDF9006A69F5 /* WalletDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DBF28325EFDDF9006A69F5 /* WalletDetails.swift */; };
+		30E1ECB426037D030044B9B5 /* CitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */; };
+		30E1ECB526037D030044B9B5 /* CitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		30E1ECB726037D130044B9B5 /* CitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */; };
+		30E1ECB826037D130044B9B5 /* CitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		304DE95825C741F2008FE0A4 /* Embed Frameworks */ = {
+		30E1ECB626037D030044B9B5 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				304DE95725C741F2008FE0A4 /* MyCitadelKit.xcframework in Embed Frameworks */,
+				30E1ECB526037D030044B9B5 /* CitadelKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		306DD984258E8F2400E8C148 /* Embed Frameworks */ = {
+		30E1ECB926037D130044B9B5 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				301404EF25EAF28700F4AA07 /* MyCitadelKit.xcframework in Embed Frameworks */,
+				30E1ECB826037D130044B9B5 /* CitadelKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,6 +136,7 @@
 		30A6CEC625636ECC002F30B0 /* Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Import.swift; sourceTree = "<group>"; };
 		30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetConfig.swift; sourceTree = "<group>"; };
 		30DBF28325EFDDF9006A69F5 /* WalletDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetails.swift; sourceTree = "<group>"; };
+		30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CitadelKit.xcframework; path = ../citadelkit/Artifacts/CitadelKit.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				304DE97025C8997C008FE0A4 /* CodeScanner in Frameworks */,
-				304DE95625C741F2008FE0A4 /* MyCitadelKit.xcframework in Frameworks */,
+				30E1ECB426037D030044B9B5 /* CitadelKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,7 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				301404EE25EAF28700F4AA07 /* MyCitadelKit.xcframework in Frameworks */,
+				30E1ECB726037D130044B9B5 /* CitadelKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +228,7 @@
 		306DD97A258E8F0E00E8C148 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */,
 				3015232B25E5C56200069C06 /* Combine.framework */,
 				304DE95525C741F2008FE0A4 /* MyCitadelKit.xcframework */,
 			);
@@ -309,7 +311,7 @@
 				308BCFE625627CDB009E4DEE /* Sources */,
 				308BCFE725627CDB009E4DEE /* Frameworks */,
 				308BCFE825627CDB009E4DEE /* Resources */,
-				304DE95825C741F2008FE0A4 /* Embed Frameworks */,
+				30E1ECB626037D030044B9B5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -330,7 +332,7 @@
 				308BCFEE25627CDB009E4DEE /* Sources */,
 				308BCFEF25627CDB009E4DEE /* Frameworks */,
 				308BCFF025627CDB009E4DEE /* Resources */,
-				306DD984258E8F2400E8C148 /* Embed Frameworks */,
+				30E1ECB926037D130044B9B5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -593,7 +595,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iOS/My Citadel.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BLS4N8A6L6;
+				CURRENT_PROJECT_VERSION = 202103080000;
+				DEVELOPMENT_TEAM = B7GKY9BS54;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "../mycitadel-node/artifacts/**";
@@ -603,8 +606,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.ios;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel;
 				PRODUCT_NAME = "My Citadel";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -620,7 +623,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iOS/My Citadel.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BLS4N8A6L6;
+				CURRENT_PROJECT_VERSION = 202103080000;
+				DEVELOPMENT_TEAM = B7GKY9BS54;
 				ENABLE_BITCODE = NO;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "../mycitadel-node/artifacts/**";
@@ -630,8 +634,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.ios;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel;
 				PRODUCT_NAME = "My Citadel";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -650,7 +654,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = BLS4N8A6L6;
+				DEVELOPMENT_TEAM = B7GKY9BS54;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/macos";
@@ -662,7 +666,7 @@
 				LIBRARY_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/macos";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.macos;
+				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel;
 				PRODUCT_NAME = "My Citadel";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
@@ -678,7 +682,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = BLS4N8A6L6;
+				DEVELOPMENT_TEAM = B7GKY9BS54;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/macos";
@@ -690,7 +694,7 @@
 				LIBRARY_SEARCH_PATHS = "../../lnpbp/rgb-sdk/artifacts/macos";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel.macos;
+				PRODUCT_BUNDLE_IDENTIFIER = io.mycitadel;
 				PRODUCT_NAME = "My Citadel";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;

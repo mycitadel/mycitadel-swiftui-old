@@ -10,7 +10,7 @@
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)io.mycitadel.macos</string>
+		<string>$(AppIdentifierPrefix)io.Citadel.macos</string>
 	</array>
 </dict>
 </plist>

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 
 extension BitcoinNetwork {
     var localizedDescription: String {

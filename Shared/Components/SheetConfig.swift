@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 
 enum PresentedSheet {
     case invoice(WalletContract?, String?)

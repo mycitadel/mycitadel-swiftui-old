@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 
 struct TransactionCell: View {
     var transaction: TransferOperation

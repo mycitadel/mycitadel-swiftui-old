@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 import CoreImage.CIFilterBuiltins
 
 public func generateQRCode(from string: String) -> Image {
@@ -54,7 +54,7 @@ struct CitadelApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView().onAppear(perform: load).alert(isPresented: $showingAlert) {
-                Alert(title: Text("Failed to initialize MyCitadel node"), message: Text(alertMessage!))
+                Alert(title: Text("Failed to initialize Citadel node"), message: Text(alertMessage!))
             }
         }
     }

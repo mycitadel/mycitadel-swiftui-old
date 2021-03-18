@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Combine
-import MyCitadelKit
+import CitadelKit
 
 struct InvoiceDetails: View {
     @StateObject private var citadel = CitadelVault.embedded!

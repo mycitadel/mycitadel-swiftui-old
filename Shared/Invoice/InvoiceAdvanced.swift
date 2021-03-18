@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Combine
-import MyCitadelKit
+import CitadelKit
 
 struct InvoiceAdvanced: View {
     @ObservedObject var invoiceConfig: InvoiceConfig

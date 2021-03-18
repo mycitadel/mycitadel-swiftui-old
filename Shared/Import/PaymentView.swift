@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 
 struct PaymentView: View {
     @Environment(\.presentationMode) var presentationMode

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 
 struct WalletDetails: View {
     @Environment(\.presentationMode) var presentationMode

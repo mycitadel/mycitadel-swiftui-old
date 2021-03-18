@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 
 struct AssetAuthenticityImage: View {
     var asset: Asset

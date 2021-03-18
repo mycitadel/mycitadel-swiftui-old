@@ -9,7 +9,7 @@ import SwiftUI
 #if os(iOS)
 import CodeScanner
 #endif
-import MyCitadelKit
+import CitadelKit
 
 struct Import: View {
     public enum Category: String {

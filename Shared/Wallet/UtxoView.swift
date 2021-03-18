@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MyCitadelKit
+import CitadelKit
 
 struct UtxoView: View {
     @Environment(\.currencyUoA) var fiatUoA: String

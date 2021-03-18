@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Combine
-import MyCitadelKit
+import CitadelKit
 
 enum RepeatedPayments: Hashable {
     case single
@@ -246,7 +246,7 @@ struct InvoiceCreate: View {
                             .aspectRatio(1, contentMode: .fit)
                     }
                     
-                    // With the current MyCitadel Node business logic we always assume
+                    // With the current Citadel Node business logic we always assume
                     // that generated address or invoice was used and will never generate
                     // the same address twice. It also provides `markUnused` function
                     // which we may support in the future using the buttons below
