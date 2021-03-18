@@ -53,7 +53,48 @@ struct TransactionCell: View {
 struct TransactionView: View {
     var wallet: WalletContract
     var assetId: String = CitadelVault.embedded.nativeAsset.id
-    var asset: Asset {
+
+    @State private var selectedTab: WalletViewPicker.Selection = .balance
+    @State private var scannedInvoice: Invoice? = nil
+    @State private var scannedString: String = ""
+    @State var presentedSheet: PresentedSheet?
+    
+    var body: some View {
+        List {
+            WalletOperations(wallet: wallet, selectedTab: $selectedTab)
+        }
+        .listStyle(GroupedListStyle())
+        .navigationTitle(selectedTab.title)
+        .toolbar {
+            ToolbarItemGroup(placement: .confirmationAction) {
+                Button("Invoice") { presentedSheet = .invoice(wallet, assetId) }
+                Button("Accept") { presentedSheet = .scan("consignment", .consignment) }
+            }
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Send") { presentedSheet = .scan("invoice", .invoice) }
+            }
+            ToolbarItem(placement: .principal) {
+                WalletViewPicker(selection: $selectedTab)
+            }
+        }
+        .sheet(item: $presentedSheet) { item in
+            switch item {
+            case .invoice(_, _): InvoiceCreate(wallet: wallet, assetId: assetId)
+            case .scan(let name, let category):
+                Import(importName: name, category: category, invoice: $scannedInvoice, dataString: $scannedString, wallet: wallet)
+            default: let _ = ()
+            }
+        }
+    }
+}
+
+struct WalletOperations: View {
+    var wallet: WalletContract
+    var assetId: String = CitadelVault.embedded.nativeAsset.id
+
+    @Binding var selectedTab: WalletViewPicker.Selection
+
+    private var asset: Asset {
         CitadelVault.embedded.assets[assetId]!
     }
 
@@ -84,84 +125,36 @@ struct TransactionView: View {
             balances[address] = balance
         } ?? [:]).values)
     }
-    
-    enum SelectedTab: Hashable {
-        case history, balance
-        
-        var title: String {
-            switch self {
-            case .balance: return "Balance"
-            case .history: return "History"
-            }
-        }
-    }
-    
-    @State private var selectedTab: SelectedTab = .history
-    @State private var scannedInvoice: Invoice? = nil
-    @State private var scannedString: String = ""
-    @State var presentedSheet: PresentedSheet?
-    
+
     var body: some View {
-        List{
-            if selectedTab == .history {
-                ForEach(operations) { transaction in
-                    TransactionCell(transaction: transaction)
-                }
-            } else {
-                ForEach(addressBalances) { balance in
-                    Section(header: Text("Address")) {
-                        Copyable(text: balance.address) {
-                            BechBrief(text: balance.address)
-                        }
-                        DetailsCell(title: "Balance:", details: "\(balance.amount) \(asset.ticker)", clipboardCopy: true)
-                        ForEach(balance.utxo, id: \.0) { (outpoint, amount) in
-                            HStack(alignment: .center) {
-                                VStack(alignment: .leading) {
-                                    Text(outpoint.txid)
-                                        .font(.subheadline)
-                                        .truncationMode(.middle)
-                                        .lineLimit(1)
-                                    HStack(alignment: .lastTextBaseline) {
-                                        Text("Output number:").font(.caption).foregroundColor(.secondary)
-                                        Text("\(outpoint.vout)").font(.subheadline)
-                                    }
+        if selectedTab == .history {
+            ForEach(operations) { transaction in
+                TransactionCell(transaction: transaction)
+            }
+        } else {
+            ForEach(addressBalances) { balance in
+                Section(header: Text("Address")) {
+                    Copyable(text: balance.address) {
+                        BechBrief(text: balance.address)
+                    }
+                    DetailsCell(title: "Balance:", details: "\(balance.amount) \(asset.ticker)", clipboardCopy: true)
+                    ForEach(balance.utxo, id: \.0) { (outpoint, amount) in
+                        HStack(alignment: .center) {
+                            VStack(alignment: .leading) {
+                                Text(outpoint.txid)
+                                    .font(.subheadline)
+                                    .truncationMode(.middle)
+                                    .lineLimit(1)
+                                HStack(alignment: .lastTextBaseline) {
+                                    Text("Output number:").font(.caption).foregroundColor(.secondary)
+                                    Text("\(outpoint.vout)").font(.subheadline)
                                 }
-                                Spacer()
-                                Text("\(amount) \(asset.ticker)").font(.subheadline)
-                            }.padding(.leading)
-                        }
+                            }
+                            Spacer()
+                            Text("\(amount) \(asset.ticker)").font(.subheadline)
+                        }.padding(.leading)
                     }
                 }
-            }
-        }
-        .listStyle(GroupedListStyle())
-        .navigationTitle(selectedTab.title)
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Receive") { presentedSheet = .invoice(wallet, assetId) }
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(13)
-            }
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Send") { presentedSheet = .scan("invoice", .invoice) }
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(13)
-            }
-            ToolbarItem(placement: .principal) {
-                Picker(selection: $selectedTab, label: EmptyView()) {
-                    Text("History").tag(SelectedTab.history)
-                    Text("Balance").tag(SelectedTab.balance)
-                }.pickerStyle(SegmentedPickerStyle())
-            }
-        }
-        .sheet(item: $presentedSheet) { item in
-            switch item {
-            case .invoice(_, _): InvoiceCreate(wallet: wallet, assetId: assetId)
-            case .scan(let name, let category):
-                Import(importName: name, category: category, invoice: $scannedInvoice, dataString: $scannedString, wallet: wallet)
-            default: let _ = ()
             }
         }
     }

@@ -59,6 +59,28 @@ struct SendReceiveView: View {
     }
 }
 
+struct WalletViewPicker: View {
+    enum Selection: Hashable {
+        case history, balance
+        
+        var title: String {
+            switch self {
+            case .balance: return "Balance"
+            case .history: return "History"
+            }
+        }
+    }
+
+    @Binding var selection: Selection
+
+    var body: some View {
+        Picker(selection: $selection, label: EmptyView()) {
+            Text("History").tag(Selection.history)
+            Text("Balance").tag(Selection.balance)
+        }.pickerStyle(SegmentedPickerStyle())
+    }
+}
+
 struct WalletView: View {
     var wallet: WalletContract
     @State var assetId: String = CitadelVault.embedded.nativeAsset.id
@@ -68,6 +90,7 @@ struct WalletView: View {
     @State private var scannedString: String = ""
     @State private var status: String? = nil
     @State private var statusPresented: Bool = false
+    @State private var selectedTab: WalletViewPicker.Selection = .history
 
     private var toolbarPlacement: ToolbarItemPlacement {
         #if os(iOS)
@@ -81,13 +104,14 @@ struct WalletView: View {
         List {
             BalancePager(wallet: wallet, assetId: $assetId)
                 .frame(height: 200.0)
-            Section(header: SendReceiveView(presentedSheet: $presentedSheet)) {
+            Section(header: VStack {
+                SendReceiveView(presentedSheet: $presentedSheet)
+                WalletViewPicker(selection: $selectedTab).padding(.bottom)
+            }) {
                 if let errorMessage = errorMessage {
                     Text(errorMessage).foregroundColor(.red)
                 }
-                ForEach(wallet.operations.filter { assetId == "" || $0.assetId == assetId }) { transaction in
-                    TransactionCell(transaction: transaction)
-                }
+                WalletOperations(wallet: wallet, selectedTab: $selectedTab)
             }
         }
         .navigationTitle(wallet.name)
