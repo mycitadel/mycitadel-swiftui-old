@@ -24,6 +24,7 @@ struct Import: View {
     
     private enum ImportAction: Hashable {
         case pay
+        case accept
     }
     
     @Environment(\.presentationMode) var presentationMode
@@ -64,8 +65,13 @@ struct Import: View {
     
     var body: some View {
         NavigationView {
-            if importAction == .pay {
+            switch importAction {
+            case .pay:
                 NavigationLink("Payment", destination: PaymentView(wallet: wallet, invoice: invoice!, invoiceString: dataString), tag: .pay, selection: $importAction)
+            case .accept:
+                NavigationLink("Accept payment", destination: ConsignmentView(consignment: dataString), tag: .accept, selection: $importAction)
+            case .none:
+                EmptyView()
             }
 
             VStack(alignment: .leading) {
@@ -278,6 +284,8 @@ struct Import: View {
             case .lnbpInvoice(let invoice):
                 self.invoice = invoice
                 importAction = .pay
+            case .rgbConsignment(_):
+                importAction = .accept
             default:
                 self.presentationMode.wrappedValue.dismiss()
                 break

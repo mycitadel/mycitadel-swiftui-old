@@ -70,6 +70,8 @@
 		30E1ECB526037D030044B9B5 /* CitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		30E1ECB726037D130044B9B5 /* CitadelKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */; };
 		30E1ECB826037D130044B9B5 /* CitadelKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		30E1ECC126039D7D0044B9B5 /* ConsignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E1ECC026039D7D0044B9B5 /* ConsignmentView.swift */; };
+		30E1ECC226039D7D0044B9B5 /* ConsignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E1ECC026039D7D0044B9B5 /* ConsignmentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -137,6 +139,7 @@
 		30A82FAE25CB32E2002EFA31 /* SheetConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetConfig.swift; sourceTree = "<group>"; };
 		30DBF28325EFDDF9006A69F5 /* WalletDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetails.swift; sourceTree = "<group>"; };
 		30E1ECB326037D030044B9B5 /* CitadelKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CitadelKit.xcframework; path = ../citadelkit/Artifacts/CitadelKit.xcframework; sourceTree = "<group>"; };
+		30E1ECC026039D7D0044B9B5 /* ConsignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsignmentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +169,7 @@
 				30A6CEC625636ECC002F30B0 /* Import.swift */,
 				303D9DA725EFB1C400E2DC6E /* PaymentView.swift */,
 				303D9DB025EFD59F00E2DC6E /* PayslipView.swift */,
+				30E1ECC026039D7D0044B9B5 /* ConsignmentView.swift */,
 			);
 			path = Import;
 			sourceTree = "<group>";
@@ -411,6 +415,7 @@
 				30100A5A25F2443E00DB5CD8 /* AddressList.swift in Sources */,
 				308BCFF825627CDB009E4DEE /* ContentView.swift in Sources */,
 				303D9DA825EFB1C400E2DC6E /* PaymentView.swift in Sources */,
+				30E1ECC126039D7D0044B9B5 /* ConsignmentView.swift in Sources */,
 				308BD03425631E8A009E4DEE /* CurrentContract.swift in Sources */,
 				3015232925E5BF1600069C06 /* DisplayExtensions.swift in Sources */,
 				303D9DAB25EFB29F00E2DC6E /* Controls.swift in Sources */,
@@ -446,6 +451,7 @@
 				30100A5B25F2443E00DB5CD8 /* AddressList.swift in Sources */,
 				308BCFF925627CDB009E4DEE /* ContentView.swift in Sources */,
 				303D9DA925EFB1C400E2DC6E /* PaymentView.swift in Sources */,
+				30E1ECC226039D7D0044B9B5 /* ConsignmentView.swift in Sources */,
 				308BD03525631E8A009E4DEE /* CurrentContract.swift in Sources */,
 				3015232A25E5BF1600069C06 /* DisplayExtensions.swift in Sources */,
 				303D9DAC25EFB29F00E2DC6E /* Controls.swift in Sources */,
