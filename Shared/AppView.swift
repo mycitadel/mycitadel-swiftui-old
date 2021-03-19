@@ -8,13 +8,6 @@
 import SwiftUI
 import CitadelKit
 
-enum Sheet {
-    case addAccount
-    case addKeyring
-    case importAsset
-    case importAnything
-}
-
 extension View {
     func conditional(closure: (Self) -> AnyView) -> AnyView {
         return closure(self)
@@ -37,9 +30,9 @@ struct AppView: View {
     @State private var invoice: Invoice? = nil
     @State private var selection: String? = nil
     @State private var showingSheet = false
-    @State private var activeSheet = Sheet.addAccount
     @State private var errorSheet = ErrorSheetConfig()
     @State private var scannedString: String = ""
+    @State private var presentedSheet: PresentedSheet? = nil
 
     var body: some View {
         List(selection: isEditing ? nil : $selection) {
@@ -173,19 +166,17 @@ struct AppView: View {
             }
             #endif
         })
-        .sheet(isPresented: $showingSheet, onDismiss: reloadData, content: sheetContent)
+        .sheet(item: $presentedSheet, onDismiss: reloadData) { sheet in
+            switch sheet {
+            case .addAccount: SelectContract()
+            case .addKeyring: AddKeyringSheet()
+            case .scan(let name, let category):
+                Import(importName: name, category: category, invoice: $invoice, dataString: $scannedString, presentedSheet: $presentedSheet)
+            default: let _ = ""
+            }
+        }
         .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
         .onAppear(perform: reloadData)
-    }
-    
-    @ViewBuilder
-    private func sheetContent() -> some View {
-        switch activeSheet {
-        case .addAccount: SelectContract()
-        case .addKeyring: AddKeyringSheet()
-        case .importAsset: Import(importName: "asset", category: .genesis, invoice: $invoice, dataString: $scannedString)
-        case .importAnything: Import(importName: "anything", category: .all, invoice: $invoice, dataString: $scannedString)
-        }
     }
 
     private func reloadData() {
@@ -210,22 +201,22 @@ struct AppView: View {
     }
 
     private func createWallet() {
-        activeSheet = .addAccount
+        presentedSheet = .addAccount
         showingSheet = true
     }
 
     private func createKeyring() {
-        activeSheet = .addKeyring
+        presentedSheet = .addKeyring
         showingSheet = true
     }
 
     private func importAsset() {
-        activeSheet = .importAsset
+        presentedSheet = .scan("asset", .genesis)
         showingSheet = true
     }
     
     private func importAnything() {
-        activeSheet = .importAnything
+        presentedSheet = .scan("anything", .all)
         showingSheet = true
     }
     

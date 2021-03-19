@@ -17,10 +17,10 @@ struct AssetsView: View {
     @State private var scannedString: String = ""
 
     private var assetList: AssetList {
-        AssetList(showingSheet: $showingImportSheet, errorSheet: $errorSheet)
+        AssetList(presentedSheet: $presentedSheet, errorSheet: $errorSheet)
     }
 
-    @State private var showingImportSheet: Bool = false
+    @State private var presentedSheet: PresentedSheet?
     @State private var errorSheet = ErrorSheetConfig()
     
     #if os(iOS)
@@ -93,9 +93,13 @@ struct AssetsView: View {
             #endif
         }
         .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
-        .sheet(isPresented: $showingImportSheet) {
-            Import(importName: "asset", category: .genesis, invoice: $invoice, dataString: $scannedString)
-                .onDisappear(perform: self.reloadAssets)
+        .sheet(item: $presentedSheet) {sheet in
+            switch sheet {
+            case .scan(let importName, let category):
+                Import(importName: importName, category: category, invoice: $invoice, dataString: $scannedString, presentedSheet: $presentedSheet)
+                    .onDisappear(perform: self.reloadAssets)
+            default: let _ = ""
+            }
         }
     }
 
@@ -104,7 +108,7 @@ struct AssetsView: View {
     }
     
     private func importAsset() {
-        showingImportSheet = true
+        presentedSheet = .scan("asset", .genesis)
     }
 }
 
@@ -122,7 +126,7 @@ struct AssetList: View {
 
     @StateObject private var citadel = CitadelVault.embedded
 
-    @Binding var showingSheet: Bool
+    @Binding var presentedSheet: PresentedSheet?
     @Binding var errorSheet: ErrorSheetConfig
 
     var body: some View {
@@ -156,7 +160,7 @@ struct AssetList: View {
     }
     
     public func importAsset() {
-        showingSheet = true
+        presentedSheet = nil
     }
 
     private func deleteAsset(indexSet: IndexSet) {

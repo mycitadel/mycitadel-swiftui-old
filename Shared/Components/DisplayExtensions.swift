@@ -344,3 +344,27 @@ extension WitnessVersion {
         }
     }
 }
+
+extension ValidationStatus {
+    var localizedName: String {
+        switch self.validity {
+        case .valid: return "Success"
+        case .unresolvedTransactions: return "Danger"
+        case .invalid: return "Failure"
+        }
+    }
+    var systemImage: String {
+        switch self.validity {
+        case .valid: return "checkmark.shield.fill"
+        case .unresolvedTransactions: return "exclamationmark.triangle.fill"
+        case .invalid: return "xmark.octagon.fill"
+        }
+    }
+    var color: Color {
+        switch self.validity {
+        case .valid: return .green
+        case .unresolvedTransactions: return .yellow
+        case .invalid: return .red
+        }
+    }
+}

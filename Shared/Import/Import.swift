@@ -34,6 +34,7 @@ struct Import: View {
 
     @Binding var invoice: Invoice?
     @Binding var dataString: String
+    @Binding var presentedSheet: PresentedSheet?
     @State var wallet: WalletContract?
     @State private var recognizedAs: String = "<no data>"
     @State private var recognitionMessages: [(String, String)] = []
@@ -69,7 +70,7 @@ struct Import: View {
             case .pay:
                 NavigationLink("Payment", destination: PaymentView(wallet: wallet, invoice: invoice!, invoiceString: dataString), tag: .pay, selection: $importAction)
             case .accept:
-                NavigationLink("Accept payment", destination: ConsignmentView(consignment: dataString), tag: .accept, selection: $importAction)
+                NavigationLink("Accept payment", destination: ConsignmentView(consignment: dataString, presentedSheet: $presentedSheet), tag: .accept, selection: $importAction)
             case .none:
                 EmptyView()
             }
@@ -234,7 +235,7 @@ struct Import: View {
                 ("Asset name", info.asset.name),
                 ("Known circulation", "\(info.asset.knownCirculating) \(info.asset.ticker)"),
                 ("Schema Id", info.schemaId),
-                ("Stats", "\(info.transactionsCount) txes, \(info.transitionsCount) transitions, \(info.extensionsCount) endpoints")
+                ("Stats", "\(info.transactionsCount) tx, \(info.transitionsCount + info.extensionsCount) nodes, \(info.endpointsCount) endpoints")
             ]
             canImport = category == .consignment || category == .all
         default: break
@@ -287,7 +288,7 @@ struct Import: View {
             case .rgbConsignment(_):
                 importAction = .accept
             default:
-                self.presentationMode.wrappedValue.dismiss()
+                presentedSheet = nil
                 break
             }
         } catch {
@@ -300,7 +301,8 @@ struct Import: View {
 struct AssetsSheet_Previews: PreviewProvider {
     @State static private var invoice: Invoice? = nil
     @State static private var scannedString: String = ""
+    @State static private var presentedSheet: PresentedSheet? = nil
     static var previews: some View {
-        Import(importName: "asset", category: .genesis, invoice: $invoice, dataString: $scannedString)
+        Import(importName: "asset", category: .genesis, invoice: $invoice, dataString: $scannedString, presentedSheet: $presentedSheet)
     }
 }

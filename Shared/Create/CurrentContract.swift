@@ -173,13 +173,14 @@ struct CurrentContract: View {
                 .disabled(scripting != .publicKey || name.isEmpty)
             }
 
+            /*
             ToolbarItem(placement: .cancellationAction) {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Text("Cancel")
                 }
-            }
+            }*/
         }
         .alert(isPresented: $errorSheet.presented, content: errorSheet.content)
     }

@@ -88,8 +88,6 @@ struct WalletView: View {
     @State private var errorMessage: String? = nil
     @State private var scannedInvoice: Invoice? = nil
     @State private var scannedString: String = ""
-    @State private var status: String? = nil
-    @State private var statusPresented: Bool = false
     @State private var selectedTab: WalletViewPicker.Selection = .history
 
     private var toolbarPlacement: ToolbarItemPlacement {
@@ -130,23 +128,13 @@ struct WalletView: View {
             switch item {
             case .invoice(_, _): InvoiceCreate(wallet: wallet, assetId: assetId)
             case .scan(let name, .invoice):
-                Import(importName: name, category: .invoice, invoice: $scannedInvoice, dataString: $scannedString, wallet: wallet)
+                Import(importName: name, category: .invoice, invoice: $scannedInvoice, dataString: $scannedString, presentedSheet: $presentedSheet, wallet: wallet)
             case .scan(let name, .consignment):
-                Import(importName: name, category: .consignment, invoice: $scannedInvoice, dataString: $scannedString)
-                    .onDisappear {
-                        do {
-                            status = try wallet.accept(consignment: scannedString)
-                        } catch {
-                            status = error.localizedDescription
-                        }
-                    }
+                Import(importName: name, category: .consignment, invoice: $scannedInvoice, dataString: $scannedString, presentedSheet: $presentedSheet)
             case .walletDetails(let w): WalletDetails(wallet: w)
             default: let _ = ""
             }
         }
-        .alert(isPresented: $statusPresented, content: {
-            Alert(title: Text("Result"), message: Text(status ?? ""), dismissButton: .cancel())
-        })
     }
     
     func sync() {
